@@ -1,0 +1,75 @@
+<app-navbar></app-navbar>
+<div class="container">
+    <div class="row">
+        <div class="col">
+            <mat-card id="propertyItem">
+
+                <div class="row">
+                    <div class="col">
+                        <mat-card-header >
+                            <mat-card-title>
+                                <h3 >{{ property.title }}</h3>
+                            </mat-card-title>
+                            <mat-card-subtitle>
+                                <h5>{{ property.address }}</h5>
+                            </mat-card-subtitle>
+                        </mat-card-header>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div id="picContainer" class="col-sm-4">
+                        <img mat-card-image [src]='property.pictureURL' id="picture"/>
+                    </div>
+
+                    <div class="col-sm-6">
+                        <mat-card-content>
+                            <p> {{ property.extraInfo }} </p>
+
+                            <hr class="clearfix w-100 d-md-none" *ngIf="property.tags[0]">
+
+                            <mat-list *ngFor="let tag of property.tags">
+                                    <mat-list-item > {{ tag }} </mat-list-item>
+                            </mat-list>
+                        </mat-card-content>
+
+                        <hr class="clearfix w-100 d-md-none">
+
+                        <mat-card-content>
+                            <h5>Publisher: {{ publisher.username}}</h5>
+                            <h6>email: {{ publisher.email }}</h6>
+                            <h6>phone: {{ publisher.phoneNumber }}</h6>
+                        </mat-card-content>
+                        
+                    </div>
+
+                    <hr class="clearfix w-100 d-md-none">
+
+                    <div class="col-sm-2">
+                        <mat-card-content>
+                            <h6> Price: {{ property.price }} &euro;</h6>
+                            <h6> Rooms: {{ property.rooms }} </h6>
+                            <h6> area: {{ property.area }} </h6>
+                            <h6> type: {{ property.type }} </h6>
+                        </mat-card-content>
+                        
+                    </div>
+                </div> 
+
+                <hr class="clearfix w-100 d-md-none">
+
+                <div class="row"> 
+                    <div class="col">
+                        <mat-card-content>
+                            <h6> Upload Date:</h6>
+                            <p> {{ property.date | date}} </p>
+                        </mat-card-content>
+                    </div>
+                </div>
+
+            </mat-card>
+
+        </div>
+    </div>
+</div>
+<app-footer></app-footer>

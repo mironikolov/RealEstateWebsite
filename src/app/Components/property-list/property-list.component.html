@@ -1,0 +1,126 @@
+<div class="container">
+    <div class="row">
+        <div class="col">
+            <mat-accordion>
+                <mat-expansion-panel>
+
+                    <mat-expansion-panel-header>
+                        <mat-panel-title> Филтър </mat-panel-title>
+                    </mat-expansion-panel-header>
+
+                    <div class="row">
+                        <div class="col-sm-12 col-md-6">
+                            <label for="type" class="col-md-2 col-12 form-control-sm " >Тип</label>
+                            <select id="type" class="col-md-10 col-12 form-control-sm">
+                                <option>Апартамент</option>
+                                <option>Къща</option>
+                                <option>Гараж</option>
+                                <option>Стая</option>
+                            </select>
+                        </div>
+                        <hr class="clearfix w-100 d-md-none">
+                        <div class="col-sm-12 col-md-6">
+                            <label for="rooms" class="col-md-2 col-12 form-control-sm" >Стаи</label>
+                            <select id="rooms" class="col-md-10 col-12 form-control-sm">
+                                <option>1</option>
+                                <option>2</option>
+                                <option>3</option>
+                                <option>4</option>
+                                <option>4+</option>
+                            </select>
+                        </div>
+                        
+                    </div>
+
+                    <hr class="clearfix w-100 d-md-none">
+
+                    <div class="row">
+                        <div class="col-md-6">
+                            <label for="price" class="form-control-sm col" >Цена от</label>
+                            <input class="col-12 form-control-sm" type="text" id="price">
+
+                            <label for="price-to" class="col form-control-sm" >до</label>
+                            <input class="col-12 form-control-sm" type="text" id="price-to">
+                        </div>
+
+                        <hr class="clearfix w-100 d-md-none">
+
+                        <div class="col-md-6">
+                            <label for="area" class="col form-control-sm" >Площ от</label>
+                            <input class="col-12 form-control-sm" type="text" id="area">
+
+                            <label for="area-to" class="col form-control-sm" >до</label>
+                            <input class="col-12 form-control-sm" type="text" id="area-to">
+                        </div>
+                    </div>
+
+                    <br>
+
+                    <div class="row">
+                        <div class="col">
+                            <button class="btn btn-primary col-md-6 col-sm-12" type="button" >Филтриране</button>
+                        </div>
+                    </div>
+
+                </mat-expansion-panel>
+            </mat-accordion>
+        </div>
+    </div>
+</div>
+
+
+<div id="propertyList" class="container" *ngFor="let property of propertiesArray" >
+    <div class="row">
+        <div class="col">
+
+            <mat-card id="propertyItem"  [routerLink] = "['/property', property._id]">
+                <div class="containter">
+                    <div class="row">
+                        <div class="col">
+                            <mat-card-header >
+                                <mat-card-title>
+                                    <h3 >{{ property.title }}</h3>
+                                </mat-card-title>
+
+                                <mat-card-subtitle>
+                                    <h5>{{ property.address }}</h5>
+                                </mat-card-subtitle>
+                            </mat-card-header>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                            <div class="col-sm-4 col-md-2" >
+                                <img mat-card-image [src]='property.pictureURL' id="picture"/>
+                            </div>
+
+                            <div class="col-sm-4 col-md-8">
+                                <mat-card-content>
+                                    <p> {{ property.extraInfo }} </p>
+                                </mat-card-content>
+                            </div>
+                            <hr class="clearfix w-100 d-md-none" *ngIf="property.extraInfo">
+                            <div class="col-sm-4 col-md-2">
+                                    <mat-card-content>
+                                        <h6> Цена: {{ property.price }} &euro;</h6>
+                                        <h6> Стаи: {{ property.rooms }} </h6>
+                                        <h6> Площ: {{ property.area }} </h6>
+                                        <h6> Тип: {{ property.type }} </h6>
+                                    </mat-card-content>
+                            </div>
+                    </div>
+                    <hr class="clearfix w-100 d-md-none">
+                    <div class="row">
+                        <div class="col">
+                            <mat-card-content>
+                                <h6> Дата на качване:</h6>
+                                <p> {{ property.date | date}} </p>
+                            </mat-card-content>
+                        </div>
+                    </div>
+                </div>
+            </mat-card>
+
+        </div>
+    </div>
+</div>

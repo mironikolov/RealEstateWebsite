@@ -1,0 +1,26 @@
+/* You can add global styles to this file, and also import other style files */
+
+html, body { height: 100%; }
+body { 
+    margin: 0;
+    font-family: Roboto, "Helvetica Neue", sans-serif; 
+    background-image: url("./assets/images/white-black-lined-wall-1024613.jpg");
+    background-size: cover;
+    background-attachment: fixed;
+}
+
+#propertyItem{
+    margin-top: 5px;
+    margin-bottom: 5px;
+    background-color: #c2cad0;
+}
+
+.formContainer{
+    margin-top: 5px;
+    margin-bottom: 5px;
+    background-color: #c2cad0;
+}
+
+.btn{
+    
+}
