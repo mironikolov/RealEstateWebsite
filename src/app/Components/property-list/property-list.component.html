@@ -11,17 +11,17 @@
                     <div class="row">
                         <div class="col-sm-12 col-md-6">
                             <label for="type" class="col-md-2 col-12 form-control-sm " >Тип</label>
-                            <select id="type" class="col-md-10 col-12 form-control-sm">
-                                <option>Апартамент</option>
-                                <option>Къща</option>
-                                <option>Гараж</option>
-                                <option>Стая</option>
+                            <select id="type" class="col-md-10 col-12 form-control-sm" name="type" form="filterForm">
+                                <option>Apartment</option>
+                                <option>House</option>
+                                <option>Garage</option>
+                                <option>Room</option>
                             </select>
                         </div>
                         <hr class="clearfix w-100 d-md-none">
                         <div class="col-sm-12 col-md-6">
                             <label for="rooms" class="col-md-2 col-12 form-control-sm" >Стаи</label>
-                            <select id="rooms" class="col-md-10 col-12 form-control-sm">
+                            <select id="rooms" class="col-md-10 col-12 form-control-sm" form="filterForm">
                                 <option>1</option>
                                 <option>2</option>
                                 <option>3</option>
@@ -58,10 +58,12 @@
 
                     <div class="row">
                         <div class="col">
-                            <button class="btn btn-primary col-md-6 col-sm-12" type="button" >Филтриране</button>
+                            <input class="btn btn-primary col-md-6 col-sm-12" type="submit" value="Филтриране" form="filterForm">
                         </div>
                     </div>
+                    <form id="filterForm" (submit)="filterFormSubmit($event)"></form>
 
+                    
                 </mat-expansion-panel>
             </mat-accordion>
         </div>
@@ -69,7 +71,8 @@
 </div>
 
 
-<div id="propertyList" class="container" *ngFor="let property of propertiesArray" >
+<div id="propertyList" class="container" 
+    *ngFor="let property of propertiesArrayFiltered | slice: (page) * pageSize : (page) * pageSize + pageSize" >
     <div class="row">
         <div class="col">
 
@@ -124,3 +127,7 @@
         </div>
     </div>
 </div>
+<mat-paginator [length]="propertiesArrayFiltered?.length"
+               [pageSize]="pageSize"
+               (page)="pageEvent($event)">
+</mat-paginator>

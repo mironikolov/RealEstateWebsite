@@ -4,6 +4,7 @@ import { MatListModule } from '@angular/material/list';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatExpansionModule } from '@angular/material/expansion';
 import { MatSelectModule } from '@angular/material/select';
+import { MatPaginatorModule } from '@angular/material/paginator';
 
 
 
@@ -14,14 +15,16 @@ import { MatSelectModule } from '@angular/material/select';
     MatListModule,
     MatFormFieldModule,
     MatExpansionModule,
-    MatSelectModule
+    MatSelectModule,
+    MatPaginatorModule
   ],
   exports: [
     MatCardModule,
     MatListModule,
     MatFormFieldModule,
     MatExpansionModule,
-    MatSelectModule
+    MatSelectModule,
+    MatPaginatorModule
   ]
 })
 export class MaterialModule { }

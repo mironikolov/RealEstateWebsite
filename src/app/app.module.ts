@@ -17,6 +17,8 @@ import { WelcomePageComponent } from './Components/welcome-page/welcome-page.com
 import { PublishPropertyFormComponent } from './Components/publish-property-form/publish-property-form.component';
 import { HomeBannerComponent } from './Components/home-banner/home-banner.component';
 import { LogInComponent } from './Components/log-in/log-in.component';
+import { AgmCoreModule } from '@agm/core';
+import { environment } from '../environments/environment'
 
 @NgModule({
   declarations: [
@@ -39,7 +41,10 @@ import { LogInComponent } from './Components/log-in/log-in.component';
     BrowserAnimationsModule,
     MaterialModule,
     FormsModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    AgmCoreModule.forRoot({
+      apiKey: environment.apiKey
+    })
   ],
   providers: [],
   bootstrap: [AppComponent]

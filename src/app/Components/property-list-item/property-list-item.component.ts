@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ElementRef } from '@angular/core';
 import { ActivatedRoute } from '@angular/router'
 import { ServicePropertyService } from '../../Services/propertyService/service-property.service'
 import { Property } from '../../Models/propertyModel'
@@ -17,6 +17,11 @@ export class PropertyListItemComponent implements OnInit {
   property:Property;
   publisher:User;
 
+  latitude: number = 42;
+  longitude: number = 25;
+  markerLatitude:number;
+  markerLongitude:number;
+
   constructor( private route:ActivatedRoute,
      private propertyService: ServicePropertyService,
      private propertyImageService: PropertyImageService,
@@ -32,6 +37,13 @@ export class PropertyListItemComponent implements OnInit {
         this.publisher=user;
       });
     });
+  }
+
+  onChoseLocation( event ){
+    console.log( event );
+    this.markerLatitude = event.coords.lat;
+    this.markerLongitude = event.coords.lng;
+    //const location = HttpRequest.
   }
 
   /////////////////////////////////////////

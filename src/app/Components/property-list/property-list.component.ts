@@ -3,7 +3,7 @@ import { Property } from '../../Models/propertyModel'
 import { ServicePropertyService } from '../../Services/propertyService/service-property.service'
 import { PropertyImageService } from '../../Services/propertyImage/property-image.service'
 import { DomSanitizer, SafeUrl } from '@angular/platform-browser';
-
+import { PageEvent } from '@angular/material/paginator';
 
 @Component({
   selector: 'app-property-list',
@@ -12,6 +12,9 @@ import { DomSanitizer, SafeUrl } from '@angular/platform-browser';
 })
 export class PropertyListComponent implements OnInit {
   propertiesArray:Property[];
+  propertiesArrayFiltered:Property[];
+  pageSize:number = 2;
+  page:number = 0;
 
   constructor( private propertyService:ServicePropertyService,
    private propertyImageService:PropertyImageService,
@@ -25,7 +28,10 @@ export class PropertyListComponent implements OnInit {
     this.propertyService.getProperties().subscribe( 
       properties => { this.propertiesArray = properties;},
        error => console.log(error),
-       ()=>this.setPropertyPictures()
+       ()=>{
+         this.setPropertyPictures();
+         this.propertiesArrayFiltered = this.propertiesArray;
+        }
     );
   }
 /////////////////////////////////////////
@@ -46,5 +52,26 @@ export class PropertyListComponent implements OnInit {
       this.setPropertyPictureURL( property  );
       
     });
+  }
+
+  pageEvent(e){
+    this.page = e.pageIndex;
+  }
+
+  filterFormSubmit(e){
+
+    console.log(e.srcElement.elements[0].value);
+    this.propertiesArrayFiltered = this.propertiesArray.filter( property => {
+      if( property.type != e.srcElement.elements[0].value ){
+        return false;
+      }
+
+      if( property.rooms != e.srcElement.elements[1].value ){
+        return false;
+      }
+
+      return true;
+    });
+    console.log( this.propertiesArray );
   }
 }
