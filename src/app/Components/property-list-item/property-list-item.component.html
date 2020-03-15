@@ -36,8 +36,8 @@
 
                             <hr class="clearfix w-100 d-md-none">
                             
-                            <agm-map [latitude]='latitude' [longitude]='longitude' (mapClick)="onChoseLocation($event)">
-                                <agm-marker [latitude]='markerLatitude' [longitude]='markerLongitude'></agm-marker>
+                            <agm-map [latitude]='latitude' [longitude]='longitude' (mapClick)="onChoseLocation($event)" [zoom]='zoom'>
+                                <agm-marker [latitude]='markerLatitude' [longitude]='markerLongitude' ></agm-marker>
                             </agm-map>
 
                             <hr class="clearfix w-100 d-md-none">

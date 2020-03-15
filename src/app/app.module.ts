@@ -18,7 +18,9 @@ import { PublishPropertyFormComponent } from './Components/publish-property-form
 import { HomeBannerComponent } from './Components/home-banner/home-banner.component';
 import { LogInComponent } from './Components/log-in/log-in.component';
 import { AgmCoreModule } from '@agm/core';
-import { environment } from '../environments/environment'
+import { environment } from '../environments/environment';
+import { LogInModalComponent } from './Components/log-in-modal/log-in-modal.component';
+import { SignInModalComponent } from './Components/sign-in-modal/sign-in-modal.component'
 
 @NgModule({
   declarations: [
@@ -32,7 +34,9 @@ import { environment } from '../environments/environment'
     WelcomePageComponent,
     PublishPropertyFormComponent,
     HomeBannerComponent,
-    LogInComponent
+    LogInComponent,
+    LogInModalComponent,
+    SignInModalComponent
   ],
   imports: [
     BrowserModule,
@@ -47,6 +51,10 @@ import { environment } from '../environments/environment'
     })
   ],
   providers: [],
-  bootstrap: [AppComponent]
+  bootstrap: [AppComponent],
+  entryComponents: [
+    LogInModalComponent,
+    SignInModalComponent
+  ]
 })
 export class AppModule { }

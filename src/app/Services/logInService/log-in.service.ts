@@ -1,7 +1,8 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http'
 import { User } from '../../Models/userModel';
-
+import {map, catchError} from "rxjs/operators";
+import { Observable } from 'rxjs';
 @Injectable({
   providedIn: 'root'
 })
@@ -14,11 +15,12 @@ export class LogInService {
   }
 
 
-  findUser(username, password){
-    this.http.get<User>(`${this.propertiesUrl}users/${username}&${password}`).subscribe(user => {
+  logInUser(username, password):Observable<void>{
+    return this.http.get<User>(`${this.propertiesUrl}users/${username}&${password}`)
+    .pipe( map( user => {
       localStorage.setItem( 'currentUser', JSON.stringify( user ) );
       this.currentUser=user;
-    });
+    } ));
   }
 
   getUser(){

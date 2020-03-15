@@ -1,0 +1,50 @@
+
+<form [formGroup]="SignInForm">
+    <h1>Sign Up</h1>
+    <div class="form-group">
+        <label for="signInUsername">Username</label>
+        <input type="text" formControlName="username" id="signInUsername" class="form-control">
+        <div class="alert alert-danger col-12" 
+        *ngIf="!SignInForm.controls.username.valid && SignInForm.controls.username.touched">
+        Username is empty
+        </div>
+    </div>
+    
+    <div class="form-group">
+        <label for="signInPassword">Password</label>
+        <input type="password" formControlName="password" id="signInPassword" class="form-control">
+        <div class="alert alert-danger col-12" 
+        *ngIf="!SignInForm.controls.password.valid && SignInForm.controls.password.touched">
+        Password is empty
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label for="repeatPassword">Repeat password</label>
+        <input type="password" formControlName="repeatPassword" id="repeatPassword" class="form-control">
+        <div class="alert alert-danger col-12" 
+        *ngIf="!SignInForm.controls.repeatPassword.valid && SignInForm.controls.repeatPassword.touched">
+        Repeat password is empty
+        </div>
+    </div> 
+
+    <div class="form-group">
+        <label for="email">Email</label>
+        <input type="email" formControlName="email" id="email" class="form-control">
+        <div class="alert alert-danger col-12" 
+        *ngIf="!SignInForm.controls.email.valid && SignInForm.controls.email.touched">
+        Email is empty
+        </div>
+    </div> 
+
+    <div class="form-group">
+        <label for="phone">Phone number</label>
+        <input type="tel" formControlName="phone" id="phone" class="form-control">
+        <div class="alert alert-danger col-12" 
+        *ngIf="!SignInForm.controls.phone.valid && SignInForm.controls.phone.touched">
+        Phone is empty
+        </div>
+    </div> 
+
+    <button type="submit" class="btn btn-primary" (click)="onSignInButtonClick()">Sign In</button>
+</form>

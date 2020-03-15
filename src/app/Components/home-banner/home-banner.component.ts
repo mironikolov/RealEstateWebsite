@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router'
 import { LogInService } from '../../Services/logInService/log-in.service';
+import { LogInModalComponent } from '../log-in-modal/log-in-modal.component';
+import { MatDialog } from '@angular/material/dialog';
 
 @Component({
   selector: 'app-home-banner',
@@ -9,19 +11,16 @@ import { LogInService } from '../../Services/logInService/log-in.service';
 })
 export class HomeBannerComponent implements OnInit {
 
-  constructor( private router:Router, private logInService:LogInService ) { }
+  constructor( private router:Router, private logInService:LogInService, private dialog: MatDialog ) { }
 
   ngOnInit() {
   }
 
   onLogInButtonClicked()
   {
-    if( this.logInService.isLoggedIn() )
-    {
-      window.alert("Allready logged in");
-      return;
-    }
-    this.router.navigateByUrl('/logIn');
+    const dialogRef = this.dialog.open( LogInModalComponent, {
+      width: '500px',
+    });
   }
 
   onLogOffButtonClicked()

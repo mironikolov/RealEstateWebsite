@@ -1,11 +1,12 @@
-import { Component, OnInit, ElementRef } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router'
 import { ServicePropertyService } from '../../Services/propertyService/service-property.service'
 import { Property } from '../../Models/propertyModel'
 import { PropertyImageService } from '../../Services/propertyImage/property-image.service'
 import { UserService } from '../../Services/userService/user.service'
-import { SafeUrl, DomSanitizer } from '@angular/platform-browser';
+import { DomSanitizer } from '@angular/platform-browser';
 import { User } from 'src/app/Models/userModel';
+import { GoogleMapsService } from '../../Services/googleMapsService/google-maps.service';
 
 @Component({
   selector: 'app-property-list-item',
@@ -19,6 +20,7 @@ export class PropertyListItemComponent implements OnInit {
 
   latitude: number = 42;
   longitude: number = 25;
+  zoom: number = 14;
   markerLatitude:number;
   markerLongitude:number;
 
@@ -26,24 +28,35 @@ export class PropertyListItemComponent implements OnInit {
      private propertyService: ServicePropertyService,
      private propertyImageService: PropertyImageService,
      private sanitizer: DomSanitizer,
-     private userService: UserService ) { }
+     private userService: UserService,
+     private googleMapsService: GoogleMapsService ) { }
 
   ngOnInit() {
-    //this.propertyID = 
     this.propertyService.getProperty(this.route.snapshot.paramMap.get( 'id' )).subscribe( ( property ) => {
       this.setPropertyPictureURL(property);
       this.property=property;
       this.userService.getUser(property.publisher).subscribe( ( user )=> {
         this.publisher=user;
       });
+
+      this.googleMapsService.getCoordinates( this.property.address )
+      .subscribe( res => {
+        this.latitude = res.results[0].geometry.location.lat;
+        this.longitude = res.results[0].geometry.location.lng;
+        this.markerLatitude = res.results[0].geometry.location.lat;
+        this.markerLongitude = res.results[0].geometry.location.lng;
+      });
     });
+
   }
 
   onChoseLocation( event ){
-    console.log( event );
-    this.markerLatitude = event.coords.lat;
-    this.markerLongitude = event.coords.lng;
-    //const location = HttpRequest.
+    this.googleMapsService.getCoordinates( this.property.address )
+    .subscribe( res => {
+       //console.log( res.results[0].geometry.location.lat ) 
+       this.markerLatitude = res.results[0].geometry.location.lat;
+       this.markerLongitude = res.results[0].geometry.location.lng;
+    });
   }
 
   /////////////////////////////////////////

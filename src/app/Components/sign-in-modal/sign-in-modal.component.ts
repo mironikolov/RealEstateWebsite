@@ -1,52 +1,24 @@
 import { Component, OnInit } from '@angular/core';
-import { LogInService } from '../../Services/logInService/log-in.service';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
-import { User } from '../../Models/userModel'
+import { User } from 'src/app/Models/userModel';
 import { UserService } from '../../Services/userService/user.service'
+import { MatDialogRef } from '@angular/material/dialog';
 
 @Component({
-  selector: 'app-log-in',
-  templateUrl: './log-in.component.html',
-  styleUrls: ['./log-in.component.scss']
+  selector: 'app-sign-in-modal',
+  templateUrl: './sign-in-modal.component.html',
+  styleUrls: ['./sign-in-modal.component.scss']
 })
-export class LogInComponent implements OnInit {
+export class SignInModalComponent implements OnInit {
   SignInForm:FormGroup;
-  LogInForm:FormGroup;
   newUser:User = new User();
 
-  constructor( private loginService:LogInService, private formBuilder:FormBuilder, private userService:UserService ) { }
+  constructor( private formBuilder: FormBuilder,
+    private userService: UserService,
+    private dialogRef:MatDialogRef<SignInModalComponent> ) { }
 
   ngOnInit() {
-    this.LogInForm = this.generateLogInFrom();
     this.SignInForm = this.generateSignInFrom();
-  }
-
-  private generateLogInFrom(): FormGroup {
-    let usernameFormControl = this.formBuilder.control(null,[
-      Validators.required
-    ]);
-
-    let passwordFormControl = this.formBuilder.control(null,[
-      Validators.required
-    ]);
-
-    return this.formBuilder.group({
-      username:usernameFormControl,
-      password:passwordFormControl
-    });
-  }
-
-  onLogInButtonClicked(){
-    this.loginService.logInUser(this.LogInForm.get('username').value, this.LogInForm.get('password').value);
-    setTimeout( () =>
-    {
-      if( !this.loginService.getUser() ){
-        window.alert("Log in unsuccessful");
-        return;
-      }
-      window.alert("Log in successful");
-    }, 500);
-    
   }
 
   private generateSignInFrom(): FormGroup {
@@ -98,8 +70,13 @@ export class LogInComponent implements OnInit {
       return;
     }
 
-    this.userService.createUser( this.newUser );
-    window.alert("User created");
+    //check response
+    this.userService.createUser( this.newUser ).subscribe( () => {
+      window.alert("User created");
+      this.dialogRef.close();
+    }, error => {
+      console.log( error );
+    });
   }
 
 }

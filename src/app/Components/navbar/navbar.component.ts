@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { LogInService } from '../../Services/logInService/log-in.service';
-import { Router } from '@angular/router'
+import { Router } from '@angular/router';
+import { LogInModalComponent } from '../log-in-modal/log-in-modal.component';
+import { MatDialog } from '@angular/material/dialog';
 
 @Component({
   selector: 'app-navbar',
@@ -10,19 +12,9 @@ import { Router } from '@angular/router'
 export class NavbarComponent implements OnInit {
   navbarOpen = false;
 
-  constructor( private logInService: LogInService, private router:Router ) { }
+  constructor( private logInService: LogInService, private router:Router, private dialog: MatDialog ) { }
 
   ngOnInit() {
-  }
-
-  onLogInButtonClicked()
-  {
-    if( this.logInService.isLoggedIn() )
-    {
-      window.alert("Allready logged in");
-      return;
-    }
-    this.router.navigateByUrl('/logIn');
   }
 
   onLogOffButtonClicked()
@@ -33,5 +25,11 @@ export class NavbarComponent implements OnInit {
 
   toggleNavbar() {
     this.navbarOpen = !this.navbarOpen;
+  }
+
+  openDialog(): void{
+    const dialogRef = this.dialog.open( LogInModalComponent, {
+      width: '500px',
+    });
   }
 }

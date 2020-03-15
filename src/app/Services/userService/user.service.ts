@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http'
 import { User } from '../../Models/userModel';
 import { Observable } from 'rxjs';
+import { map } from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root'
@@ -15,11 +16,7 @@ export class UserService {
     return this.http.get<User>(`${this.propertiesUrl}users/${userID}`);
   }
 
-  createUser( newUser:User ){
-    this.http.post(`${this.propertiesUrl}users/`, newUser).subscribe( data => {
-      console.log("Post successful:", data);
-    }, error => {
-      console.log("Error:", error );
-    } );
+  createUser( newUser:User ):Observable<any>{
+    return this.http.post(`${this.propertiesUrl}users/`, newUser);
   }
 }
