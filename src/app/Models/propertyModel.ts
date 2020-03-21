@@ -1,7 +1,7 @@
 import { SafeUrl } from '@angular/platform-browser';
 
 export class Property{
-    id:String; 
+    _id:String; 
     title:String;
     address:String;
     price:String;
@@ -15,7 +15,7 @@ export class Property{
     pictureURL: SafeUrl;
 
     Property(){
-        this.id = "null";
+        this._id = "null";
         this.title = "null";
         this.address = "null";
         this.price = "null";

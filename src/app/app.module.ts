@@ -14,7 +14,7 @@ import { PropertyListItemComponent } from './Components/property-list-item/prope
 import { PageNotFoundComponent } from './Components/page-not-found/page-not-found.component';
 import { FooterComponent } from './Components/footer/footer.component';
 import { WelcomePageComponent } from './Components/welcome-page/welcome-page.component';
-import { PublishPropertyFormComponent } from './Components/publish-property-form/publish-property-form.component';
+import { PublishEditPropertyFormComponent } from './Components/publish-edit-property-form/publish-property-form.component';
 import { HomeBannerComponent } from './Components/home-banner/home-banner.component';
 import { LogInComponent } from './Components/log-in/log-in.component';
 import { AgmCoreModule } from '@agm/core';
@@ -32,7 +32,7 @@ import { SignInModalComponent } from './Components/sign-in-modal/sign-in-modal.c
     PageNotFoundComponent,
     FooterComponent,
     WelcomePageComponent,
-    PublishPropertyFormComponent,
+    PublishEditPropertyFormComponent,
     HomeBannerComponent,
     LogInComponent,
     LogInModalComponent,

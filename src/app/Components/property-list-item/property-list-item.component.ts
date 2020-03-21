@@ -7,6 +7,7 @@ import { UserService } from '../../Services/userService/user.service'
 import { DomSanitizer } from '@angular/platform-browser';
 import { User } from 'src/app/Models/userModel';
 import { GoogleMapsService } from '../../Services/googleMapsService/google-maps.service';
+import { LogInService } from '../../Services/logInService/log-in.service';
 
 @Component({
   selector: 'app-property-list-item',
@@ -14,22 +15,24 @@ import { GoogleMapsService } from '../../Services/googleMapsService/google-maps.
   styleUrls: ['./property-list-item.component.scss']
 })
 export class PropertyListItemComponent implements OnInit {
-  propertyID:string;
-  property:Property;
-  publisher:User;
+  propertyID: string;
+  property: Property;
+  publisher: User;
+  currentUser: User;
 
   latitude: number = 42;
   longitude: number = 25;
   zoom: number = 14;
-  markerLatitude:number;
-  markerLongitude:number;
+  markerLatitude: number;
+  markerLongitude: number;
 
   constructor( private route:ActivatedRoute,
      private propertyService: ServicePropertyService,
      private propertyImageService: PropertyImageService,
      private sanitizer: DomSanitizer,
      private userService: UserService,
-     private googleMapsService: GoogleMapsService ) { }
+     private googleMapsService: GoogleMapsService,
+     private logInService: LogInService ) { }
 
   ngOnInit() {
     this.propertyService.getProperty(this.route.snapshot.paramMap.get( 'id' )).subscribe( ( property ) => {
@@ -48,6 +51,7 @@ export class PropertyListItemComponent implements OnInit {
       });
     });
 
+     this.currentUser = this.logInService.getUser();
   }
 
   onChoseLocation( event ){
@@ -69,6 +73,11 @@ export class PropertyListItemComponent implements OnInit {
       this.imageBlobUrl = URL.createObjectURL( imageBlob );
       property.pictureURL = this.sanitizer.bypassSecurityTrustUrl(this.imageBlobUrl);
     });
+  }
+
+  //Edit porperty
+  onEditClick(){
+    
   }
 
 }

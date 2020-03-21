@@ -77,6 +77,19 @@ app.post( '/property/', ( req, res) =>{
 
 //} );
 
+//Update property
+app.post( '/property/edit/:propertyID', ( req, res) =>{
+  
+  Property.findOne( { _id: req.params.propertyID }, ( err, property ) => {
+    if( err ){
+      res.json( "fail" );
+    }
+    property.overwrite( req.body );
+    property.save();
+    res.json( "Edited" );
+  });
+} );
+
 //Find user
 app.get( '/users/:username&:password', ( req, res ) => {
   User.findOne( {'username':req.params.username, 'password':req.params.password}, ( err, user ) => {
@@ -100,7 +113,7 @@ app.get( '/users/:userID', ( req, res ) => {
 //Create new user
 //add validation bitch
 app.post( '/users/', ( req, res) =>{
-  console.log(JSON.stringify(req.body));
+  
   db.collection('users').insertOne(req.body);
   res.status(200).end();
 } );

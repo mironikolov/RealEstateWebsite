@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { Property } from '../../Models/propertyModel';
-import { HttpClient } from '@angular/common/http'
+import { HttpClient } from '@angular/common/http';
 
 @Injectable({
   providedIn: 'root'
@@ -24,7 +24,6 @@ export class ServicePropertyService {
 
   putProperty( property:Property )
   {
-    console.log( property );
     this.http.post(`${this.propertiesUrl}property/`, property).subscribe( data => {
       console.log("Post successful", data);
     }, error => {
@@ -42,6 +41,10 @@ export class ServicePropertyService {
     }, error => {
       console.log("Error:", error );
     } );
+  }
+
+  editProperty( property: Property, propertyID):Observable<any>{
+    return this.http.post(`${this.propertiesUrl}property/edit/${propertyID}`, property);
   }
 
 }
