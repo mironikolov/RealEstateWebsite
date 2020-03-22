@@ -1,0 +1,17 @@
+<div *ngIf="clickedYes == false">
+    <h1> Сигурни ли сте?</h1>
+    <br>
+    <div class="row mx-auto">
+        <button class=" btn btn-danger col-5" (click)="onClickYes()"> Да </button>
+        <div class="col-1"></div>
+        <button class=" btn btn-primary col-5" [mat-dialog-close]="true" > Не </button>
+    </div>
+</div>
+
+<div *ngIf="clickedYes == true">
+    <h2>{{message}}</h2>
+    <br>
+    <div class="row">
+        <button class="btn btn-primary col" [mat-dialog-close]="true" > OK </button>
+    </div>
+</div>

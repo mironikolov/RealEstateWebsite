@@ -1,5 +1,5 @@
-import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router'
+import { Component, OnInit, Inject } from '@angular/core';
+import { ActivatedRoute, Router } from '@angular/router'
 import { ServicePropertyService } from '../../Services/propertyService/service-property.service'
 import { Property } from '../../Models/propertyModel'
 import { PropertyImageService } from '../../Services/propertyImage/property-image.service'
@@ -8,23 +8,24 @@ import { DomSanitizer } from '@angular/platform-browser';
 import { User } from 'src/app/Models/userModel';
 import { GoogleMapsService } from '../../Services/googleMapsService/google-maps.service';
 import { LogInService } from '../../Services/logInService/log-in.service';
+import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 
 @Component({
   selector: 'app-property-list-item',
   templateUrl: './property-list-item.component.html',
-  styleUrls: ['./property-list-item.component.scss']
+  styleUrls: ['./property-list-item.component.scss'],
 })
 export class PropertyListItemComponent implements OnInit {
-  propertyID: string;
-  property: Property;
-  publisher: User;
-  currentUser: User;
+  //propertyID: string;
+  private property: Property;
+  private publisher: User;
+  private currentUser: User;
 
-  latitude: number = 42;
-  longitude: number = 25;
-  zoom: number = 14;
-  markerLatitude: number;
-  markerLongitude: number;
+  private latitude: number = 42;
+  private longitude: number = 25;
+  private zoom: number = 14;
+  private markerLatitude: number;
+  private markerLongitude: number;
 
   constructor( private route:ActivatedRoute,
      private propertyService: ServicePropertyService,
@@ -32,7 +33,8 @@ export class PropertyListItemComponent implements OnInit {
      private sanitizer: DomSanitizer,
      private userService: UserService,
      private googleMapsService: GoogleMapsService,
-     private logInService: LogInService ) { }
+     private logInService: LogInService,
+     private dialog: MatDialog ) { }
 
   ngOnInit() {
     this.propertyService.getProperty(this.route.snapshot.paramMap.get( 'id' )).subscribe( ( property ) => {
@@ -69,15 +71,49 @@ export class PropertyListItemComponent implements OnInit {
   imageBlobUrl: string | ArrayBuffer;
 
   setPropertyPictureURL( property ) : void {
-    this.propertyImageService.getImage( property['_id'] ).subscribe( ( imageBlob ) => {
+    this.propertyImageService.getImage( property._id ).subscribe( ( imageBlob ) => {
       this.imageBlobUrl = URL.createObjectURL( imageBlob );
       property.pictureURL = this.sanitizer.bypassSecurityTrustUrl(this.imageBlobUrl);
     });
   }
 
-  //Edit porperty
-  onEditClick(){
-    
+  //Delete porperty
+  onDeleteClick(){
+    this.propertyService.deleteProperty( this.property._id );
   }
 
+  openConfirmDialog(){
+    this.dialog.open( PropertyListItemDialogComponent, {
+      width: '500px',
+      data:{ propertyID: this.property._id }
+    } );
+  }
+
+}
+
+@Component({
+  selector: 'app-property-list-item-dialog',
+  templateUrl: './confirm-dialog.html'
+})
+export class PropertyListItemDialogComponent {
+  private clickedYes:boolean = false;
+  private message:string;
+
+  constructor(
+    private dialogRef: MatDialogRef<PropertyListItemDialogComponent>,
+    private propertyService:ServicePropertyService,
+    @Inject(MAT_DIALOG_DATA) public propertyId:any,
+    private router:Router
+  ){}
+
+  onClickYes(){
+    
+    this.clickedYes = true;
+    this.propertyService.deleteProperty( this.propertyId ).subscribe( ()=>{
+      this.message = "Успешно изтриване";
+      this.router.navigate(['/properties'])
+    }, err => {
+      this.message=`Грешка:${err}`;
+    });
+  }
 }

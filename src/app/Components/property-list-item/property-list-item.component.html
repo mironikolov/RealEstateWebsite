@@ -9,7 +9,14 @@
                         <mat-card-header >
                             <mat-card-title>
                                 <h3 >{{ property?.title }}</h3>
-                                <button ng-if="currentUser == publisher" class=" btn btn-primary" [routerLink]="['/property', property?._id, 'edit']"> Редактиране </button>
+                                <button *ngIf="currentUser?._id == publisher?._id"
+                                 class=" btn btn-primary" 
+                                 [routerLink]="['/property', property?._id, 'edit']"> Редактиране </button>
+
+                                 <button *ngIf="currentUser?._id == publisher?._id"
+                                 class=" btn btn-danger" 
+                                 (click)="openConfirmDialog()"
+                                 id="deleteBtn"> Изтриване </button>
                             </mat-card-title>
                             <mat-card-subtitle>
                                 <h5>{{ property?.address }}</h5>

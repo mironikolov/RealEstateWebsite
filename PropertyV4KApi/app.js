@@ -66,9 +66,11 @@ app.get( '/property/:propertyID', ( req, res ) => {
 });
 
 //Create new property
+//Error [ERR_HTTP_HEADERS_SENT]: Cannot set headers after they are sent to the client
 app.post( '/property/', ( req, res) =>{
-  db.collection('properties').insertOne(req.body);
-  res.send("hi");
+  db.collection('properties').insertOne(req.body)
+  .then( res.json( "Property inserted" ) )
+  .catch( res.json( "Property insert fail" ) );
 } );
 
 //Upload picture
@@ -116,6 +118,19 @@ app.post( '/users/', ( req, res) =>{
   
   db.collection('users').insertOne(req.body);
   res.status(200).end();
+} );
+
+//delete property
+app.post( '/property/delete', ( req, res) =>{
+
+  Property.deleteOne( { _id: req.body.propertyID }, err => {
+    if( err ){
+      return res.status(500).json( "Could not delete property:" + err );
+    }
+    else{
+      return res.status(200).json( "Success" );
+    }
+  } );
 } );
 
 app.listen(port, () => console.log( `Listening on port: ${port}` ));

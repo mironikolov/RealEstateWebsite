@@ -10,7 +10,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MaterialModule } from './Modules/material/material.module';
 import { NavbarComponent } from './Components/navbar/navbar.component';
 import { HomeComponent } from './Components/home/home.component';
-import { PropertyListItemComponent } from './Components/property-list-item/property-list-item.component';
+import { PropertyListItemComponent, PropertyListItemDialogComponent } from './Components/property-list-item/property-list-item.component';
 import { PageNotFoundComponent } from './Components/page-not-found/page-not-found.component';
 import { FooterComponent } from './Components/footer/footer.component';
 import { WelcomePageComponent } from './Components/welcome-page/welcome-page.component';
@@ -36,7 +36,8 @@ import { SignInModalComponent } from './Components/sign-in-modal/sign-in-modal.c
     HomeBannerComponent,
     LogInComponent,
     LogInModalComponent,
-    SignInModalComponent
+    SignInModalComponent,
+    PropertyListItemDialogComponent
   ],
   imports: [
     BrowserModule,
@@ -54,7 +55,8 @@ import { SignInModalComponent } from './Components/sign-in-modal/sign-in-modal.c
   bootstrap: [AppComponent],
   entryComponents: [
     LogInModalComponent,
-    SignInModalComponent
+    SignInModalComponent,
+    PropertyListItemDialogComponent
   ]
 })
 export class AppModule { }
