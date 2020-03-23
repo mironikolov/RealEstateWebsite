@@ -132,6 +132,9 @@
 
                 <div class="form-group row">
                     <label class="col-12" for="file">Качване на снимка</label>
+
+                    <app-picture-gallery [setImagesUrlArr]='imagesUrlArr' [setPictureRowItems]="pictureRowItems"> </app-picture-gallery>
+                    
                     <input type="file"
                             id="file"
                             class="col-12"

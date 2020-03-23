@@ -15,4 +15,8 @@ export class PropertyImageService {
     return this.http.get( this.propertyImagesUrl+propertyID , { responseType: 'blob' });
   };
 
+  putImage( image: File ){
+    
+  }
+
 }

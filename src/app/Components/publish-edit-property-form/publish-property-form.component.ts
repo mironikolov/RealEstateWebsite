@@ -1,10 +1,12 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { Property } from '../../Models/propertyModel';
 import { LogInService } from '../../Services/logInService/log-in.service';
 import { ServicePropertyService } from '../../Services/propertyService/service-property.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { UserService } from '../../Services/userService/user.service';
+import { SafeUrl, DomSanitizer } from '@angular/platform-browser';
+import { PictureGalleryComponent } from '../picture-gallery/picture-gallery.component'
 
 @Component({
   selector: 'app-publish-property-form',
@@ -15,14 +17,18 @@ export class PublishEditPropertyFormComponent implements OnInit {
   PropertyPublishForm:FormGroup;
   propertyToPublish:Property = new Property();
   edit: boolean;
-  fileToUpload: File = null;
+
+  imagesUrlArr = new Array<SafeUrl>();
+  pictureRowItems:number = 4;
 
   constructor( private formBuilder:FormBuilder,
     private loginService:LogInService,
     private propertyService:ServicePropertyService,
     private route: ActivatedRoute,
     private router: Router,
-    private userService: UserService ) { }
+    private userService: UserService,
+    private sanitizer: DomSanitizer,
+    private changeDetector: ChangeDetectorRef ) { }
 
   ngOnInit() {
     this.PropertyPublishForm = this.generateFrom();
@@ -99,7 +105,9 @@ export class PublishEditPropertyFormComponent implements OnInit {
   }
 
   handleFileInput(file: File) {
-    this.fileToUpload = file;
+    let fileUrl = this.sanitizer.bypassSecurityTrustResourceUrl( URL.createObjectURL(file[0]) );
+    this.imagesUrlArr = [...this.imagesUrlArr, fileUrl];
+
   }
 
   fillEditFormValues( property:Property ){

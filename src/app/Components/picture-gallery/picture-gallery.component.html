@@ -1,0 +1,18 @@
+<div class="galleryContainer">
+    <div *ngIf="imagesUrlArr[0] != null">
+
+        <img [src]="imagesUrlArr[0]" id="highlightedImage" class="img-fluid">
+
+        <ng-container *ngIf="imagesUrlArr.length > 1">
+
+            <div class="row no-gutters" 
+            *ngFor="let i of ' '.repeat( math.ceil( imagesUrlArr.length/pictureRowItems ) ).split(''); index as j">
+
+                <div class="col" *ngFor="let imageUrl of imagesUrlArr | slice: j*pictureRowItems:j*pictureRowItems+pictureRowItems">
+                    <img [src]="imageUrl" class="img-fluid" (click)="onImageClick( $event )" >
+                </div>
+
+            </div>
+        </ng-container>
+    </div>
+</div>
