@@ -3,6 +3,7 @@ const app = express();
 const port = 3000 || process.env.port;
 const bodyParser = require( 'body-parser' );
 const fs = require('fs');
+const uploadPicture = require('./multer');
 
 const mongoose = require( 'mongoose' ),
   Property = require( './Models/propertyModel' ),
@@ -20,10 +21,10 @@ db.once('open', ()=> {
 });
 
 //Post MiddleWare
-app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({
   extended: true
 })); 
+app.use(bodyParser.json());
 
 app.use(function(req, res, next) {
     res.header("Access-Control-Allow-Origin", "*");
@@ -45,14 +46,25 @@ app.get( "/", ( req, res ) => {
 
 //Find picture by propertyid
 app.get( '/images/:propertyID', ( req, res ) => {
-  fs.access(`./images/${req.params.propertyID}/1.jpg`, fs.F_OK, (err) => {
-    if (err) {
+  
+  fs.readdir( `${__dirname}/Images/${req.params.propertyID}`, ( err, filenames ) => {
+    if( err ){
+      //console.log( err );
       res.sendFile( __dirname + '/Images/defaultImages/1.jpg' );
       return;
     }
-    res.sendFile( __dirname + '/Images/' + req.params.propertyID + '/1.jpg' );
+
+    //filenames.forEach( filename => {
+      //fs.readFile( `${__dirname}/Images/${req.params.propertyID}/${filename}`, ( err, data ) => {
+        //if( err ){
+          //console.log( err );
+          //return;
+        //}
+        //res.write( data );
+      //} );
+    //});
+    //console.log( res );
   });
-  
 });
 
 //Find one property
@@ -67,17 +79,28 @@ app.get( '/property/:propertyID', ( req, res ) => {
 
 //Create new property
 //Error [ERR_HTTP_HEADERS_SENT]: Cannot set headers after they are sent to the client
-app.post( '/property/', ( req, res) =>{
+app.post( '/property/', uploadPicture.any(), ( req, res) =>{
   db.collection('properties').insertOne(req.body)
-  .then( res.json( "Property inserted" ) )
-  .catch( res.json( "Property insert fail" ) );
+  .then( result => {
+    res.json( "Property inserted" );
+    console.log( result.insertedId );
+    fs.renameSync(  `${__dirname}/Images/temp`, `${__dirname}/Images/${result.insertedId}`, err => {
+      console.log( err );
+    } );
+
+    fs.mkdirSync( `${__dirname}/Images/temp`, err => {
+      console.log( err );
+    } )
+  })
+  //.catch( res.json( "Property insert fail" ) );
 } );
 
-//Upload picture
-//app.post( '/picture/', ( req, res) =>{
-  //fs.readFile(req.readFile){}
-
-//} );
+//Upload pictures
+app.post( '/pictures-upload/', uploadPicture.any(), ( req, res ) => {
+  console.log(req.files);
+  //console.log( req.file.originalname );
+  res.json("sup");
+} );
 
 //Update property
 app.post( '/property/edit/:propertyID', ( req, res) =>{

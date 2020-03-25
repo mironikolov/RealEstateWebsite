@@ -6,7 +6,7 @@ import { ServicePropertyService } from '../../Services/propertyService/service-p
 import { ActivatedRoute, Router } from '@angular/router';
 import { UserService } from '../../Services/userService/user.service';
 import { SafeUrl, DomSanitizer } from '@angular/platform-browser';
-import { PictureGalleryComponent } from '../picture-gallery/picture-gallery.component'
+import { PropertyImageService } from '../../Services/propertyImage/property-image.service';
 
 @Component({
   selector: 'app-publish-property-form',
@@ -17,6 +17,7 @@ export class PublishEditPropertyFormComponent implements OnInit {
   PropertyPublishForm:FormGroup;
   propertyToPublish:Property = new Property();
   edit: boolean;
+  files:Array<File> = new Array<File>();
 
   imagesUrlArr = new Array<SafeUrl>();
   pictureRowItems:number = 4;
@@ -28,7 +29,7 @@ export class PublishEditPropertyFormComponent implements OnInit {
     private router: Router,
     private userService: UserService,
     private sanitizer: DomSanitizer,
-    private changeDetector: ChangeDetectorRef ) { }
+    private imageService:PropertyImageService ) { }
 
   ngOnInit() {
     this.PropertyPublishForm = this.generateFrom();
@@ -97,9 +98,9 @@ export class PublishEditPropertyFormComponent implements OnInit {
       return;
     }
 
-    this.fillPropertyToPublishProperties();
+    this.fillPropertyToPublish();
 
-    this.propertyService.putProperty(this.propertyToPublish);
+    this.propertyService.putProperty( this.propertyToPublish, this.files );
 
     window.alert("Обявата е създадена");
   }
@@ -107,7 +108,7 @@ export class PublishEditPropertyFormComponent implements OnInit {
   handleFileInput(file: File) {
     let fileUrl = this.sanitizer.bypassSecurityTrustResourceUrl( URL.createObjectURL(file[0]) );
     this.imagesUrlArr = [...this.imagesUrlArr, fileUrl];
-
+    this.files.push( file[0] );
   }
 
   fillEditFormValues( property:Property ){
@@ -121,7 +122,7 @@ export class PublishEditPropertyFormComponent implements OnInit {
     this.PropertyPublishForm.get('info').setValue( property.extraInfo );
   }
 
-  fillPropertyToPublishProperties(){
+  fillPropertyToPublish(){
     this.propertyToPublish.title = this.PropertyPublishForm.get('title').value;
     this.propertyToPublish.address = this.PropertyPublishForm.get('address').value;
     this.propertyToPublish.price = this.PropertyPublishForm.get('price').value;
@@ -130,6 +131,7 @@ export class PublishEditPropertyFormComponent implements OnInit {
     this.propertyToPublish.type = this.PropertyPublishForm.get('type').value;
     this.propertyToPublish.extraInfo = this.PropertyPublishForm.get('info').value;
     this.propertyToPublish.publisher = this.loginService.getUser()['_id'];
+    this.propertyToPublish.picturesURL = this.imagesUrlArr;
   }
 
   onEditButtonClicked(){
@@ -149,7 +151,7 @@ export class PublishEditPropertyFormComponent implements OnInit {
         return;
       }
 
-      this.fillPropertyToPublishProperties();
+      this.fillPropertyToPublish();
   
       this.propertyService.editProperty( this.propertyToPublish, this.propertyToPublish._id ).subscribe( data => {
         console.log( data );

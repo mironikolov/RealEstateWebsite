@@ -23,9 +23,14 @@ export class ServicePropertyService {
     return this.http.get<Property>(`${this.propertiesUrl}property/${propertyID}`);
   }
 
-  putProperty( property:Property )
+  putProperty( property:Property, files: Array<File> )
   {
-    this.http.post(`${this.propertiesUrl}property/`, property).subscribe( data => {
+    const formData = new FormData( );
+    Object.keys(property).forEach( key => formData.append( key, property[key]) );
+    files.forEach( file => {      
+      formData.append('pic', file)
+    });
+    this.http.post(`${this.propertiesUrl}property/`, formData).subscribe( data => {
       console.log("Post successful", data);
     }, error => {
       console.log("Error:", error );

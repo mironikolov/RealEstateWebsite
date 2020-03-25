@@ -8,11 +8,11 @@ export class Property{
     rooms:Number;
     area:Number;
     type:Number; 
-    tags:[String];
+    tags:Array<String>;
     extraInfo:String;
     date = new Date();
     publisher:String;
-    pictureURL: SafeUrl;
+    picturesURL: Array<SafeUrl>;
 
     Property(){
         this._id = "null";
