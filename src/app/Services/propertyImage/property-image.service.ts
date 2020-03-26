@@ -1,6 +1,8 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
+import { Property } from 'src/app/Models/propertyModel';
+import { DomSanitizer, SafeUrl } from '@angular/platform-browser';
 
 @Injectable({
   providedIn: 'root'
@@ -12,9 +14,23 @@ export class PropertyImageService {
   constructor( private http:HttpClient ) { }
 
   //Get Picture as blob
-  getImage( propertyID:string ): Observable<Blob>{
-    return this.http.get( this.propertyImagesUrl+propertyID , { responseType: 'blob' });
+  getImage( propertyID:string, pictureName:string ): Observable<Blob>{
+    //console.log( propertyID, pictureName );
+    return this.http.post( this.propertyImagesUrl+propertyID , { pictureName }, {
+      responseType:'blob'
+    }
+    );
   };
+
+  getPropertyImages( property:Property ): Blob[]{
+    var pictures = new Array<Blob>();
+    property.picturesNames.forEach( pcitureName => {
+      this.getImage( property._id, pcitureName ).subscribe( blob => {
+        pictures.push( blob );
+      });
+    });
+    return pictures;
+  }
 
   putImages( images: Array<File> ){
     let formData= new FormData();

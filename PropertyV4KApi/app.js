@@ -4,6 +4,7 @@ const port = 3000 || process.env.port;
 const bodyParser = require( 'body-parser' );
 const fs = require('fs');
 const uploadPicture = require('./multer');
+const url = require('url');
 
 const mongoose = require( 'mongoose' ),
   Property = require( './Models/propertyModel' ),
@@ -45,25 +46,19 @@ app.get( "/", ( req, res ) => {
 
 
 //Find picture by propertyid
-app.get( '/images/:propertyID', ( req, res ) => {
+app.post( '/images/:propertyID', ( req, res ) => {
   
   fs.readdir( `${__dirname}/Images/${req.params.propertyID}`, ( err, filenames ) => {
     if( err ){
-      //console.log( err );
+      console.log( err );
+      return;
+    }
+    if ( filenames == null || req.body.pictureName == undefined) {
       res.sendFile( __dirname + '/Images/defaultImages/1.jpg' );
       return;
     }
-
-    //filenames.forEach( filename => {
-      //fs.readFile( `${__dirname}/Images/${req.params.propertyID}/${filename}`, ( err, data ) => {
-        //if( err ){
-          //console.log( err );
-          //return;
-        //}
-        //res.write( data );
-      //} );
-    //});
-    //console.log( res );
+    console.log(  req.body );
+    res.sendFile( __dirname + '/Images/'+ req.params.propertyID + '/' + req.body.pictureName );
   });
 });
 
@@ -77,20 +72,58 @@ app.get( '/property/:propertyID', ( req, res ) => {
   })
 });
 
+app.post( '/test', ( req, res ) => {
+  addPicturesToProperty( "5e7b67797457b42db0aa1ade" );
+  res.json('test'); 
+});
+
+function addPicturesToProperty( propertyID ){
+  let picNames = new Array();
+
+  fs.readdir( `${__dirname}/Images/${propertyID}`, ( err, filenames ) => {
+    if( err ){
+      console.log( err );
+      return;
+    }
+
+    filenames.forEach( filename => {
+      picNames.push( filename );
+    });
+  })
+
+  Property.findById( propertyID, ( err, property ) => {
+    if( err ){
+      console.log( err );
+      return;
+    }
+
+    property.picturesNames = picNames;
+    property.save();
+  })
+  
+}
+
 //Create new property
 //Error [ERR_HTTP_HEADERS_SENT]: Cannot set headers after they are sent to the client
 app.post( '/property/', uploadPicture.any(), ( req, res) =>{
+  
   db.collection('properties').insertOne(req.body)
   .then( result => {
-    res.json( "Property inserted" );
+    
     console.log( result.insertedId );
+    
     fs.renameSync(  `${__dirname}/Images/temp`, `${__dirname}/Images/${result.insertedId}`, err => {
-      console.log( err );
+      console.log( "rename folder" );
     } );
-
+    
+    addPicturesToProperty( result.insertedId );
+    
     fs.mkdirSync( `${__dirname}/Images/temp`, err => {
-      console.log( err );
-    } )
+      console.log( "create temp" );
+    } );
+    
+    res.json( "Property inserted" );
+
   })
   //.catch( res.json( "Property insert fail" ) );
 } );
@@ -145,6 +178,10 @@ app.post( '/users/', ( req, res) =>{
 
 //delete property
 app.post( '/property/delete', ( req, res) =>{
+
+  fs.rmdir( `${__dirname}/Images/${ req.body.propertyID }`, { recursive: true }, () => {
+    console.log( "dir delete" );
+  });
 
   Property.deleteOne( { _id: req.body.propertyID }, err => {
     if( err ){

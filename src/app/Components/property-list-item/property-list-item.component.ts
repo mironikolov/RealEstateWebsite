@@ -38,8 +38,9 @@ export class PropertyListItemComponent implements OnInit {
 
   ngOnInit() {
     this.propertyService.getProperty(this.route.snapshot.paramMap.get( 'id' )).subscribe( ( property ) => {
-      this.setPropertyPictureURL(property);
+
       this.property=property;
+      console.log( property );
       this.userService.getUser(property.publisher).subscribe( ( user )=> {
         this.publisher=user;
       });
@@ -62,18 +63,6 @@ export class PropertyListItemComponent implements OnInit {
        //console.log( res.results[0].geometry.location.lat ) 
        this.markerLatitude = res.results[0].geometry.location.lat;
        this.markerLongitude = res.results[0].geometry.location.lng;
-    });
-  }
-
-  /////////////////////////////////////////
-
-  //get image from service
-  imageBlobUrl: string | ArrayBuffer;
-
-  setPropertyPictureURL( property ) : void {
-    this.propertyImageService.getImage( property._id ).subscribe( ( imageBlob ) => {
-      this.imageBlobUrl = URL.createObjectURL( imageBlob );
-      property.pictureURL = this.sanitizer.bypassSecurityTrustUrl(this.imageBlobUrl);
     });
   }
 

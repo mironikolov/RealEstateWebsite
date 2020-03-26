@@ -40,10 +40,14 @@ export class PropertyListComponent implements OnInit {
   imageBlobUrl: string | ArrayBuffer;
   image:SafeUrl;
 
-  setPropertyPictureURL( property ) : void {
-    this.propertyImageService.getImage( property['_id'] ).subscribe( ( imageBlob ) => {
+  setPropertyPictureURL( property: Property ) : void {
+    
+    this.propertyImageService.getImage( property._id, property.picturesNames[0] ).subscribe( ( imageBlob ) => {
       this.imageBlobUrl = URL.createObjectURL( imageBlob );
-      property.pictureURL = this.sanitizer.bypassSecurityTrustUrl(this.imageBlobUrl);
+      this.image = this.sanitizer.bypassSecurityTrustUrl( this.imageBlobUrl );
+      property.picturesURL.push( this.image );
+      console.log(property);
+      console.log( this.image );
     });
   }
 
