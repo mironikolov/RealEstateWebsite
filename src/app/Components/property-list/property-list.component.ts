@@ -26,7 +26,10 @@ export class PropertyListComponent implements OnInit {
 
   refreshPropertiesArr():void{
     this.propertyService.getProperties().subscribe( 
-      properties => { this.propertiesArray = properties;},
+      
+      properties => {
+        this.propertiesArray = properties;;
+      },
        error => console.log(error),
        ()=>{
          this.setPropertyPictures();
@@ -36,25 +39,19 @@ export class PropertyListComponent implements OnInit {
   }
 /////////////////////////////////////////
 
-  //get image from service
-  imageBlobUrl: string | ArrayBuffer;
-  image:SafeUrl;
-
+//get image from service
   setPropertyPictureURL( property: Property ) : void {
     
     this.propertyImageService.getImage( property._id, property.picturesNames[0] ).subscribe( ( imageBlob ) => {
-      this.imageBlobUrl = URL.createObjectURL( imageBlob );
-      this.image = this.sanitizer.bypassSecurityTrustUrl( this.imageBlobUrl );
-      property.picturesURL.push( this.image );
-      console.log(property);
-      console.log( this.image );
+      const imageBlobUrl = URL.createObjectURL( imageBlob );
+      const image = this.sanitizer.bypassSecurityTrustUrl( imageBlobUrl );
+      property.picturesURL[0] = image ;
     });
   }
 
   setPropertyPictures():void {
     this.propertiesArray.forEach( property => {
       this.setPropertyPictureURL( property  );
-      
     });
   }
 

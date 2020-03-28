@@ -12,7 +12,8 @@ const propertySchema = mongoose.Schema({
     extraInfo: { type: String },
     date: { type: Date, required: true},
     publisher: { type:String, required: true},
-    picturesNames: { type: [String] }
+    picturesNames: { type: [String] },
+    picturesURL: { type: [String] }
 });
 
 module.exports = mongoose.model( 'Property', propertySchema );

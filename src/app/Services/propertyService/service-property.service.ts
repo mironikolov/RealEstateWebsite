@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { Observable, pipe, throwError } from 'rxjs';
 import { Property } from '../../Models/propertyModel';
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
-import { catchError } from 'rxjs/operators';
+import { catchError, map } from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root'
@@ -15,22 +15,32 @@ export class ServicePropertyService {
   //GetProperties
   getProperties():Observable<Property[]>
   {
-    return this.http.get<Property[]>( `${this.propertiesUrl}` );
+    return this.http.get<Property[]>( `${this.propertiesUrl}` ).pipe( map( propertyArr => {
+      return propertyArr.map( property => {
+        return new Property().deserialize( property ); 
+      });
+    }));
   }
 
   getProperty(propertyID):Observable<Property>
   {
-    return this.http.get<Property>(`${this.propertiesUrl}property/${propertyID}`);
+    return this.http.get<Property>(`${this.propertiesUrl}property/${propertyID}`).pipe( map( property => {
+      return new Property().deserialize( property );
+    }));
   }
 
   putProperty( property:Property, files: Array<File> )
   {
+    property = new Property().deserialize( property );
     const formData = new FormData( );
-    Object.keys(property).forEach( key => formData.append( key, property[key]) );
+    Object.keys(property).forEach( key => {
+      formData.append( key, property[key]);
+    } );
+    console.log( JSON.stringify(formData) );
     files.forEach( file => {      
       formData.append('pic', file)
     });
-    this.http.post(`${this.propertiesUrl}property/`, formData).subscribe( data => {
+    this.http.post(`${this.propertiesUrl}property/`, formData ).subscribe( data => {
       console.log("Post successful", data);
     }, error => {
       console.log("Error:", error );

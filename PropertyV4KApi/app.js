@@ -109,8 +109,7 @@ app.post( '/property/', uploadPicture.any(), ( req, res) =>{
   
   db.collection('properties').insertOne(req.body)
   .then( result => {
-    
-    console.log( result.insertedId );
+    console.log(req.body)
     
     fs.renameSync(  `${__dirname}/Images/temp`, `${__dirname}/Images/${result.insertedId}`, err => {
       console.log( "rename folder" );

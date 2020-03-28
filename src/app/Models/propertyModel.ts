@@ -1,31 +1,23 @@
 import { SafeUrl } from '@angular/platform-browser';
+import { Deserializable } from './deserializableModel';
 
-export class Property{
+export class Property implements Deserializable{
     _id:string; 
-    title:string;
-    address:string;
-    price:string;
-    rooms:Number;
-    area:Number;
-    type:Number; 
-    tags:Array<String>;
-    extraInfo:string;
-    date = new Date();
-    publisher:string;
-    picturesNames: Array<string>;
-    picturesURL: Array<SafeUrl>;
-
-    Property(){
-        this._id = "null";
-        this.title = "null";
-        this.address = "null";
-        this.price = "null";
-        this.area = 0;
-        this.type = 0;
-        this.tags = ["null"];
-        this.rooms = 0;
-        this.extraInfo = "null"
-        this.publisher="null";
-        this.picturesURL = new Array<SafeUrl>(); 
+    title:string = null;
+    address:string = null;
+    price:string = null;
+    rooms:Number = null;
+    area:Number = null;
+    type:Number = null; 
+    tags:Array<String> = null;
+    extraInfo:string = null;
+    date:Date = new Date();
+    publisher:string = null;
+    picturesNames: Array<string> = new Array<string>();
+    picturesURL: Array<SafeUrl> = new Array<SafeUrl>();
+    
+    deserialize( input:any ){
+        Object.assign( this, input );
+        return this;
     }
 }

@@ -131,7 +131,6 @@ export class PublishEditPropertyFormComponent implements OnInit {
     this.propertyToPublish.type = this.PropertyPublishForm.get('type').value;
     this.propertyToPublish.extraInfo = this.PropertyPublishForm.get('info').value;
     this.propertyToPublish.publisher = this.loginService.getUser()['_id'];
-    this.propertyToPublish.picturesURL = this.imagesUrlArr;
   }
 
   onEditButtonClicked(){

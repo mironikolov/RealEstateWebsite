@@ -36,7 +36,8 @@
                                 <hr class="clearfix w-100 d-md-none" *ngIf="property?.tags[0]">
 
                                 <mat-list *ngFor="let tag of property?.tags">
-                                        <mat-list-item > {{ tag }} </mat-list-item>
+                                        <mat-list-item *ngIf="!tag; else nullTag"> {{ tag }} </mat-list-item>
+                                        <ng-template #nullTag> Empty tags </ng-template>
                                 </mat-list>
                             </mat-card-content>
 

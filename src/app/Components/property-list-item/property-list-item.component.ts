@@ -40,7 +40,8 @@ export class PropertyListItemComponent implements OnInit {
     this.propertyService.getProperty(this.route.snapshot.paramMap.get( 'id' )).subscribe( ( property ) => {
 
       this.property=property;
-      console.log( property );
+      this.property.picturesURL = this.propertyImageService.getPropertyImages( property );
+      console.log( this.property );
       this.userService.getUser(property.publisher).subscribe( ( user )=> {
         this.publisher=user;
       });

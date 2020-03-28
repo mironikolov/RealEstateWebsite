@@ -11,8 +11,10 @@ export class PictureGalleryComponent implements OnInit {
   math = Math;
 
   imagesUrlArr = new Array<SafeUrl>();
-  @Input() set setImagesUrlArr( imagesUrlArr ){
-    this.imagesUrlArr = imagesUrlArr;
+  @Input() set setImagesUrlArr( imagesUrlArr: [SafeUrl] ){
+    if ( imagesUrlArr != null  ) {
+      this.imagesUrlArr = imagesUrlArr;
+    }
   }
 
   pictureRowItems:number = 4;
@@ -23,6 +25,7 @@ export class PictureGalleryComponent implements OnInit {
   constructor() { }
 
   ngOnInit() {
+    
   }
 
   onImageClick( e ){

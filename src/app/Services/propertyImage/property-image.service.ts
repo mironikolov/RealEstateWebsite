@@ -11,7 +11,8 @@ export class PropertyImageService {
   propertyImagesUrl:string = 'http://localhost:3000/images/';
   serverUrl:string = 'http://localhost:3000/';
 
-  constructor( private http:HttpClient ) { }
+  constructor( private http:HttpClient,
+    private sanitizer: DomSanitizer ) { }
 
   //Get Picture as blob
   getImage( propertyID:string, pictureName:string ): Observable<Blob>{
@@ -22,11 +23,13 @@ export class PropertyImageService {
     );
   };
 
-  getPropertyImages( property:Property ): Blob[]{
-    var pictures = new Array<Blob>();
+  getPropertyImages( property:Property ): SafeUrl[]{
+    var pictures = new Array<SafeUrl>();
     property.picturesNames.forEach( pcitureName => {
       this.getImage( property._id, pcitureName ).subscribe( blob => {
-        pictures.push( blob );
+        const imageBlobUrl = URL.createObjectURL( blob );
+        const image = this.sanitizer.bypassSecurityTrustUrl( imageBlobUrl );
+        pictures.push( image );
       });
     });
     return pictures;
