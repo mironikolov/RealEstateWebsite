@@ -1,4 +1,4 @@
-import errorResponse from './errorResponse';
+import errorResponse from '../error-response';
 
 export default function makeGetUser({ findByIdUser }: { findByIdUser: any }){
     return async function getUser( httpRequest: any ) {

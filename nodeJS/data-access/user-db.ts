@@ -12,8 +12,8 @@ export default function makeUsersDb( makeDb: Promise<mongodb.Db> ) {
 
     async function findAll() {
         const db = await makeDb;
-        const result = await db.collection( 'users' ).find({});
-        return result.toArray();
+        const result = await db.collection( 'users' ).find({}).toArray();
+        return result;
     };
 
     async function findById({ id }: { id: string }) {

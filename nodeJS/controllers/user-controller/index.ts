@@ -1,8 +1,8 @@
-import { addUser, findByIdUser, loginUser} from '../use-cases';
+import { addUser, findByIdUser, loginUser} from '../../use-cases/user-use-cases';
 import makeGetUser from './get-user';
 import makePostLoginUser from './post-login-user';
 import makePostUser from './post-user';
-import middlewares from './middlewares'
+import middlewares from '../middlewares'
 //add not found
 
 const getUser = makeGetUser({ findByIdUser });

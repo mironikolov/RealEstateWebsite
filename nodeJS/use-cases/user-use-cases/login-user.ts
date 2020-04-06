@@ -1,5 +1,6 @@
-import makeUser from '../user';
-import UsersDb from '../data-access';
+import makeUser from '../../models/user-model';
+import dataAccess from '../../data-access';
+const UsersDb = dataAccess.usersDb;
 
 export default function makeLoginUser( { usersDb = UsersDb } ) {
     return async function loginUser( userInfo: any ) {

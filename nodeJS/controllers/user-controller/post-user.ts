@@ -1,4 +1,4 @@
-import errorResponse from './errorResponse';
+import errorResponse from '../error-response';
 
 export default function makePostUser({ addUser }: { addUser: any }){
     return async function postUser( httpRequest: Request ) {

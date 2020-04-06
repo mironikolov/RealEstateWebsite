@@ -1,7 +1,8 @@
 import makeAddUser from './add-user';
 import makeLoginUser from './login-user';
 import makeFindByIdUser from './find-by-id-user';
-import usersDb from '../data-access';
+import dataAccess from '../../data-access';
+const usersDb = dataAccess.usersDb;
 
 const addUser = makeAddUser({ usersDb });
 const findByIdUser = makeFindByIdUser({ usersDb });
@@ -14,4 +15,4 @@ const userService = Object.freeze({
 });
 
 export default userService;
-export { addUser, findByIdUser, loginUser};
+export { addUser, findByIdUser, loginUser };
