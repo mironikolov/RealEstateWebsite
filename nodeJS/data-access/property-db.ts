@@ -7,13 +7,15 @@ export default function makePropertiesDb( makeDb: Promise<mongodb.Db> ){
         findAllByPublisherId,
         findOneById,
         insert,
-        update
+        update,
+        deleteProperty
     });
 
-    async function findAllByRentFlag( rentFlag: boolean ){
+    async function findAllByRentFlag( RentFlag: boolean ){
         const db = await makeDb;
-        const flag = Boolean( rentFlag );
-        const result = await db.collection( 'properties' ).find({ rentFlag: flag }).toArray();
+        
+        RentFlag = Boolean(RentFlag);
+        const result = await db.collection( 'properties' ).find({ rentFlag: RentFlag }).toArray();
         
         return result;
     }
@@ -31,12 +33,13 @@ export default function makePropertiesDb( makeDb: Promise<mongodb.Db> ){
         return result;
     }
 
-    async function insert({ ...propertyInfo }){
+    async function insert( propertyInfo: Object ){
         const db = await makeDb;
-        const result = await db.collection( 'properties' ).insertOne({ ...propertyInfo });
+        const result = await db.collection( 'properties' ).insertOne( propertyInfo );
         if ( result.insertedCount === 0 ) {
             return null;
         }
+        
         return result;
     }
 
@@ -47,6 +50,12 @@ export default function makePropertiesDb( makeDb: Promise<mongodb.Db> ){
         if ( result.matchedCount === 0 ) {
             return null;
         }
+        return result;
+    }
+
+    async function deleteProperty( propertyId: string ){
+        const db = await makeDb;
+        const result = await db.collection( 'properties' ).deleteOne({ _id : new ObjectId( propertyId ) });
         return result;
     }
 }

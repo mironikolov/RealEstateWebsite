@@ -1,5 +1,4 @@
 export default function makeErrorResponse( error: Error ){
-    console.log( error );
 
     return{
         headers: {

@@ -5,10 +5,12 @@ const PropertiesDb = dataAccess.propertiesDb;
 export default function makeInsertProperty({ propertiesDb = PropertiesDb }){
     return async function insertProperty( propertyInfo: any ){
         const property = makeProperty( propertyInfo );
-
+        
         return propertiesDb.insert({
+            _id: property.getId(),
             title: property.getTitle(),
             address: property.getAddress(),
+            area: property.getArea(),
             price: property.getPrice(),
             rooms: property.getRooms(),
             type: property.getType(),

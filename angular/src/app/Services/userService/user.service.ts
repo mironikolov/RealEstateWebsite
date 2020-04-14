@@ -8,15 +8,15 @@ import { map } from 'rxjs/operators';
   providedIn: 'root'
 })
 export class UserService {
-  propertiesUrl:string = 'http://localhost:3000/';
+  propertiesUrl:string = 'http://localhost:3000/users';
 
   constructor( private http:HttpClient ) { }
 
   getUser(userID):Observable<User>{
-    return this.http.get<User>(`${this.propertiesUrl}users/${userID}`);
+    return this.http.get<User>(`${this.propertiesUrl}/${userID}`);
   }
 
   createUser( newUser:User ):Observable<any>{
-    return this.http.post(`${this.propertiesUrl}users/`, newUser);
+    return this.http.post(`${this.propertiesUrl}`, newUser);
   }
 }

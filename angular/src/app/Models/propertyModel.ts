@@ -12,9 +12,11 @@ export class Property implements Deserializable{
     tags:Array<String> = null;
     extraInfo:string = null;
     date:Date = new Date();
-    publisher:string = null;
+    publisherId:string = null;
     picturesNames: Array<string> = new Array<string>();
     picturesURL: Array<SafeUrl> = new Array<SafeUrl>();
+    rentFlag: boolean;
+    createdOn: string = null;
     
     deserialize( input:any ){
         Object.assign( this, input );

@@ -40,9 +40,8 @@ export class PropertyListItemComponent implements OnInit {
     this.propertyService.getProperty(this.route.snapshot.paramMap.get( 'id' )).subscribe( ( property ) => {
 
       this.property=property;
-      this.property.picturesURL = this.propertyImageService.getPropertyImages( property );
-      console.log( this.property );
-      this.userService.getUser(property.publisher).subscribe( ( user )=> {
+      this.property.picturesURL = this.propertyImageService.getPropertyImagesUrl( property );
+      this.userService.getUser(property.publisherId).subscribe( ( user ) => {
         this.publisher=user;
       });
 
@@ -61,7 +60,6 @@ export class PropertyListItemComponent implements OnInit {
   onChoseLocation( event ){
     this.googleMapsService.getCoordinates( this.property.address )
     .subscribe( res => {
-       //console.log( res.results[0].geometry.location.lat ) 
        this.markerLatitude = res.results[0].geometry.location.lat;
        this.markerLongitude = res.results[0].geometry.location.lng;
     });
@@ -69,7 +67,9 @@ export class PropertyListItemComponent implements OnInit {
 
   //Delete porperty
   onDeleteClick(){
-    this.propertyService.deleteProperty( this.property._id );
+  this.propertyService.deleteProperty( this.property._id ).subscribe( (data) => {
+    
+  });
   }
 
   openConfirmDialog(){

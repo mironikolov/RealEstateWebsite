@@ -25,7 +25,7 @@ export class PropertyListComponent implements OnInit {
   }
 
   refreshPropertiesArr():void{
-    this.propertyService.getProperties().subscribe( 
+    this.propertyService.getProperties( true ).subscribe( 
       
       properties => {
         this.propertiesArray = properties;;

@@ -42,7 +42,10 @@ export class PublishEditPropertyFormComponent implements OnInit {
       this.propertyService.getProperty( this.route.snapshot.paramMap.get( 'id' )).subscribe( property => {
         this.propertyToPublish = property;
         this.fillEditFormValues( this.propertyToPublish );
-        console.log( this.propertyToPublish );
+        this.imagesUrlArr = this.imageService.getPropertyImagesUrl( property );
+        this.files = this.imageService.getPropertyImages( property );
+        console.log(this.files);
+        
       });
     }
   }
@@ -76,6 +79,10 @@ export class PublishEditPropertyFormComponent implements OnInit {
       Validators.required
     ]);
 
+    let rentFormControl = this.formBuilder.control(null,[
+      Validators.required
+    ]);
+
     return this.formBuilder.group({
       title:titleFormControl,
       address:addressFormControl,
@@ -83,7 +90,8 @@ export class PublishEditPropertyFormComponent implements OnInit {
       rooms:roomsFormControl,
       area:areaFormControl,
       type:typeFormControl,
-      info:infoFormControl
+      info:infoFormControl,
+      rent: rentFormControl
     });
   }
 
@@ -98,17 +106,25 @@ export class PublishEditPropertyFormComponent implements OnInit {
       return;
     }
 
-    this.fillPropertyToPublish();
+    if ( !this.fillPropertyToPublish() ){
+      window.alert("Грешка");
+      return;
+    };
+    
+    this.propertyService.putProperty( this.propertyToPublish, this.files ).subscribe( data => {
+      window.alert("Обявата е създадена");
+    }, error => {
+      window.alert("Грешка");
+      console.log("Error:", error );
+    } );;
 
-    this.propertyService.putProperty( this.propertyToPublish, this.files );
-
-    window.alert("Обявата е създадена");
   }
 
   handleFileInput(file: File) {
     let fileUrl = this.sanitizer.bypassSecurityTrustResourceUrl( URL.createObjectURL(file[0]) );
     this.imagesUrlArr = [...this.imagesUrlArr, fileUrl];
     this.files.push( file[0] );
+    this.propertyToPublish.picturesNames.push( file[0].name );
   }
 
   fillEditFormValues( property:Property ){
@@ -120,9 +136,10 @@ export class PublishEditPropertyFormComponent implements OnInit {
     this.PropertyPublishForm.get('area').setValue( property.area );
     this.PropertyPublishForm.get('type').setValue( property.type );
     this.PropertyPublishForm.get('info').setValue( property.extraInfo );
+    this.PropertyPublishForm.get('rent').setValue( property.rentFlag ? 'Rent' : 'Sell' );
   }
 
-  fillPropertyToPublish(){
+  fillPropertyToPublish():boolean{
     this.propertyToPublish.title = this.PropertyPublishForm.get('title').value;
     this.propertyToPublish.address = this.PropertyPublishForm.get('address').value;
     this.propertyToPublish.price = this.PropertyPublishForm.get('price').value;
@@ -130,7 +147,15 @@ export class PublishEditPropertyFormComponent implements OnInit {
     this.propertyToPublish.area = this.PropertyPublishForm.get('area').value;
     this.propertyToPublish.type = this.PropertyPublishForm.get('type').value;
     this.propertyToPublish.extraInfo = this.PropertyPublishForm.get('info').value;
-    this.propertyToPublish.publisher = this.loginService.getUser()['_id'];
+
+    if (this.loginService.getUser()['_id'] == null ) {
+      return false;
+    }
+    
+    this.propertyToPublish.publisherId = this.loginService.getUser()['_id'];
+
+    this.propertyToPublish.rentFlag = this.PropertyPublishForm.get('rent').value == 'Rent' ? true : false;
+    return true;
   }
 
   onEditButtonClicked(){
@@ -144,20 +169,22 @@ export class PublishEditPropertyFormComponent implements OnInit {
       return;
     }
 
-    this.userService.getUser( this.propertyToPublish.publisher ).subscribe( user => {
+    this.userService.getUser( this.propertyToPublish.publisherId ).subscribe( user => {
       if( user.username != this.loginService.currentUser.username){
         window.alert("Denied!");
         return;
       }
 
-      this.fillPropertyToPublish();
+      if ( !this.fillPropertyToPublish() ){
+        window.alert("Грешка");
+        return;
+      };
   
-      this.propertyService.editProperty( this.propertyToPublish, this.propertyToPublish._id ).subscribe( data => {
-        console.log( data );
+      this.propertyService.editProperty( this.propertyToPublish, this.files ).subscribe( data => {
         this.router.navigate(['/property/',this.propertyToPublish._id]);
       }, err => {
         console.log( err );
-        window.alert("Грешка");
+        window.alert("Грешка при заявка");
       });
     });
   }

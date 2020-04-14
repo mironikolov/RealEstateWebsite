@@ -2,20 +2,21 @@ import errorResponse from '../error-response';
 import { Request } from 'express';
 import fileSystem from '../../file-system';
 
-export default function makePutProperty({ insertProperty }: { insertProperty: any }){
-    return async function putProperty( httpRequest: Request ) {
+export default function makeDeleteProperty({ deletePropertyCase }: { deletePropertyCase: any }){
+    return async function deleteProperty( httpRequest: Request ) {
         try {
-            const {...propertyInfo }  = JSON.parse( httpRequest.body.data );
-            const property = await insertProperty( propertyInfo );
+            const propertyId  = httpRequest.body.propertyID;
             
-            await fileSystem.addPicturesToProperty( property.insertedId );
+            const result = await deletePropertyCase( propertyId );
+
+            fileSystem.deletePictures( propertyId );
             
             return {
                 headers: {
                     'Content-Type': 'application/json'
                 },
                 statusCode: 201,
-                body: { property }
+                body: result
             }
         } catch (error) {            
             return errorResponse( error );

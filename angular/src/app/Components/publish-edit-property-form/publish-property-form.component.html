@@ -82,12 +82,24 @@
                     </div>
             
                     <div class="form-group row">
-                        <label class="col-12" for="type">Тип</label>
+                        <label class="col-12" for="type">Тип на имот</label>
                         <select class="form-control col-12" id="type" formControlName="type">
                             <option>Apartment</option>
                             <option>House</option>
                             <option>Garage</option>
                             <option>Room</option>
+                        </select>
+                        <div class="alert alert-danger col-12" 
+                            *ngIf="!PropertyPublishForm.controls.type.valid && PropertyPublishForm.controls.type.touched">
+                            Type is invalid 
+                        </div>
+                    </div>
+
+                    <div class="form-group row">
+                        <label class="col-12" for="type">Тип на обява</label>
+                        <select class="form-control col-12" id="rent" formControlName="rent">
+                            <option>Rent</option>
+                            <option>Sell</option>
                         </select>
                         <div class="alert alert-danger col-12" 
                             *ngIf="!PropertyPublishForm.controls.type.valid && PropertyPublishForm.controls.type.touched">
@@ -141,6 +153,7 @@
                             name="pic"
                             (change)="handleFileInput($event.target.files)">
                 </div>
+
             </div>
 
         </div>

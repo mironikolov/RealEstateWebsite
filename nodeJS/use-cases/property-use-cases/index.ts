@@ -3,6 +3,7 @@ import makeFindAllByRentFlagProperty from './find-all-by-rent-flag-property';
 import makeFindOneByIdProperty from './find-one-by-Id-property';
 import makeInsertProperty from './insert-property';
 import makeUpdateProperty from './update-property';
+import makeDeleteProperty from './delete-property';
 import dataAccess from '../../data-access';
 
 const propertiesDb = dataAccess.propertiesDb;
@@ -11,14 +12,16 @@ const findAllByRentFlagProperty = makeFindAllByRentFlagProperty({ propertiesDb }
 const findOneByIdProperty = makeFindOneByIdProperty({ propertiesDb });
 const insertProperty = makeInsertProperty({ propertiesDb });
 const updateProperty = makeUpdateProperty({ propertiesDb });
+const deletePropertyCase = makeDeleteProperty({ propertiesDb });
 
 const propertyService = Object.freeze({
     findAllByPublisherIdProperty,
     findAllByRentFlagProperty,
     findOneByIdProperty,
     insertProperty,
-    updateProperty
+    updateProperty,
+    deletePropertyCase
 });
 
 export default propertyService;
-export { findAllByPublisherIdProperty, findAllByRentFlagProperty, findOneByIdProperty, insertProperty, updateProperty };
+export { findAllByPublisherIdProperty, findAllByRentFlagProperty, findOneByIdProperty, insertProperty, updateProperty, deletePropertyCase };

@@ -10,6 +10,7 @@ export default function makeUpdateProperty({ propertiesDb = PropertiesDb }){
             _id: property.getId(),
             title: property.getTitle(),
             address: property.getAddress(),
+            area: property.getArea(),
             price: property.getPrice(),
             rooms: property.getRooms(),
             type: property.getType(),

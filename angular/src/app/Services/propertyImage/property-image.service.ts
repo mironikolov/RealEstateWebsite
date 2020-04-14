@@ -8,7 +8,7 @@ import { DomSanitizer, SafeUrl } from '@angular/platform-browser';
   providedIn: 'root'
 })
 export class PropertyImageService {
-  propertyImagesUrl:string = 'http://localhost:3000/images/';
+  propertyImagesUrl:string = 'http://localhost:3000/pictures/';
   serverUrl:string = 'http://localhost:3000/';
 
   constructor( private http:HttpClient,
@@ -16,17 +16,16 @@ export class PropertyImageService {
 
   //Get Picture as blob
   getImage( propertyID:string, pictureName:string ): Observable<Blob>{
-    //console.log( propertyID, pictureName );
-    return this.http.post( this.propertyImagesUrl+propertyID , { pictureName }, {
+    
+    return this.http.get( this.propertyImagesUrl+propertyID+`/${pictureName}` , {
       responseType:'blob'
-    }
-    );
+    });
   };
 
-  getPropertyImages( property:Property ): SafeUrl[]{
+  getPropertyImagesUrl( property:Property ): SafeUrl[]{
     var pictures = new Array<SafeUrl>();
-    property.picturesNames.forEach( pcitureName => {
-      this.getImage( property._id, pcitureName ).subscribe( blob => {
+    property.picturesNames.forEach( pictureName => {
+      this.getImage( property._id, pictureName ).subscribe( blob => {
         const imageBlobUrl = URL.createObjectURL( blob );
         const image = this.sanitizer.bypassSecurityTrustUrl( imageBlobUrl );
         pictures.push( image );
@@ -35,14 +34,23 @@ export class PropertyImageService {
     return pictures;
   }
 
-  putImages( images: Array<File> ){
+  getPropertyImages( property: Property ): File[]{
+    let pictures = new Array<File>();
+    property.picturesNames.forEach( pictureName => {
+      this.getImage( property._id, pictureName ).subscribe( blob => {
+        pictures.push( new File([blob], pictureName, { type: "image/jpg"}) );
+      });
+    })
+    
+    return pictures;
+  }
+
+  putImages( images: Array<File> ): Observable<any>{
     let formData= new FormData();
     images.forEach(image => {
       formData.append( 'pic', image);
     });
-    this.http.post( `${this.serverUrl}pictures-upload/` , formData ).subscribe( data => {
-      console.log( data );
-    });
+    return this.http.post( `${this.serverUrl}pictures-upload/` , formData );
   }
 
 }

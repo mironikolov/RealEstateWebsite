@@ -8,43 +8,41 @@ import { catchError, map } from 'rxjs/operators';
   providedIn: 'root'
 })
 export class ServicePropertyService {
-  propertiesUrl:string = 'http://localhost:3000/';
+  propertiesUrl:string = 'http://localhost:3000/properties';
 
   constructor( private http:HttpClient ) { }
 
   //GetProperties
-  getProperties():Observable<Property[]>
+  getProperties( rentFlag: boolean ):Observable<Property[]>
   {
-    return this.http.get<Property[]>( `${this.propertiesUrl}` ).pipe( map( propertyArr => {
+    return this.http.get<Property[]>( `${this.propertiesUrl}/rentFlag/${rentFlag}` ).pipe( map( propertyArr => {
+      
       return propertyArr.map( property => {
         return new Property().deserialize( property ); 
       });
     }));
   }
 
-  getProperty(propertyID):Observable<Property>
+  getProperty( propertyID ):Observable<Property>
   {
-    return this.http.get<Property>(`${this.propertiesUrl}property/${propertyID}`).pipe( map( property => {
+    return this.http.get<Property>(`${this.propertiesUrl}/Id/${propertyID}`).pipe( map( property => {
       return new Property().deserialize( property );
     }));
   }
 
-  putProperty( property:Property, files: Array<File> )
+  putProperty( property:Property, files: Array<File> ):Observable<any>
   {
     property = new Property().deserialize( property );
+    console.log(property);
+    
     const formData = new FormData( );
-    Object.keys(property).forEach( key => {
-      formData.append( key, property[key]);
-    } );
-    console.log( JSON.stringify(formData) );
+    formData.append( 'data', JSON.stringify( property ) );
+    
     files.forEach( file => {      
       formData.append('pic', file)
     });
-    this.http.post(`${this.propertiesUrl}property/`, formData ).subscribe( data => {
-      console.log("Post successful", data);
-    }, error => {
-      console.log("Error:", error );
-    } );
+
+    return this.http.put(`${this.propertiesUrl}`, formData );
   }
 
   putPicture( fileToUpload: File )
@@ -59,12 +57,18 @@ export class ServicePropertyService {
     } );
   }
 
-  editProperty( property: Property, propertyID):Observable<any>{
-    return this.http.post(`${this.propertiesUrl}property/edit/${propertyID}`, property);
+  editProperty( property: Property, files: File[] ):Observable<any>{
+    
+    const formData = new FormData();
+    formData.append( 'data', JSON.stringify( property ) );
+    files.forEach( file => {
+      formData.append( 'pic', file );
+    });
+    return this.http.put(`${this.propertiesUrl}/update/`, formData);
   }
 
-  deleteProperty( propertyID ):Observable<any>{
-    return this.http.post(`${this.propertiesUrl}property/delete`, propertyID).pipe( catchError( this.errorHandler ) );
+  deleteProperty( propertyId ):Observable<any>{
+    return this.http.post(`${this.propertiesUrl}/delete`, propertyId).pipe( catchError( this.errorHandler ) );
   }
 
   errorHandler( error: HttpErrorResponse ){

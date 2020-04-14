@@ -5,7 +5,6 @@ export default function makeGetByIdProperty({ findOneByIdProperty }: { findOneBy
     return async function getByIdProperty( httpRequest: Request ) {
         try {
             const propertyId  = httpRequest.params.propertyId;
-            console.log(propertyId);
             const property = await findOneByIdProperty( propertyId );
             
             return {
@@ -13,7 +12,7 @@ export default function makeGetByIdProperty({ findOneByIdProperty }: { findOneBy
                     'Content-Type': 'application/json'
                 },
                 statusCode: 201,
-                body: { property }
+                body: property
             }
         } catch (error) {            
             return errorResponse( error );

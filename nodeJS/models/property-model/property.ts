@@ -1,8 +1,11 @@
+import { ObjectID } from "mongodb";
+
 export default function buildMakeProperty(){
     return function makeProperty({
-        _id = '',
+        _id = new ObjectID(),
         title = '',
         address = '',
+        area = '',
         price = 0,
         rooms = 0,
         type = '',
@@ -12,13 +15,14 @@ export default function buildMakeProperty(){
         publisherId = '',
         picturesNames = Array<string>(),
         picturesUrl = Array<any>(),
-        rentFlag = true
-    } = {}) {
+        rentFlag = new Boolean()
+    }) {
 
         return Object.freeze({
             getId: () => _id,
             getTitle: () => title,
             getAddress: () => address,
+            getArea: () => area,
             getPrice: () => price,
             getRooms: () => rooms,
             getType: () => type,
