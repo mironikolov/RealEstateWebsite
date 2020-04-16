@@ -5,7 +5,15 @@ var storage = multer.diskStorage(
     {
         destination: ( req, file, path ) => {
             if( file.mimetype === 'image/jpeg' || file.mimetype === 'image/png' || file.mimetype === 'image/jpg'){
-                path( null, `Images/temp`);
+                //if there is _id in data, add to folder else add to temp
+                const id = JSON.parse(req.body.data)._id;
+                if (id == 'undefined' || id == null) {
+                    path( null, `Images/temp`);
+                }
+                else {
+                    path( null, `Images/${id}`);
+                }
+                
             }
             else{
                 path( Error('file not supported'), `Images/err` )
@@ -18,5 +26,4 @@ var storage = multer.diskStorage(
 );
 
 var uploadPicture = multer({ storage:storage });
-//module.exports = uploadPicture;
 export default uploadPicture;

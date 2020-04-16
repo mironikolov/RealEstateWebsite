@@ -188,5 +188,11 @@ export class PublishEditPropertyFormComponent implements OnInit {
       });
     });
   }
+
+  onDeletePicturesClicked(){
+    this.files = new Array<File>();
+    this.imagesUrlArr = new Array<SafeUrl>();
+    this.propertyToPublish.picturesNames = new Array<string>();
+  }
   
 }

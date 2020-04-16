@@ -143,15 +143,16 @@
                 </div>
 
                 <div class="form-group row">
-                    <label class="col-12" for="file">Качване на снимка</label>
+                    <label class="col-12" for="file">Качване на снимки</label>
 
                     <app-picture-gallery [setImagesUrlArr]='imagesUrlArr' [setPictureRowItems]="pictureRowItems"> </app-picture-gallery>
                     
                     <input type="file"
                             id="file"
-                            class="col-12"
+                            class="col-6 btn btn-primary"
                             name="pic"
                             (change)="handleFileInput($event.target.files)">
+                    <button class = "col-6 btn btn-danger" (click)="onDeletePicturesClicked()"> Премахване на снимки </button>
                 </div>
 
             </div>

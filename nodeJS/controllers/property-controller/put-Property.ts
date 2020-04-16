@@ -8,7 +8,7 @@ export default function makePutProperty({ insertProperty }: { insertProperty: an
             const {...propertyInfo }  = JSON.parse( httpRequest.body.data );
             const property = await insertProperty( propertyInfo );
             
-            await fileSystem.addPicturesToProperty( property.insertedId );
+            await fileSystem.addPictures( property.insertedId );
             
             return {
                 headers: {
