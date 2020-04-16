@@ -4,7 +4,12 @@
     
     <div class="row">
         <div class="col">
-            <app-property-list></app-property-list>
+            <ng-template [ngIf]="component === 'rent'">
+                <app-property-list [setRentFlag]='true' ></app-property-list>
+            </ng-template>
+            <ng-template [ngIf]="component === 'buy'">
+                <app-property-list [setRentFlag]='false'></app-property-list>
+            </ng-template>
         </div>
     </div>
 

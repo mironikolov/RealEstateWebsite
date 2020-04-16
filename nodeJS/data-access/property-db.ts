@@ -13,8 +13,8 @@ export default function makePropertiesDb( makeDb: Promise<mongodb.Db> ){
 
     async function findAllByRentFlag( RentFlag: boolean ){
         const db = await makeDb;
+        RentFlag = (String(RentFlag) == "true");
         
-        RentFlag = Boolean(RentFlag);
         const result = await db.collection( 'properties' ).find({ rentFlag: RentFlag }).toArray();
         
         return result;

@@ -15,7 +15,11 @@ const routes: Routes = [
     path:'welcome', component: WelcomePageComponent
   },
   {
-    path:'properties', component: HomeComponent
+    path:'home',
+    children: [
+      { path: 'buy', component: HomeComponent, data: { component: 'buy' }},
+      { path: 'rent', component: HomeComponent, data: { component: 'rent' }}
+    ]
   },
   {
     path:'property',

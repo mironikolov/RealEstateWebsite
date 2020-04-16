@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
 import { Property } from '../../Models/propertyModel'
 import { ServicePropertyService } from '../../Services/propertyService/service-property.service'
 import { PropertyImageService } from '../../Services/propertyImage/property-image.service'
@@ -16,6 +16,11 @@ export class PropertyListComponent implements OnInit {
   pageSize:number = 2;
   page:number = 0;
 
+  rentFlag:boolean = true;
+  @Input() set setRentFlag( flag: boolean ){
+    this.rentFlag = flag
+  }
+
   constructor( private propertyService:ServicePropertyService,
    private propertyImageService:PropertyImageService,
    private sanitizer: DomSanitizer ) { }
@@ -25,8 +30,7 @@ export class PropertyListComponent implements OnInit {
   }
 
   refreshPropertiesArr():void{
-    this.propertyService.getProperties( true ).subscribe( 
-      
+    this.propertyService.getProperties( this.rentFlag ).subscribe( 
       properties => {
         this.propertiesArray = properties;;
       },
