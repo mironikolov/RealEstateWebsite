@@ -23,9 +23,10 @@ export default function makeUsersDb( makeDb: Promise<mongodb.Db> ) {
         return result;
     }
 
-    async function login({ username, password }: { username: string, password: string }) {
+    //todo: Change to email
+    async function login({ username }: { username: string }) {
         const db = await makeDb;
-        const result = await db.collection( 'users' ).findOne({ 'username': username, 'password': password });
+        const result = await db.collection( 'users' ).findOne({ 'username': username });
 
         return result;
     }
