@@ -15,7 +15,7 @@ export class ServicePropertyService {
   //GetProperties
   getProperties( rentFlag: boolean ):Observable<Property[]>
   {
-    return this.http.get<Property[]>( `${this.propertiesUrl}/rentFlag/${rentFlag}` ).pipe( map( propertyArr => {
+    return this.http.get<Property[]>( `${this.propertiesUrl}/rentFlag/${rentFlag}`, { withCredentials: true } ).pipe( map( propertyArr => {
       
       return propertyArr.map( property => {
         return new Property().deserialize( property ); 
@@ -42,9 +42,10 @@ export class ServicePropertyService {
       formData.append('pic', file)
     });
 
-    return this.http.put(`${this.propertiesUrl}`, formData );
+    return this.http.put(`${this.propertiesUrl}`, formData, { withCredentials: true } );
   }
 
+  //todo: move to picture service maybe
   putPicture( fileToUpload: File )
   {
     const formData: FormData = new FormData();
@@ -64,11 +65,11 @@ export class ServicePropertyService {
     files.forEach( file => {
       formData.append( 'pic', file );
     });
-    return this.http.put(`${this.propertiesUrl}/update/`, formData);
+    return this.http.put(`${this.propertiesUrl}/update/`, formData, { withCredentials: true });
   }
 
   deleteProperty( propertyId ):Observable<any>{
-    return this.http.post(`${this.propertiesUrl}/delete`, propertyId).pipe( catchError( this.errorHandler ) );
+    return this.http.post(`${this.propertiesUrl}/delete`, propertyId, { withCredentials: true }).pipe( catchError( this.errorHandler ) );
   }
 
   errorHandler( error: HttpErrorResponse ){

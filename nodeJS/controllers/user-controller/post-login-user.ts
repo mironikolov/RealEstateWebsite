@@ -7,7 +7,8 @@ export default function makePostLoginUser({ loginUser }: { loginUser: any }) {
         try {
             const userInfo = httpRequest.body;
             const result = await loginUser({ ...userInfo });
-            if( await bcrypt.compare( userInfo.password, result.password ) ){
+            if( await bcrypt.compare( userInfo.password, result.password ) && httpRequest.session ){
+                httpRequest.session.user = result
                 return{
                     headers: {
                         'Content-Type': 'application/json',

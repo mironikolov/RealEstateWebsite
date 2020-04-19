@@ -16,7 +16,7 @@ export class LogInService {
 
 
   logInUser( user: User ):Observable<void>{
-    return this.http.post<User>(`${this.propertiesUrl}users/login`, user )
+    return this.http.post<User>(`${this.propertiesUrl}users/login`, user, { withCredentials: true } )
     .pipe( map( user => {
       localStorage.setItem( 'currentUser', JSON.stringify( user ) );
       this.currentUser=user;
@@ -34,7 +34,11 @@ export class LogInService {
     return true;
   }
 
+  //todo req to server
   logOff(){
     localStorage.clear();
+    this.http.post(`${this.propertiesUrl}users/logout`, null, { withCredentials: true }).subscribe( null, err => {
+      console.log(err);
+    } );
   }
 }
