@@ -20,7 +20,8 @@ import { AgmCoreModule } from '@agm/core';
 import { environment } from '../environments/environment';
 import { LogInModalComponent } from './Components/log-in-modal/log-in-modal.component';
 import { SignInModalComponent } from './Components/sign-in-modal/sign-in-modal.component';
-import { PictureGalleryComponent } from './Components/picture-gallery/picture-gallery.component'
+import { PictureGalleryComponent } from './Components/picture-gallery/picture-gallery.component';
+import { GalleryDirective } from './Components/picture-gallery/gallery.directive'
 
 @NgModule({
   declarations: [
@@ -37,7 +38,8 @@ import { PictureGalleryComponent } from './Components/picture-gallery/picture-ga
     LogInModalComponent,
     SignInModalComponent,
     PropertyListItemDialogComponent,
-    PictureGalleryComponent
+    PictureGalleryComponent,
+    GalleryDirective
   ],
   imports: [
     BrowserModule,

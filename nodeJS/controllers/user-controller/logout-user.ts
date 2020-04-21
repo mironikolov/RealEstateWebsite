@@ -3,7 +3,6 @@ import { Request, Response } from 'express';
 
 export default function logoutUser() {
     return ( req: Request, res: Response ) => {
-        console.log("logout");
         
         if ( !req.session ) {
             return res.status(500);

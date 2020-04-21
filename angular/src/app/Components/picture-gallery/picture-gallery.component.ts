@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, ElementRef } from '@angular/core';
+import { Component, OnInit, Input, ElementRef, HostListener } from '@angular/core';
 import { SafeUrl } from '@angular/platform-browser';
 
 @Component({
@@ -9,6 +9,7 @@ import { SafeUrl } from '@angular/platform-browser';
 export class PictureGalleryComponent implements OnInit {
   fileToUpload: File = null;
   math = Math;
+  index: number = 0;
 
   imagesUrlArr = new Array<SafeUrl>();
   @Input() set setImagesUrlArr( imagesUrlArr: [SafeUrl] ){
@@ -29,6 +30,6 @@ export class PictureGalleryComponent implements OnInit {
   }
 
   onImageClick( e ){
+    this.index = e.srcElement.dataset.arrayIndex
   }
-
 }

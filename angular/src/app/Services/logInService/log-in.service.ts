@@ -34,11 +34,11 @@ export class LogInService {
     return true;
   }
 
-  //todo req to server
   logOff(){
     localStorage.clear();
     this.http.post(`${this.propertiesUrl}users/logout`, null, { withCredentials: true }).subscribe( null, err => {
       console.log(err);
     } );
+    window.location.reload();
   }
 }

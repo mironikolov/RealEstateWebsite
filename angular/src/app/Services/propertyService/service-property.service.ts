@@ -3,6 +3,8 @@ import { Observable, pipe, throwError } from 'rxjs';
 import { Property } from '../../Models/propertyModel';
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { catchError, map } from 'rxjs/operators';
+import sessionErrorHandler from '../session-errorHandler';
+import { LogInService } from '../logInService/log-in.service';
 
 @Injectable({
   providedIn: 'root'
@@ -10,17 +12,18 @@ import { catchError, map } from 'rxjs/operators';
 export class ServicePropertyService {
   propertiesUrl:string = 'http://localhost:3000/properties';
 
-  constructor( private http:HttpClient ) { }
+  constructor( private http:HttpClient, private loginService: LogInService ) { }
 
   //GetProperties
   getProperties( rentFlag: boolean ):Observable<Property[]>
   {
-    return this.http.get<Property[]>( `${this.propertiesUrl}/rentFlag/${rentFlag}`, { withCredentials: true } ).pipe( map( propertyArr => {
-      
+    return this.http.get<Property[]>( `${this.propertiesUrl}/rentFlag/${rentFlag}`, { withCredentials: true } )
+    .pipe( 
+      map( propertyArr => {
       return propertyArr.map( property => {
         return new Property().deserialize( property ); 
       });
-    }));
+    }), catchError( sessionErrorHandler( this.loginService ) ));
   }
 
   getProperty( propertyID ):Observable<Property>
@@ -42,7 +45,7 @@ export class ServicePropertyService {
       formData.append('pic', file)
     });
 
-    return this.http.put(`${this.propertiesUrl}`, formData, { withCredentials: true } );
+    return this.http.put(`${this.propertiesUrl}`, formData, { withCredentials: true } ).pipe( catchError( sessionErrorHandler( this.loginService ) ) );
   }
 
   //todo: move to picture service maybe
@@ -65,14 +68,11 @@ export class ServicePropertyService {
     files.forEach( file => {
       formData.append( 'pic', file );
     });
-    return this.http.put(`${this.propertiesUrl}/update/`, formData, { withCredentials: true });
+    return this.http.put(`${this.propertiesUrl}/update/`, formData, { withCredentials: true }).pipe( catchError( sessionErrorHandler( this.loginService ) ) );
   }
 
   deleteProperty( propertyId ):Observable<any>{
-    return this.http.post(`${this.propertiesUrl}/delete`, propertyId, { withCredentials: true }).pipe( catchError( this.errorHandler ) );
+    return this.http.post(`${this.propertiesUrl}/delete`, propertyId, { withCredentials: true }).pipe( catchError( sessionErrorHandler( this.loginService ) ) );
   }
 
-  errorHandler( error: HttpErrorResponse ){
-    return throwError(`Error:${error.message}`);
-  }
 }
