@@ -9,11 +9,11 @@
                         <mat-card-header >
                             <mat-card-title>
                                 <h3 >{{ property?.title }}</h3>
-                                <button *ngIf="currentUser?._id == publisher?._id"
+                                <button *ngIf="(currentUser?._id == publisher?._id || currentUser?.adminFlag == 'true')"
                                  class=" btn btn-primary" 
                                  [routerLink]="['/property', property?._id, 'edit']"> Редактиране </button>
 
-                                 <button *ngIf="currentUser?._id == publisher?._id"
+                                 <button *ngIf="(currentUser?._id == publisher?._id || currentUser?.adminFlag == 'true')"
                                  class=" btn btn-danger" 
                                  (click)="openConfirmDialog()"
                                  id="deleteBtn"> Изтриване </button>
@@ -24,59 +24,66 @@
                         </mat-card-header>
                     </div>
                 </div>
-           
+
+                <!-- Property information  -->
+                <hr class="clearfix w-100 d-md-none">
                 <div class="row">
-                     
-                    <div class="col-10">
+                    <div class="col-sm-2">
+                       <mat-card-content>
+                           <h6> Price: {{ property?.price }} &euro;</h6>
+                           <h6> Rooms: {{ property?.rooms }} </h6>
+                           <h6> area: {{ property?.area }} </h6>
+                           <h6> type: {{ property?.type }} </h6>
+                       </mat-card-content>
+                   </div>
+                     <div class="col-sm-10">
+                        <mat-card-content>
+                            <p> {{ property?.extraInfo }} </p>
+    
+                            <hr class="clearfix w-100 d-md-none" *ngIf="property?.tags">
+    
+                            <mat-list *ngFor="let tag of property?.tags">
+                                    <mat-list-item *ngIf="!tag; else nullTag"> {{ tag }} </mat-list-item>
+                                    <ng-template #nullTag> Empty tags </ng-template>
+                            </mat-list>
+                        </mat-card-content>
+                    </div>
+                </div>
+                    
+                <!-- Gallery and Google maps  -->
+                <hr class="clearfix w-100 d-md-none">
+                <div class="row">
+                    
+                    <div class="col-sm">
                         <app-picture-gallery [setImagesUrlArr]='property?.picturesURL'></app-picture-gallery>
-                        
-                        <div >
-                            
-                            <mat-card-content>
-                               
-                                <p> {{ property?.extraInfo }} </p>
-
-                                <hr class="clearfix w-100 d-md-none" *ngIf="property?.tags">
-
-                                <mat-list *ngFor="let tag of property?.tags">
-                                        <mat-list-item *ngIf="!tag; else nullTag"> {{ tag }} </mat-list-item>
-                                        <ng-template #nullTag> Empty tags </ng-template>
-                                </mat-list>
-                            </mat-card-content>
-
-                            <hr class="clearfix w-100 d-md-none">
-                            
-                            <agm-map [latitude]='latitude' [longitude]='longitude' (mapClick)="onChoseLocation($event)" [zoom]='zoom'>
-                                <agm-marker [latitude]='markerLatitude' [longitude]='markerLongitude' ></agm-marker>
-                            </agm-map>
-
-                            <hr class="clearfix w-100 d-md-none">
-
-                            <mat-card-content>
-                                <h5>Publisher: {{ publisher?.username}}</h5>
-                                <h6>email: {{ publisher?.email }}</h6>
-                                <h6>phone: {{ publisher?.phoneNumber }}</h6>
-                            </mat-card-content>
-
-                        </div>
-                        
                     </div>
 
                     <hr class="clearfix w-100 d-md-none">
 
-                    <div class="col-sm-2">
-                        <mat-card-content>
-                            <h6> Price: {{ property?.price }} &euro;</h6>
-                            <h6> Rooms: {{ property?.rooms }} </h6>
-                            <h6> area: {{ property?.area }} </h6>
-                            <h6> type: {{ property?.type }} </h6>
-                        </mat-card-content>
-                        
+                    <div class="col-sm">
+                        <agm-map [latitude]='latitude' [longitude]='longitude' (mapClick)="onChoseLocation($event)" [zoom]='zoom'>
+                            <agm-marker [latitude]='markerLatitude' [longitude]='markerLongitude' ></agm-marker>
+                        </agm-map>
                     </div>
-                </div> 
+                </div>
 
+                <!-- Publisher info  -->
                 <hr class="clearfix w-100 d-md-none">
+                <div class="row">
+                    <div class="col" [routerLink]="['/user', publisher?._id]" >
+                        <h5>Publisher: {{ publisher?.username}}</h5>
+                        <h6>email: {{ publisher?.email }}</h6>
+                        <h6>phone: {{ publisher?.phoneNumber }}</h6>
+                    </div>
 
+                    <div class="col">
+                        <app-user-rating [setUserId]='publisher?._id'></app-user-rating>
+                    </div>
+
+                </div>
+                
+                <!-- Upload info  -->
+                <hr class="clearfix w-100 d-md-none">
                 <div class="row"> 
                     <div class="col">
                         <mat-card-content>

@@ -12,7 +12,7 @@ export default function makeGetByPublisherId({ findAllByPublisherIdProperty }: {
                     'Content-Type': 'application/json'
                 },
                 statusCode: 201,
-                body: { property }
+                body:  property 
             }
         } catch (error) {            
             return errorResponse( error );

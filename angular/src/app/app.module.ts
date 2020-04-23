@@ -21,7 +21,11 @@ import { environment } from '../environments/environment';
 import { LogInModalComponent } from './Components/log-in-modal/log-in-modal.component';
 import { SignInModalComponent } from './Components/sign-in-modal/sign-in-modal.component';
 import { PictureGalleryComponent } from './Components/picture-gallery/picture-gallery.component';
-import { GalleryDirective } from './Components/picture-gallery/gallery.directive'
+import { GalleryDirective } from './Components/picture-gallery/gallery.directive';
+import { UserRatingComponent } from './Components/user-rating/user-rating.component';
+import { UserInfoComponent } from './Components/user-info/user-info.component'
+import { NgBootstrapModule } from './Modules/material/ng-bootstrap.module';
+
 
 @NgModule({
   declarations: [
@@ -39,7 +43,9 @@ import { GalleryDirective } from './Components/picture-gallery/gallery.directive
     SignInModalComponent,
     PropertyListItemDialogComponent,
     PictureGalleryComponent,
-    GalleryDirective
+    GalleryDirective,
+    UserRatingComponent,
+    UserInfoComponent
   ],
   imports: [
     BrowserModule,
@@ -51,7 +57,8 @@ import { GalleryDirective } from './Components/picture-gallery/gallery.directive
     ReactiveFormsModule,
     AgmCoreModule.forRoot({
       apiKey: environment.apiKey
-    })
+    }),
+    NgBootstrapModule
   ],
   providers: [],
   bootstrap: [AppComponent],

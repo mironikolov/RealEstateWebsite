@@ -6,6 +6,7 @@ import { PageNotFoundComponent } from './Components/page-not-found/page-not-foun
 import { WelcomePageComponent } from './Components/welcome-page/welcome-page.component'
 import { PublishEditPropertyFormComponent } from './Components/publish-edit-property-form/publish-property-form.component'
 import { LogInModalComponent } from './Components/log-in-modal/log-in-modal.component'
+import { UserInfoComponent } from './Components/user-info/user-info.component';
 
 const routes: Routes = [
   {
@@ -27,6 +28,9 @@ const routes: Routes = [
       { path: ':id', component: PropertyListItemComponent },
       { path: ':id/edit', component: PublishEditPropertyFormComponent, data: { edit: true } }
     ]
+  },
+  {
+    path:'user/:id', component: UserInfoComponent
   },
   {
     path:'publishForm', component: PublishEditPropertyFormComponent, data: { edit: false }

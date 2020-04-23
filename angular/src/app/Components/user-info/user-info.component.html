@@ -1,0 +1,24 @@
+<app-navbar></app-navbar>
+
+<div class="container">
+  <div class="row">
+    <mat-card class="col">
+      <div class="row">
+        <h1> Информация за потребител </h1>
+      </div>
+      <div class="row">
+        <div class="col">
+          <h3>{{user?.username}}</h3>
+          <h3>{{user?.email}}</h3>
+          <h3>{{user?.phoneNumber}}</h3>
+        </div>
+        <div class="col">
+          <app-user-rating [setUserId]='user?._id'></app-user-rating>
+        </div>
+      </div>
+    </mat-card>
+  </div>
+  <app-property-list [setPublisherId]='user?._id'></app-property-list>
+</div>
+
+<app-footer></app-footer>

@@ -42,6 +42,7 @@ export class PropertyListItemComponent implements OnInit {
       this.property=property;
       this.property.picturesURL = this.propertyImageService.getPropertyImagesUrl( property );
       this.userService.getUser(property.publisherId).subscribe( ( user ) => {
+        
         this.publisher=user;
       });
 

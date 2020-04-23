@@ -17,6 +17,6 @@ export default function createHandleSessionError ( loginService:LogInService ){
             return throwError( "Session expired" );
         }
     
-        return throwError( "Not logged-in" );
+        return throwError( `Not logged-in or ${error}` );
     }
 }

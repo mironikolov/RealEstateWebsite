@@ -6,7 +6,7 @@ import makeRatingsDb from './rating-db';
 
 const MongoClient = mongodb.MongoClient;
 const url = environment.DB_URL;
-const client = new MongoClient( url, { useNewUrlParser: true } );
+const client = new MongoClient( url, { useNewUrlParser: true, useUnifiedTopology: true } );
 
 async function makeDb(){
     
@@ -14,10 +14,11 @@ async function makeDb(){
 
         await client.connect();
     }
+    
     return client.db( environment.DB_NAME );
 }
 
-const usersDb = makeUsersDb( makeDb() );
-const propertiesDb = makePropertiesDb( makeDb() );
-const ratingsDb = makeRatingsDb( makeDb() );
+const usersDb = makeUsersDb( makeDb );
+const propertiesDb = makePropertiesDb( makeDb );
+const ratingsDb = makeRatingsDb( makeDb );
 export default { usersDb, propertiesDb, ratingsDb };

@@ -5,9 +5,14 @@ export default function makePostRating( insertRating = ratingService.insertRatin
     return async function postRating ( httpRequest: Request, httpResponse: Response ){
         try {
             const ratingInfo = httpRequest.body;
-            const result = await insertRating( { userToRateId: ratingInfo.userToRateId, userId: ratingInfo.userId, rating: ratingInfo.rating } );
+            
+            const UserId = httpRequest.session?.user._id;
+            if ( UserId == undefined ) {
+                throw Error('Session error');
+            }
+            await insertRating( { userToRateId: ratingInfo.userToRateId, userId: UserId, rating: ratingInfo.rating } );
  
-            return httpResponse.status( 201 ).send("Rating added");
+            return httpResponse.status( 201 ).send({ message: "Rating added"});
         } catch ( error ) {
             return httpResponse.status( 500 );
         }

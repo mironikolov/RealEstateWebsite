@@ -11,7 +11,8 @@ export default function makeAddUser( { usersDb = UsersDb } ) {
             password: user.getPassword(),
             email: user.getEmail(),
             phoneNumber: user.getPhoneNumber(),
-            createdOn: user.getCreatedOn()
+            createdOn: user.getCreatedOn(),
+            adminFlag: user.getAdminFlag()
         });
     }
 }

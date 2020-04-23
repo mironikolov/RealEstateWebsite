@@ -7,7 +7,8 @@ export default function buildMakeUser({ emailValidator = EmailValidator }){
         password = '',
         email = '',
         phoneNumber = '',
-        createdOn = Date.now()
+        createdOn = Date.now(),
+        adminFlag = false
     } = {}) {
         //if ( !Id.isValidId( id ) ) {
           //  throw new Error( 'User must have valid id.' );
@@ -39,7 +40,8 @@ export default function buildMakeUser({ emailValidator = EmailValidator }){
             getPassword: () => password,
             getEmail: () => email,
             getPhoneNumber: () => phoneNumber,
-            getCreatedOn: () => createdOn
+            getCreatedOn: () => createdOn,
+            getAdminFlag: () => adminFlag
         });
     };
 }

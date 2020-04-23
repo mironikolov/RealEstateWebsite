@@ -5,9 +5,13 @@ export default function makePutRating( updateRating = ratingService.updateRating
     return async function putRating ( httpRequest: Request, httpResponse: Response ){
         try {
             const ratingInfo = httpRequest.body;
-            const result = await updateRating( { userToRateId: ratingInfo.userToRateId, userId: ratingInfo.userId, rating: ratingInfo.rating } );
+            const UserId = httpRequest.session?.user._id;
+            if ( UserId == undefined ) {
+                throw Error('Session error');
+            }
+            await updateRating( { userToRateId: ratingInfo.userToRateId, userId: UserId, rating: ratingInfo.rating } );
  
-            return httpResponse.status( 201 ).send("Rating updated");
+            return httpResponse.status( 201 ).send({ message: "Rating updated"});
         } catch ( error ) {
             return httpResponse.status( 500 );
         }

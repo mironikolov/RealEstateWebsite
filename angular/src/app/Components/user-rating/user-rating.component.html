@@ -1,0 +1,13 @@
+<div class="rating">
+    <button type="button" class="btn btn-secondary disabled">
+        Оценка: {{averageRating}}
+    </button>
+
+    <ng-template #popContent>
+        <input type="range" name="rating" min="1" max="10" (change)='onRangeChange($event)'>
+    </ng-template>
+    <button type="button" class="btn btn-outline-secondary" [ngbPopover]="popContent" placement="left">
+        Вие: {{rangeValue}}
+    </button>
+</div>
+

@@ -3,7 +3,7 @@ import userController, { getUser, postLoginUser, postUser, logoutUser, middlewar
 import { getByPublisherId, putProperty, getByRentFlagProperty, getByIdProperty, putUpdateProperty, deleteProperty } from './controllers/property-controller';
 import makeCallback from './express-callback';
 import { getPicture } from './controllers/pictures-controller';
-import { postRating, putRating, getAverageRating } from './controllers/rating-controller';
+import { postRating, putRating, getAverageRating, getUserRating } from './controllers/rating-controller';
 
 const port = 3000 || process.env.port;
 var app = express();
@@ -26,8 +26,9 @@ app.post( '/properties/delete', middlewares.authUser, makeCallback( deleteProper
 
 app.get( '/pictures/:propertyId/:pictureName', getPicture );
 
-app.post( '/rating/insert', ( req, res ) => postRating( req, res ) );
-app.put( '/rating/update', ( req, res ) => putRating( req, res ) );
+app.post( '/rating/insert', middlewares.authUser, ( req, res ) => postRating( req, res ) );
+app.put( '/rating/update', middlewares.authUser, ( req, res ) => putRating( req, res ) );
 app.get( '/rating/averageRating/:userId', ( req, res ) => getAverageRating( req, res ) );
+app.get( '/rating/userRating/:ratedUserId', middlewares.authUser, ( req, res ) => getUserRating( req, res ) );
 
 app.listen(port, () => console.log( `Listening on port: ${port}` ));

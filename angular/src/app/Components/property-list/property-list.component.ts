@@ -16,9 +16,17 @@ export class PropertyListComponent implements OnInit {
   pageSize:number = 2;
   page:number = 0;
 
-  rentFlag:boolean = true;
+  rentFlag:boolean;
   @Input() set setRentFlag( flag: boolean ){
     this.rentFlag = flag
+    this.refreshPropertiesArr();
+  }
+
+  publisherId: string;
+  @Input() set setPublisherId( id: string ){
+    this.publisherId = id;
+    this.refreshPropertiesArr();
+    
   }
 
   constructor( private propertyService:ServicePropertyService,
@@ -26,20 +34,35 @@ export class PropertyListComponent implements OnInit {
    private sanitizer: DomSanitizer ) { }
 
   ngOnInit() {
-    this.refreshPropertiesArr();
   }
 
   refreshPropertiesArr():void{
-    this.propertyService.getProperties( this.rentFlag ).subscribe( 
-      properties => {
-        this.propertiesArray = properties;;
-      },
-       error => console.log(error),
-       ()=>{
-         this.setPropertyPictures();
-         this.propertiesArrayFiltered = this.propertiesArray;
-        }
-    );
+    if ( this.rentFlag != null) {
+      this.propertyService.getProperties( this.rentFlag ).subscribe( 
+        properties => {
+          this.propertiesArray = properties;;
+        },
+         error => console.log(error),
+         ()=>{
+           this.setPropertyPictures();
+           this.propertiesArrayFiltered = this.propertiesArray;
+          }
+      );
+    }
+
+    if ( this.publisherId != null) {
+      this.propertyService.getPropertiesByPublisherId( this.publisherId ).subscribe( 
+        properties => {
+          this.propertiesArray = properties;;
+        },
+         error => console.log(error),
+         ()=>{
+           this.setPropertyPictures();
+           this.propertiesArrayFiltered = this.propertiesArray;
+          }
+      );
+    }
+
   }
 /////////////////////////////////////////
 
@@ -65,7 +88,6 @@ export class PropertyListComponent implements OnInit {
 
   filterFormSubmit(e){
 
-    console.log(e.srcElement.elements[0].value);
     this.propertiesArrayFiltered = this.propertiesArray.filter( property => {
       if( property.type != e.srcElement.elements[0].value ){
         return false;
@@ -77,6 +99,6 @@ export class PropertyListComponent implements OnInit {
 
       return true;
     });
-    console.log( this.propertiesArray );
+
   }
 }

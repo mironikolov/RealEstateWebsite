@@ -26,6 +26,17 @@ export class ServicePropertyService {
     }), catchError( sessionErrorHandler( this.loginService ) ));
   }
 
+  getPropertiesByPublisherId( publisherId: string ): Observable<Property[]>
+  {
+    return this.http.get<Property[]>( `${this.propertiesUrl}/publisherId/${publisherId}` )
+    .pipe( 
+      map( propertyArr => {
+      return propertyArr.map( property => {
+        return new Property().deserialize( property ); 
+      });
+    }), catchError( sessionErrorHandler( this.loginService ) ));
+  }
+
   getProperty( propertyID ):Observable<Property>
   {
     return this.http.get<Property>(`${this.propertiesUrl}/Id/${propertyID}`).pipe( map( property => {
