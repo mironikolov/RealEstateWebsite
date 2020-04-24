@@ -6,7 +6,8 @@ export default function makeRatingDb( makeDb: () => Promise<mongodb.Db> ){
         insert,
         update,
         averageRating,
-        userRating
+        userRating,
+        topRated
     });
 
     async function insert( { ...ratingInfo }: { userToRateId: string, userId: string, rating: number } ){
@@ -15,7 +16,7 @@ export default function makeRatingDb( makeDb: () => Promise<mongodb.Db> ){
             const db = await makeDb();
             const rating = {
                 userId: ratingInfo.userId,
-                rating: ratingInfo.rating
+                rating: +ratingInfo.rating
             }
             const collection = db.collection( 'users' );
             const userToRateId = new ObjectId( ratingInfo.userToRateId );
@@ -40,13 +41,14 @@ export default function makeRatingDb( makeDb: () => Promise<mongodb.Db> ){
             const db = await makeDb();
             const rating = {
                 userId: ratingInfo.userId,
-                rating: ratingInfo.rating
+                rating: +ratingInfo.rating
             }
             const collection = db.collection( 'users' );
             const userToRateId = new ObjectId( ratingInfo.userToRateId );
    
             const result = await collection.
             updateOne( { _id: userToRateId , ratings: { $elemMatch: {userId: rating.userId} }}, { $set:{ "ratings.$": rating } } );
+
             return result;
             
         } catch (error) {
@@ -72,6 +74,22 @@ export default function makeRatingDb( makeDb: () => Promise<mongodb.Db> ){
         }
     }
 
+    async function topRated( limit: number ){
+        try {
+            const db = await makeDb();
+            const collection = db.collection( 'users' );
+            const result = await collection
+            .aggregate( [{ $addFields: { "avg_rating": { $avg: "$ratings.rating" } } },
+            { $sort: { avg_rating: -1 }}, { $limit: limit }] ).toArray();
+            
+            console.log(result);
+            
+            return result;
+        } catch (error) {
+            return error;
+        }
+    }
+
     async function userRating( RatedUserId: string, UserId: string ){
         try {
             const db = await makeDb();
@@ -91,4 +109,5 @@ export default function makeRatingDb( makeDb: () => Promise<mongodb.Db> ){
             return error;
         }
     }
+
 }

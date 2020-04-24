@@ -1,0 +1,25 @@
+<ngb-carousel *ngIf="topUsers != undefined" [showNavigationIndicators]="false">
+    <!-- <ng-template ngbSlide>
+        <h1>dsadsa</h1>
+    </ng-template> -->
+    
+    <ng-template ngbSlide *ngFor="let j of ' '.repeat( math.ceil( topUsers.length /carouselItems ) ).split(''); index as i">
+        <div class="row">
+            <div class="col" *ngFor="let user of topUsers | slice: i*carouselItems: i*carouselItems+carouselItems; index as l">
+                <mat-card class="mat-card">
+                    <mat-card-header>
+                        <mat-card-title>
+                            {{ topUsers[carouselItems*i+l].username }}
+                        </mat-card-title>
+                    </mat-card-header>
+                    <h1>Logo</h1>
+                    <mat-card-content>
+                        Rating: {{ topUsers[carouselItems*i+l].avg_rating }}
+                    </mat-card-content>
+                </mat-card>
+            </div>
+            
+        </div>
+    </ng-template>
+
+</ngb-carousel>

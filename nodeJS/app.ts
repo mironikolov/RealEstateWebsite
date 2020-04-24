@@ -3,7 +3,7 @@ import userController, { getUser, postLoginUser, postUser, logoutUser, middlewar
 import { getByPublisherId, putProperty, getByRentFlagProperty, getByIdProperty, putUpdateProperty, deleteProperty } from './controllers/property-controller';
 import makeCallback from './express-callback';
 import { getPicture } from './controllers/pictures-controller';
-import { postRating, putRating, getAverageRating, getUserRating } from './controllers/rating-controller';
+import { postRating, putRating, getAverageRating, getUserRating, getTopRated } from './controllers/rating-controller';
 
 const port = 3000 || process.env.port;
 var app = express();
@@ -16,6 +16,7 @@ app.post( '/users', makeCallback( postUser ) );
 app.post( '/users/login', makeCallback( postLoginUser ) );
 app.get( '/users/:_id', makeCallback( getUser ) );
 app.post( '/users/logout', middlewares.authUser, logoutUser() );
+app.get( '/users/topRated/:limit', ( req, res ) => getTopRated( req, res ) );
 
 app.get( '/properties/publisherId/:publisherId', makeCallback( getByPublisherId ) );
 app.get( '/properties/rentFlag/:rentFlag', middlewares.authUser, makeCallback( getByRentFlagProperty ) ); //authUser for test

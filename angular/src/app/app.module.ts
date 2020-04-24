@@ -25,6 +25,7 @@ import { GalleryDirective } from './Components/picture-gallery/gallery.directive
 import { UserRatingComponent } from './Components/user-rating/user-rating.component';
 import { UserInfoComponent } from './Components/user-info/user-info.component'
 import { NgBootstrapModule } from './Modules/material/ng-bootstrap.module';
+import { TopRatedUsersCarouselComponent } from './Components/top-rated-users-carousel/top-rated-users-carousel.component';
 
 
 @NgModule({
@@ -45,7 +46,8 @@ import { NgBootstrapModule } from './Modules/material/ng-bootstrap.module';
     PictureGalleryComponent,
     GalleryDirective,
     UserRatingComponent,
-    UserInfoComponent
+    UserInfoComponent,
+    TopRatedUsersCarouselComponent
   ],
   imports: [
     BrowserModule,

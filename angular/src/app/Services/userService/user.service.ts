@@ -19,4 +19,8 @@ export class UserService {
   createUser( newUser:User ):Observable<any>{
     return this.http.post(`${this.propertiesUrl}`, newUser);
   }
+
+  getTopRatedUsers( limit: number ): Observable<User[]>{
+    return this.http.get<User[]>( `${this.propertiesUrl}/topRated/${limit}`);
+  }
 }
