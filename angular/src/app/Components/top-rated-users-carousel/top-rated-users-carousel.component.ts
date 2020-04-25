@@ -11,13 +11,13 @@ export class TopRatedUsersCarouselComponent implements OnInit {
   private topUsers: User[];
   private limit: number = 5;
   math = Math;
-  private carouselItems: number = 2;
+  private carouselItems: number = 4;
 
   constructor( private userService: UserService ) { }
 
   ngOnInit() {
     this.userService.getTopRatedUsers( this.limit ).subscribe( data => {
-      console.log(data);
+  
       this.topUsers = data;
     });
   }

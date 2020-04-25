@@ -1,30 +1,13 @@
 <div class="parr" id="banner">
+    <app-navbar> </app-navbar>
+
     <div class="container">
-        <div class="row">
+        <div class="row ">
             <div class="col-6">
-                <h1> Имотикаря </h1>
-            </div>
-            <div class="col-2">
-            </div>
-            <div class="col-4">
-                <button *ngIf="!this.logInService.isLoggedIn()" type="button" class="float-right btn btn-primary" (click)="onLogInButtonClicked()"> Вход </button>
-                <div *ngIf="this.logInService.isLoggedIn()" class="float-right">
-                    Здравейте, {{this.logInService.getUser().username}} <br>
-                    <button  type="button" class="btn btn-primary" (click)="onLogOffButtonClicked()"> Изход </button>
-                </div>
-                
-            </div>
-        </div>
-        <div class="row">
-            <div class="col">
-                <p> „Създаване на трайно богатство чрез недвижими имоти“</p>
-            </div>
-        </div>
-        <div class="row align-center">
-            <div class="col">
                 <!-- <div class="find-home" (click)="onClickScrollDown()">
                     Открий мечтания си дом
                 </div> -->
+                <h2> Топ фирми</h2>
                 <app-top-rated-users-carousel></app-top-rated-users-carousel>
             </div>
         </div>

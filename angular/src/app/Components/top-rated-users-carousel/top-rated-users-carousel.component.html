@@ -1,4 +1,4 @@
-<ngb-carousel *ngIf="topUsers != undefined" [showNavigationIndicators]="false">
+<ngb-carousel *ngIf="topUsers != undefined" [showNavigationIndicators]="false" id="carousel">
     <!-- <ng-template ngbSlide>
         <h1>dsadsa</h1>
     </ng-template> -->
@@ -12,7 +12,7 @@
                             {{ topUsers[carouselItems*i+l].username }}
                         </mat-card-title>
                     </mat-card-header>
-                    <h1>Logo</h1>
+                    <img mat-card-image [src]="topUsers[carouselItems*i+l].picture">
                     <mat-card-content>
                         Rating: {{ topUsers[carouselItems*i+l].avg_rating }}
                     </mat-card-content>

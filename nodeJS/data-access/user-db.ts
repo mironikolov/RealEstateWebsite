@@ -6,10 +6,10 @@ export default function makeUsersDb( makeDb:() => Promise<mongodb.Db> ) {
         findAll,
         findById,
         login,
-        insert
-        //update
+        insert,
+        update
     });
-
+//todo: try/catch
     async function findAll() {
         const db = await makeDb();
         const result = await db.collection( 'users' ).find({}).toArray();
@@ -38,5 +38,20 @@ export default function makeUsersDb( makeDb:() => Promise<mongodb.Db> ) {
             return null;
         }
         return result;
+    }
+
+    async function update( { ...userInfo }) {
+        
+        try {
+            const db = await makeDb();
+            userInfo._id = new ObjectId( userInfo._id );
+            const result = await db.collection( 'users' ).updateOne( {_id: userInfo._id }, { $set: { ...userInfo } } );
+            if ( result.matchedCount === 0 ) {
+                return {};
+            }
+            return result;
+        } catch (error) {
+            return error;
+        }
     }
 }

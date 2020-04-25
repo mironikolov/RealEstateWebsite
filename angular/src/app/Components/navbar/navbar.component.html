@@ -22,13 +22,14 @@
           <a class="nav-link" routerLink="/publishForm">Публикуване</a>
         </li>
         <li class="button">
-            <!-- <button *ngIf="!this.logInService.isLoggedIn()" type="button" class=" btn btn-primary" (click)="onLogInButtonClicked()"> Вход </button> -->
-            <button *ngIf="!this.logInService.isLoggedIn()" type="button" class=" btn btn-primary" (click)="openDialog()"> Вход </button>
+          
+            <button *ngIf="!this.logInService.isLoggedIn()" type="button" class=" btn btn-primary" (click)="onLogInButtonClicked()"> Вход </button>
             <div *ngIf="this.logInService.isLoggedIn()" class="float-right" >
                 <div [routerLink]="['/user', logInService.getUser()?._id]">
                   {{this.logInService.getUser().username}}
                 </div>
-                <button  type="button" class="btn btn-primary" (click)="onLogOffButtonClicked()"> Изход </button>
+                <button type="button" class="btn btn-primary" (click)="onEditButtonClicked()"> Редактиране </button>
+                <button type="button" class="btn btn-danger" (click)="onLogOffButtonClicked()"> Изход </button>
             </div>
         </li>
       </ul>

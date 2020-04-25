@@ -4,9 +4,10 @@ import multer from "multer";
 var storage = multer.diskStorage(
     {
         destination: ( req, file, path ) => {
+            
             if( file.mimetype === 'image/jpeg' || file.mimetype === 'image/png' || file.mimetype === 'image/jpg'){
                 //if there is _id in data, add to folder else add to temp
-                const id = JSON.parse(req.body.data)._id;
+                const id = req.session?.user._id;
                 if (id == 'undefined' || id == null) {
                     path( null, `Images/temp`);
                 }

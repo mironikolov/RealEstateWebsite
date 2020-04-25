@@ -1,5 +1,5 @@
 import express from 'express';
-import userController, { getUser, postLoginUser, postUser, logoutUser, middlewares } from './controllers/user-controller'
+import userController, { getUser, postLoginUser, postUser, logoutUser, middlewares, putUser } from './controllers/user-controller'
 import { getByPublisherId, putProperty, getByRentFlagProperty, getByIdProperty, putUpdateProperty, deleteProperty } from './controllers/property-controller';
 import makeCallback from './express-callback';
 import { getPicture } from './controllers/pictures-controller';
@@ -14,18 +14,19 @@ middlewares.session( app );
 
 app.post( '/users', makeCallback( postUser ) );
 app.post( '/users/login', makeCallback( postLoginUser ) );
-app.get( '/users/:_id', makeCallback( getUser ) );
 app.post( '/users/logout', middlewares.authUser, logoutUser() );
+app.get( '/users/:_id', makeCallback( getUser ) );
 app.get( '/users/topRated/:limit', ( req, res ) => getTopRated( req, res ) );
+app.put( '/users/update', middlewares.authUser, middlewares.userMulter.any(), makeCallback( putUser ) );
 
 app.get( '/properties/publisherId/:publisherId', makeCallback( getByPublisherId ) );
 app.get( '/properties/rentFlag/:rentFlag', middlewares.authUser, makeCallback( getByRentFlagProperty ) ); //authUser for test
 app.get( '/properties/Id/:propertyId', makeCallback( getByIdProperty ) );
-app.put( '/properties', middlewares.authUser, middlewares.multer.any(), makeCallback( putProperty ) );
-app.put( '/properties/update', middlewares.authUser, middlewares.multer.any(), makeCallback( putUpdateProperty ) );
+app.put( '/properties', middlewares.authUser, middlewares.propertyMulter.any(), makeCallback( putProperty ) );
+app.put( '/properties/update', middlewares.authUser, middlewares.propertyMulter.any(), makeCallback( putUpdateProperty ) );
 app.post( '/properties/delete', middlewares.authUser, makeCallback( deleteProperty ) );
 
-app.get( '/pictures/:propertyId/:pictureName', getPicture );
+app.get( '/pictures/:folderId/:pictureName', ( req, res ) => getPicture( req, res ) );
 
 app.post( '/rating/insert', middlewares.authUser, ( req, res ) => postRating( req, res ) );
 app.put( '/rating/update', middlewares.authUser, ( req, res ) => putRating( req, res ) );

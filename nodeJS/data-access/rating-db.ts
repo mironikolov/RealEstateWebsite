@@ -82,8 +82,6 @@ export default function makeRatingDb( makeDb: () => Promise<mongodb.Db> ){
             .aggregate( [{ $addFields: { "avg_rating": { $avg: "$ratings.rating" } } },
             { $sort: { avg_rating: -1 }}, { $limit: limit }] ).toArray();
             
-            console.log(result);
-            
             return result;
         } catch (error) {
             return error;

@@ -1,4 +1,5 @@
 import Rating from './rating';
+import { SafeUrl } from '@angular/platform-browser';
 
 export class User {
     _id: string; 
@@ -9,6 +10,7 @@ export class User {
     createdOn: Date;
     ratings: Array<Rating>;
     adminFlag: boolean;
+    picture: SafeUrl;
 
     User(){
         this._id="null";
@@ -19,5 +21,6 @@ export class User {
         this.createdOn = null;
         this.ratings = null;
         this.adminFlag = false;
+        this.picture = null;
     }
 }

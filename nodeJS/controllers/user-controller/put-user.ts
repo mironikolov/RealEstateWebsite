@@ -1,18 +1,16 @@
 import errorResponse from '../error-response';
 import { Request } from 'express';
 import bcrypt from 'bcrypt';
-import fileSystem from '../../file-system';
 
-export default function makePostUser({ addUser }: { addUser: any }){
-    return async function postUser( httpRequest: Request ) {
+export default function makePutUser({ updateUser }: { updateUser: any }){
+    return async function putUser( httpRequest: Request ) {
+        
       try {
           const userInfo = JSON.parse( httpRequest.body.data );
           const hashedPassword = await bcrypt.hash( userInfo.password, 10 );
           userInfo.password = hashedPassword;
             
-          const posted = await addUser({ ...userInfo });
-
-          await fileSystem.addPictures( posted.insertedId );
+          const posted = await updateUser({ _id: httpRequest.session?.user._id ,...userInfo });
           
           return {
               headers: {

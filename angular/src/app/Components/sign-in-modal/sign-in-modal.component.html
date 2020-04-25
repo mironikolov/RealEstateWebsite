@@ -1,6 +1,7 @@
 
 <form [formGroup]="SignInForm">
-    <h1>Sign Up</h1>
+    <h1 *ngIf="data == null"> Регистрация </h1>
+    <h1 *ngIf="data.edit == true"> Редакция </h1>
     <div class="form-group">
         <label for="signInUsername">Username</label>
         <input type="text" formControlName="username" id="signInUsername" class="form-control">
@@ -44,7 +45,19 @@
         *ngIf="!SignInForm.controls.phone.valid && SignInForm.controls.phone.touched">
         Phone is empty
         </div>
-    </div> 
+    </div>
+    <div class="form-group">
 
-    <button type="submit" class="btn btn-primary" (click)="onSignInButtonClick()">Sign In</button>
+        <input type="file"
+            id="file"
+            class="col-6 btn btn-primary"
+            name="pic"
+            (change)="handleFileInput($event.target.files)">
+        
+        <button class = "col-6 btn btn-danger" (click)="onDeletePicturesClicked()"> Премахване на снимка </button>
+    </div>
+
+
+    <button *ngIf="data == null" type="submit" class="btn btn-primary" (click)="onSignInButtonClick()">Регистрация</button>
+    <button *ngIf="data.edit == true" type="submit" class="btn btn-primary" (click)="onEditButtonClick()">Редакция</button>
 </form>

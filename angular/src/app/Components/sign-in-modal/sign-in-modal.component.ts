@@ -1,8 +1,9 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Inject } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { User } from 'src/app/Models/userModel';
 import { UserService } from '../../Services/userService/user.service'
-import { MatDialogRef } from '@angular/material/dialog';
+import { LogInService } from '../../Services/logInService/log-in.service';
+import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 
 @Component({
   selector: 'app-sign-in-modal',
@@ -12,13 +13,21 @@ import { MatDialogRef } from '@angular/material/dialog';
 export class SignInModalComponent implements OnInit {
   SignInForm:FormGroup;
   newUser:User = new User();
+  userPicture: File;
 
   constructor( private formBuilder: FormBuilder,
     private userService: UserService,
-    private dialogRef:MatDialogRef<SignInModalComponent> ) { }
+    private dialogRef:MatDialogRef<SignInModalComponent>,
+    @Inject(MAT_DIALOG_DATA) private data: any,
+    private logInService: LogInService ) { }
 
   ngOnInit() {
     this.SignInForm = this.generateSignInFrom();
+    if ( this.data.edit ) {
+      const user = this.logInService.getUser();
+      this.SignInForm.patchValue({ username: user.username, email: user.email, phone: user.phoneNumber });
+    }
+    
   }
 
   private generateSignInFrom(): FormGroup {
@@ -70,13 +79,47 @@ export class SignInModalComponent implements OnInit {
       return;
     }
 
+    
     //check response
-    this.userService.createUser( this.newUser ).subscribe( () => {
+    this.userService.createUser( this.newUser, this.userPicture ).subscribe( () => {
       window.alert("User created");
       this.dialogRef.close();
     }, error => {
       console.log( error );
     });
+  }
+
+  onEditButtonClick(){
+    this.newUser.username = this.SignInForm.get('username').value;
+    this.newUser.password = this.SignInForm.get('password').value;
+    this.newUser.email = this.SignInForm.get('email').value;
+    this.newUser.phoneNumber = this.SignInForm.get('phone').value;
+
+    if(this.SignInForm.get('password').value != this.SignInForm.get('repeatPassword').value)
+    {
+      window.alert("Passwords doesnt match");
+      return;
+    }
+
+    if(this.SignInForm.invalid)
+    {
+      window.alert("Form invalid");
+      return;
+    }
+
+    console.log(this.userPicture);
+    
+    //check response
+    this.userService.updateUser( this.newUser, this.userPicture ).subscribe( () => {
+      window.alert("User updated");
+      this.dialogRef.close();
+    }, error => {
+      console.log( error );
+    });
+  }
+  
+  handleFileInput( file: File ){
+    this.userPicture = file;
   }
 
 }
