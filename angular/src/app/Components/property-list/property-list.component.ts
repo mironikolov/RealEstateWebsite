@@ -38,7 +38,7 @@ export class PropertyListComponent implements OnInit {
 
   refreshPropertiesArr():void{
     if ( this.rentFlag != null) {
-      this.propertyService.getProperties( this.rentFlag ).subscribe( 
+      this.propertyService.postFindProperties( { rentFlag: this.rentFlag } ).subscribe( 
         properties => {
           this.propertiesArray = properties;;
         },

@@ -26,7 +26,8 @@ import { UserRatingComponent } from './Components/user-rating/user-rating.compon
 import { UserInfoComponent } from './Components/user-info/user-info.component'
 import { NgBootstrapModule } from './Modules/material/ng-bootstrap.module';
 import { TopRatedUsersCarouselComponent } from './Components/top-rated-users-carousel/top-rated-users-carousel.component';
-
+import { SearchPropertiesComponent } from './Components/search-properties/search-properties.component';
+import { Ng5SliderModule } from 'ng5-slider';
 
 @NgModule({
   declarations: [
@@ -47,7 +48,8 @@ import { TopRatedUsersCarouselComponent } from './Components/top-rated-users-car
     GalleryDirective,
     UserRatingComponent,
     UserInfoComponent,
-    TopRatedUsersCarouselComponent
+    TopRatedUsersCarouselComponent,
+    SearchPropertiesComponent
   ],
   imports: [
     BrowserModule,
@@ -60,7 +62,8 @@ import { TopRatedUsersCarouselComponent } from './Components/top-rated-users-car
     AgmCoreModule.forRoot({
       apiKey: environment.apiKey
     }),
-    NgBootstrapModule
+    NgBootstrapModule,
+    Ng5SliderModule
   ],
   providers: [],
   bootstrap: [AppComponent],

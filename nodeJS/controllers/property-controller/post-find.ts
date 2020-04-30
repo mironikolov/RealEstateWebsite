@@ -1,11 +1,11 @@
 import errorResponse from '../error-response';
 import { Request } from 'express';
 
-export default function makeGetByRentFlagProperty({ findAllByRentFlagProperty }: { findAllByRentFlagProperty: any }){
-    return async function getByRentFlagProperty( httpRequest: Request ) {
+export default function makePostFindProperty({ findProperties }: { findProperties: any }){
+    return async function postFindProperty( httpRequest: Request ) {
         try {
-            const rentFlag  = httpRequest.params.rentFlag;
-            const property = await findAllByRentFlagProperty( rentFlag );
+            const toFind  = httpRequest.body;
+            const property = await findProperties( toFind );
             
             return {
                 headers: {

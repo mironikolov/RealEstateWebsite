@@ -1,15 +1,15 @@
-import { findAllByPublisherIdProperty, findAllByRentFlagProperty,
+import { findAllByPublisherIdProperty, findProperties,
     findOneByIdProperty, insertProperty, updateProperty, deletePropertyCase } from '../../use-cases/property-use-cases';
 import makeGetByPublisherId from './get-by-PublisherId';
 import makePutProperty from './put-Property';
-import makeGetByRentFlagProperty from './get-by-rent-flag';
+import makePostFindProperty from './post-find';
 import makeGetByIdProperty from './get-by-Id-Property';
 import makeUpdateProperty from './update-Property';
 import makeDeleteProperty from './delete-property';
 
 const getByPublisherId = makeGetByPublisherId({ findAllByPublisherIdProperty });
 const putProperty = makePutProperty({ insertProperty });
-const getByRentFlagProperty = makeGetByRentFlagProperty({ findAllByRentFlagProperty });
+const postFindProperty = makePostFindProperty({ findProperties });
 const getByIdProperty = makeGetByIdProperty({ findOneByIdProperty });
 const putUpdateProperty = makeUpdateProperty({ updateProperty });
 const deleteProperty = makeDeleteProperty({ deletePropertyCase });
@@ -17,11 +17,11 @@ const deleteProperty = makeDeleteProperty({ deletePropertyCase });
 const propertyController = Object.freeze({
     getByPublisherId,
     putProperty,
-    getByRentFlagProperty,
+    postFindProperty,
     getByIdProperty,
     putUpdateProperty,
     deleteProperty
 });
 
 export default propertyController;
-export { getByPublisherId, putProperty, getByRentFlagProperty, getByIdProperty, putUpdateProperty, deleteProperty };
+export { getByPublisherId, putProperty, postFindProperty, getByIdProperty, putUpdateProperty, deleteProperty };

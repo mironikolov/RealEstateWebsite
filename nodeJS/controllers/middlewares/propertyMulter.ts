@@ -1,4 +1,6 @@
 import multer from "multer";
+import fs from 'fs';
+import env from '../../env/environment';
 
 //set storage
 var storage = multer.diskStorage(
@@ -12,6 +14,7 @@ var storage = multer.diskStorage(
                     path( null, `Images/temp`);
                 }
                 else {
+                    fs.mkdirSync( `${env.ROOT_DIR}/Images/${id}`, { recursive: true });
                     path( null, `Images/${id}`);
                 }
                 

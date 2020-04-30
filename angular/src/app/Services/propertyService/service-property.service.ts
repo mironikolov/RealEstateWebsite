@@ -15,9 +15,9 @@ export class ServicePropertyService {
   constructor( private http:HttpClient, private loginService: LogInService ) { }
 
   //GetProperties
-  getProperties( rentFlag: boolean ):Observable<Property[]>
+  postFindProperties( toFind: Object ):Observable<Property[]>
   {
-    return this.http.get<Property[]>( `${this.propertiesUrl}/rentFlag/${rentFlag}`, { withCredentials: true } )
+    return this.http.post<Property[]>( `${this.propertiesUrl}/find`, toFind )
     .pipe( 
       map( propertyArr => {
       return propertyArr.map( property => {

@@ -6,8 +6,7 @@ import { MatExpansionModule } from '@angular/material/expansion';
 import { MatSelectModule } from '@angular/material/select';
 import { MatPaginatorModule } from '@angular/material/paginator';
 import { MatDialogModule } from '@angular/material/dialog';
-
-
+import { MatGridListModule } from '@angular/material/grid-list';
 
 @NgModule({
   declarations: [],
@@ -18,7 +17,8 @@ import { MatDialogModule } from '@angular/material/dialog';
     MatExpansionModule,
     MatSelectModule,
     MatPaginatorModule,
-    MatDialogModule
+    MatDialogModule,
+    MatGridListModule
   ],
   exports: [
     MatCardModule,
@@ -27,7 +27,8 @@ import { MatDialogModule } from '@angular/material/dialog';
     MatExpansionModule,
     MatSelectModule,
     MatPaginatorModule,
-    MatDialogModule
+    MatDialogModule,
+    MatGridListModule
   ]
 })
 export class MaterialModule { }

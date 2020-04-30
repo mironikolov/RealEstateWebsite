@@ -1,0 +1,13 @@
+.text-overflow{
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.text-overflow:hover{
+    text-overflow: visible;
+}
+
+mat-card{
+    margin-bottom: 1%;
+}

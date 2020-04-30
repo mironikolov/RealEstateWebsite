@@ -3,7 +3,7 @@ import { ObjectId } from 'mongodb';
 
 export default function makePropertiesDb( makeDb: () => Promise<mongodb.Db> ){
     return Object.freeze({
-        findAllByRentFlag,
+        findProperties,
         findAllByPublisherId,
         findOneById,
         insert,
@@ -11,11 +11,10 @@ export default function makePropertiesDb( makeDb: () => Promise<mongodb.Db> ){
         deleteProperty
     });
 
-    async function findAllByRentFlag( RentFlag: boolean ){
+    async function findProperties( {...toFind} ){
         const db = await makeDb();
-        RentFlag = (String(RentFlag) == "true");
         
-        const result = await db.collection( 'properties' ).find({ rentFlag: RentFlag }).toArray();
+        const result = await db.collection( 'properties' ).find({ ...toFind }).toArray();
         
         return result;
     }

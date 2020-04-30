@@ -41,11 +41,14 @@
                             <p> {{ property?.extraInfo }} </p>
     
                             <hr class="clearfix w-100 d-md-none" *ngIf="property?.tags">
-    
-                            <mat-list *ngFor="let tag of property?.tags">
-                                    <mat-list-item *ngIf="!tag; else nullTag"> {{ tag }} </mat-list-item>
-                                    <ng-template #nullTag> Empty tags </ng-template>
-                            </mat-list>
+                            
+                            <h5>Особености:</h5>
+                            <mat-grid-list cols='2' rowHeight='2rem' *ngFor="let tag of property?.tags">
+                                <mat-grid-tile>
+                                        <!-- <mat-icon  [svgIcon]='tag' ></mat-icon> &nbsp; -->
+                                         {{ tag }}
+                                </mat-grid-tile>
+                            </mat-grid-list>
                         </mat-card-content>
                     </div>
                 </div>

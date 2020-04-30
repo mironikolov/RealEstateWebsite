@@ -22,6 +22,8 @@ export class PublishEditPropertyFormComponent implements OnInit {
   imagesUrlArr = new Array<SafeUrl>();
   pictureRowItems:number = 4;
 
+  private tagList: string[] = ['Асансьор', 'Саниран', 'Гараж', 'Затворен комплекс', 'Паркомясто', 'Необзаведен', 'Обзаведен'];
+
   constructor( private formBuilder:FormBuilder,
     private loginService:LogInService,
     private propertyService:ServicePropertyService,
@@ -83,6 +85,8 @@ export class PublishEditPropertyFormComponent implements OnInit {
       Validators.required
     ]);
 
+    let tagsFormControl = this.formBuilder.control( null );
+
     return this.formBuilder.group({
       title:titleFormControl,
       address:addressFormControl,
@@ -91,7 +95,8 @@ export class PublishEditPropertyFormComponent implements OnInit {
       area:areaFormControl,
       type:typeFormControl,
       info:infoFormControl,
-      rent: rentFormControl
+      rent: rentFormControl,
+      tags: tagsFormControl
     });
   }
 
@@ -147,6 +152,7 @@ export class PublishEditPropertyFormComponent implements OnInit {
     this.propertyToPublish.area = this.PropertyPublishForm.get('area').value;
     this.propertyToPublish.type = this.PropertyPublishForm.get('type').value;
     this.propertyToPublish.extraInfo = this.PropertyPublishForm.get('info').value;
+    this.propertyToPublish.tags = this.PropertyPublishForm.get('tags').value;
 
     if (this.loginService.getUser()['_id'] == null ) {
       return false;

@@ -1,0 +1,61 @@
+<form [formGroup]="PropertySearchForm" class="container-sm">
+    <div class="form-group col-sm-5">
+        <label for="cityInput"> Град </label>
+        <input type="text" class="form-control" id="cityInput" formControlName="cityInput">
+    </div>
+
+    <div class="form-group col-sm-5">
+        <label for="districtInput"> Квартал </label>
+        <input type="text" class="form-control" id="districtInput" formControlName="districtInput">
+    </div>
+
+    <div class="form-group col-sm-5">
+        <label for="typeSelect"> Тип на имота </label>
+        <select class="form-control" id="typeSelect" formControlName="typeSelect">
+            <option>Apartment</option>
+            <option>House</option>
+            <option>Garage</option>
+            <option>Room</option>
+        </select>
+    </div>
+
+    <div class="form-group col-sm-5">
+        <label for="roomsInput"> Брой стаи </label>
+        <input type="text" class="form-control" id="roomsInput" formControlName="roomsInput">
+    </div>
+
+    <div class="form-group col-sm-5">
+        <label for="selectRent"> Тип на обявата  </label>
+        <select class="form-control" id="selectRent" formControlName="selectRent">
+            <option>Sell</option>
+            <option>Rent</option>
+        </select>
+    </div>
+
+    <div class="form-group col-sm-5" *ngIf="PropertySearchForm.get('selectRent').value == 'Rent'">
+        <label for="priceInput"> Цена </label>
+        <ng5-slider 
+        id="priceInput" 
+        [value]="rentRangeSliderOptions.floor" [highValue]="rentRangeSliderOptions.ceil" [options]="rentRangeSliderOptions"
+        formControlName="priceInput"></ng5-slider>
+    </div>
+
+    <div class="form-group col-sm-5" *ngIf="PropertySearchForm.get('selectRent').value == 'Sell'">
+        <label for="priceInput"> Цена </label>
+        <ng5-slider 
+        id="priceInput" 
+        [value]="buyRangeSliderOptions.floor" [highValue]="buyRangeSliderOptions.ceil" [options]="buyRangeSliderOptions"
+        formControlName="priceInput"></ng5-slider>
+    </div>
+
+    <div class="form-group col-sm-5">
+        <mat-form-field>
+            <mat-label> Характеристики </mat-label>
+            <mat-select formControlName='tagsSelect' multiple>
+                <mat-option *ngFor="let tag of tagList" [value]='tag'>{{ tag }}</mat-option>
+            </mat-select>
+        </mat-form-field>
+    </div>
+
+    <button type="submit" class="btn btn-primary col-5">Търсене</button>
+</form>

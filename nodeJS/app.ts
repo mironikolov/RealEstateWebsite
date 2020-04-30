@@ -1,6 +1,6 @@
 import express from 'express';
 import userController, { getUser, postLoginUser, postUser, logoutUser, middlewares, putUser } from './controllers/user-controller'
-import { getByPublisherId, putProperty, getByRentFlagProperty, getByIdProperty, putUpdateProperty, deleteProperty } from './controllers/property-controller';
+import { getByPublisherId, putProperty, postFindProperty, getByIdProperty, putUpdateProperty, deleteProperty } from './controllers/property-controller';
 import makeCallback from './express-callback';
 import { getPicture } from './controllers/pictures-controller';
 import { postRating, putRating, getAverageRating, getUserRating, getTopRated } from './controllers/rating-controller';
@@ -20,11 +20,11 @@ app.get( '/users/topRated/:limit', ( req, res ) => getTopRated( req, res ) );
 app.put( '/users/update', middlewares.authUser, middlewares.userMulter.any(), makeCallback( putUser ) );
 
 app.get( '/properties/publisherId/:publisherId', makeCallback( getByPublisherId ) );
-app.get( '/properties/rentFlag/:rentFlag', middlewares.authUser, makeCallback( getByRentFlagProperty ) ); //authUser for test
 app.get( '/properties/Id/:propertyId', makeCallback( getByIdProperty ) );
 app.put( '/properties', middlewares.authUser, middlewares.propertyMulter.any(), makeCallback( putProperty ) );
 app.put( '/properties/update', middlewares.authUser, middlewares.propertyMulter.any(), makeCallback( putUpdateProperty ) );
 app.post( '/properties/delete', middlewares.authUser, makeCallback( deleteProperty ) );
+app.post( '/properties/find', makeCallback( postFindProperty ) );
 
 app.get( '/pictures/:folderId/:pictureName', ( req, res ) => getPicture( req, res ) );
 

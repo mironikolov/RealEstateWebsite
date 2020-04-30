@@ -21,4 +21,5 @@ export class GoogleMapsService {
       console.log( JSON.stringify( googleResponse, null, 2 ) )
     });
   }
+  
 }
