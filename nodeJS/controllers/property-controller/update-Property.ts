@@ -6,6 +6,7 @@ export default function makeUpdateProperty({ updateProperty }: { updateProperty:
     return async function updataProperty( httpRequest: Request ) {
         try {
             const {...propertyInfo }  = JSON.parse( httpRequest.body.data );
+            
             const property = await updateProperty( propertyInfo );
             
             await fileSystem.editPictures( propertyInfo._id );

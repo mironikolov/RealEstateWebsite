@@ -1,17 +1,17 @@
-<form [formGroup]="PropertySearchForm" class="container-sm">
-    <div class="form-group col-sm-5">
+<form [formGroup]="PropertySearchForm">
+    <div class="form-group ">
         <label for="cityInput"> Град </label>
-        <input type="text" class="form-control" id="cityInput" formControlName="cityInput">
+        <input type="text" class="form-control" id="cityInput" formControlName="city">
     </div>
 
-    <div class="form-group col-sm-5">
+    <div class="form-group">
         <label for="districtInput"> Квартал </label>
-        <input type="text" class="form-control" id="districtInput" formControlName="districtInput">
+        <input type="text" class="form-control" id="districtInput" formControlName="district">
     </div>
 
-    <div class="form-group col-sm-5">
+    <div class="form-group">
         <label for="typeSelect"> Тип на имота </label>
-        <select class="form-control" id="typeSelect" formControlName="typeSelect">
+        <select class="form-control" id="typeSelect" formControlName="type">
             <option>Apartment</option>
             <option>House</option>
             <option>Garage</option>
@@ -19,43 +19,51 @@
         </select>
     </div>
 
-    <div class="form-group col-sm-5">
+    <div class="form-group">
         <label for="roomsInput"> Брой стаи </label>
-        <input type="text" class="form-control" id="roomsInput" formControlName="roomsInput">
+        <input type="text" class="form-control" id="roomsInput" formControlName="rooms">
     </div>
 
-    <div class="form-group col-sm-5">
+    <div class="form-group">
         <label for="selectRent"> Тип на обявата  </label>
-        <select class="form-control" id="selectRent" formControlName="selectRent">
+        <select class="form-control" id="selectRent" formControlName="rentFlag">
             <option>Sell</option>
             <option>Rent</option>
         </select>
     </div>
 
-    <div class="form-group col-sm-5" *ngIf="PropertySearchForm.get('selectRent').value == 'Rent'">
-        <label for="priceInput"> Цена </label>
+    <div class="form-group" *ngIf="PropertySearchForm.get('rentFlag').value == 'Rent'">
+        <label for="price"> Цена </label>
         <ng5-slider 
-        id="priceInput" 
+        id="price" 
         [value]="rentRangeSliderOptions.floor" [highValue]="rentRangeSliderOptions.ceil" [options]="rentRangeSliderOptions"
-        formControlName="priceInput"></ng5-slider>
+        formControlName="price"></ng5-slider>
     </div>
 
-    <div class="form-group col-sm-5" *ngIf="PropertySearchForm.get('selectRent').value == 'Sell'">
-        <label for="priceInput"> Цена </label>
+    <div class="form-group" *ngIf="PropertySearchForm.get('rentFlag').value == 'Sell'">
+        <label for="price"> Цена </label>
         <ng5-slider 
-        id="priceInput" 
+        id="price" 
         [value]="buyRangeSliderOptions.floor" [highValue]="buyRangeSliderOptions.ceil" [options]="buyRangeSliderOptions"
-        formControlName="priceInput"></ng5-slider>
+        formControlName="price"></ng5-slider>
     </div>
 
-    <div class="form-group col-sm-5">
+    <div class="form-group" >
+        <label for="area"> Площ </label>
+        <ng5-slider 
+        id="area" 
+        [value]="areaRangeSliderOptions.floor" [highValue]="areaRangeSliderOptions.ceil" [options]="areaRangeSliderOptions"
+        formControlName="area"></ng5-slider>
+    </div>
+
+    <div class="form-group">
         <mat-form-field>
             <mat-label> Характеристики </mat-label>
-            <mat-select formControlName='tagsSelect' multiple>
+            <mat-select formControlName='tags' multiple>
                 <mat-option *ngFor="let tag of tagList" [value]='tag'>{{ tag }}</mat-option>
             </mat-select>
         </mat-form-field>
     </div>
 
-    <button type="submit" class="btn btn-primary col-5">Търсене</button>
+    <button class="btn btn-primary col-5" (click)="submitClick()">Търсене</button>
 </form>

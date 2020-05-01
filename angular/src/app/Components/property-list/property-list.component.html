@@ -5,64 +5,10 @@
                 <mat-expansion-panel>
 
                     <mat-expansion-panel-header>
-                        <mat-panel-title> Филтър </mat-panel-title>
+                        <mat-panel-title> Търсене </mat-panel-title>
                     </mat-expansion-panel-header>
 
-                    <div class="row">
-                        <div class="col-sm-12 col-md-6">
-                            <label for="type" class="col-md-2 col-12 form-control-sm " >Тип</label>
-                            <select id="type" class="col-md-10 col-12 form-control-sm" name="type" form="filterForm">
-                                <option>Apartment</option>
-                                <option>House</option>
-                                <option>Garage</option>
-                                <option>Room</option>
-                            </select>
-                        </div>
-                        <hr class="clearfix w-100 d-md-none">
-                        <div class="col-sm-12 col-md-6">
-                            <label for="rooms" class="col-md-2 col-12 form-control-sm" >Стаи</label>
-                            <select id="rooms" class="col-md-10 col-12 form-control-sm" form="filterForm">
-                                <option>1</option>
-                                <option>2</option>
-                                <option>3</option>
-                                <option>4</option>
-                                <option>4+</option>
-                            </select>
-                        </div>
-                        
-                    </div>
-
-                    <hr class="clearfix w-100 d-md-none">
-
-                    <div class="row">
-                        <div class="col-md-6">
-                            <label for="price" class="form-control-sm col" >Цена от</label>
-                            <input class="col-12 form-control-sm" type="text" id="price">
-
-                            <label for="price-to" class="col form-control-sm" >до</label>
-                            <input class="col-12 form-control-sm" type="text" id="price-to">
-                        </div>
-
-                        <hr class="clearfix w-100 d-md-none">
-
-                        <div class="col-md-6">
-                            <label for="area" class="col form-control-sm" >Площ от</label>
-                            <input class="col-12 form-control-sm" type="text" id="area">
-
-                            <label for="area-to" class="col form-control-sm" >до</label>
-                            <input class="col-12 form-control-sm" type="text" id="area-to">
-                        </div>
-                    </div>
-
-                    <br>
-
-                    <div class="row">
-                        <div class="col">
-                            <input class="btn btn-primary col-md-6 col-sm-12" type="submit" value="Филтриране" form="filterForm">
-                        </div>
-                    </div>
-                    <form id="filterForm" (submit)="filterFormSubmit($event)"></form>
-
+                    <app-search-properties></app-search-properties>
                     
                 </mat-expansion-panel>
             </mat-accordion>

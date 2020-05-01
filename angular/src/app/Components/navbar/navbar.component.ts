@@ -4,6 +4,7 @@ import { Router } from '@angular/router';
 import { LogInModalComponent } from '../log-in-modal/log-in-modal.component';
 import { SignInModalComponent } from '../sign-in-modal/sign-in-modal.component'; 
 import { MatDialog } from '@angular/material/dialog';
+import { QueryService } from '../../Services/queryService/query.service';
 
 @Component({
   selector: 'app-navbar',
@@ -13,7 +14,10 @@ import { MatDialog } from '@angular/material/dialog';
 export class NavbarComponent implements OnInit {
   navbarOpen = false;
 
-  constructor( private logInService: LogInService, private router:Router, private dialog: MatDialog ) { }
+  constructor( private logInService: LogInService,
+    private router:Router,
+    private dialog: MatDialog,
+    private queryService: QueryService ) { }
 
   ngOnInit() {
   }
@@ -39,5 +43,19 @@ export class NavbarComponent implements OnInit {
       width: '500px',
       data: { edit: true }
     });
+  }
+
+  onBuyClicked(){
+    this.queryService.query.next({ rentFlag: false });
+    this.router.navigate(["/properties"]);
+  }
+
+  onRentClicked(){
+    this.queryService.query.next({ rentFlag: true });
+    this.router.navigate(["/properties"]);
+  }
+
+  onUserClicked(){
+    this.queryService.query.next({ publisherId: this.logInService.getUser()._id });
   }
 }

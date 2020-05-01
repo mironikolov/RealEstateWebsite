@@ -10,6 +10,8 @@ export default function makeInsertProperty({ propertiesDb = PropertiesDb }){
             _id: property.getId(),
             title: property.getTitle(),
             address: property.getAddress(),
+            city: property.getCity(),
+            district: property.getDistrict(),
             area: property.getArea(),
             price: property.getPrice(),
             rooms: property.getRooms(),

@@ -13,6 +13,14 @@ export default function makePropertiesDb( makeDb: () => Promise<mongodb.Db> ){
 
     async function findProperties( {...toFind} ){
         const db = await makeDb();
+
+        if( toFind._id ){
+            toFind._id = new ObjectId( toFind._id );
+        }
+
+        if ( toFind.tags ) {
+            toFind.tags = { $all: toFind.tags };
+        }
         
         const result = await db.collection( 'properties' ).find({ ...toFind }).toArray();
         
@@ -45,6 +53,7 @@ export default function makePropertiesDb( makeDb: () => Promise<mongodb.Db> ){
     async function update({ ...propertyInfo }){
         const db = await makeDb();
         propertyInfo._id = new ObjectId( propertyInfo._id );
+        
         const result = await db.collection( 'properties' ).updateOne({ _id : propertyInfo._id }, { $set:{ ...propertyInfo } });
         if ( result.matchedCount === 0 ) {
             return null;

@@ -73,7 +73,7 @@
                 <!-- Publisher info  -->
                 <hr class="clearfix w-100 d-md-none">
                 <div class="row">
-                    <div class="col" [routerLink]="['/user', publisher?._id]" >
+                    <div class="col" [routerLink]="['/user', publisher?._id]" (click)="onUserClick()" >
                         <h5>Publisher: {{ publisher?.username}}</h5>
                         <h6>email: {{ publisher?.email }}</h6>
                         <h6>phone: {{ publisher?.phoneNumber }}</h6>

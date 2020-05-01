@@ -4,6 +4,7 @@ import { ServicePropertyService } from '../../Services/propertyService/service-p
 import { PropertyImageService } from '../../Services/propertyImage/property-image.service'
 import { DomSanitizer, SafeUrl } from '@angular/platform-browser';
 import { PageEvent } from '@angular/material/paginator';
+import { QueryService } from '../../Services/queryService/query.service';
 
 @Component({
   selector: 'app-property-list',
@@ -16,42 +17,26 @@ export class PropertyListComponent implements OnInit {
   pageSize:number = 2;
   page:number = 0;
 
-  rentFlag:boolean;
-  @Input() set setRentFlag( flag: boolean ){
-    this.rentFlag = flag
-    this.refreshPropertiesArr();
-  }
-
-  publisherId: string;
-  @Input() set setPublisherId( id: string ){
-    this.publisherId = id;
-    this.refreshPropertiesArr();
-    
-  }
+  query: Object;
 
   constructor( private propertyService:ServicePropertyService,
    private propertyImageService:PropertyImageService,
-   private sanitizer: DomSanitizer ) { }
+   private sanitizer: DomSanitizer,
+   private queryService: QueryService ) {
+     this.queryService.query.subscribe( query => {
+       console.log(query);
+       
+       this.query = query;
+       this.refreshPropertiesArr();
+     });
+    }
 
   ngOnInit() {
   }
 
   refreshPropertiesArr():void{
-    if ( this.rentFlag != null) {
-      this.propertyService.postFindProperties( { rentFlag: this.rentFlag } ).subscribe( 
-        properties => {
-          this.propertiesArray = properties;;
-        },
-         error => console.log(error),
-         ()=>{
-           this.setPropertyPictures();
-           this.propertiesArrayFiltered = this.propertiesArray;
-          }
-      );
-    }
-
-    if ( this.publisherId != null) {
-      this.propertyService.getPropertiesByPublisherId( this.publisherId ).subscribe( 
+    if ( this.query != null) {
+      this.propertyService.postFindProperties( { ...this.query } ).subscribe( 
         properties => {
           this.propertiesArray = properties;;
         },

@@ -1,6 +1,6 @@
 export class GoogleMapsModel{
     results: [{
-        address_components:[Object];
+        address_components:[{short_name: string}, {short_name: string}, {short_name: string}];
         formattet_address: string;
         geometry:{
             location:{

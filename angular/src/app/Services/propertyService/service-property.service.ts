@@ -5,6 +5,7 @@ import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { catchError, map } from 'rxjs/operators';
 import sessionErrorHandler from '../session-errorHandler';
 import { LogInService } from '../logInService/log-in.service';
+import { GoogleMapsService } from '../googleMapsService/google-maps.service';
 
 @Injectable({
   providedIn: 'root'
@@ -12,7 +13,7 @@ import { LogInService } from '../logInService/log-in.service';
 export class ServicePropertyService {
   propertiesUrl:string = 'http://localhost:3000/properties';
 
-  constructor( private http:HttpClient, private loginService: LogInService ) { }
+  constructor( private http:HttpClient, private loginService: LogInService, private googleMapsService: GoogleMapsService ) { }
 
   //GetProperties
   postFindProperties( toFind: Object ):Observable<Property[]>
@@ -47,7 +48,6 @@ export class ServicePropertyService {
   putProperty( property:Property, files: Array<File> ):Observable<any>
   {
     property = new Property().deserialize( property );
-    console.log(property);
     
     const formData = new FormData( );
     formData.append( 'data', JSON.stringify( property ) );
@@ -72,14 +72,15 @@ export class ServicePropertyService {
     } );
   }
 
-  editProperty( property: Property, files: File[] ):Observable<any>{
-    
+   editProperty( property: Property, files: File[] ):Observable<any>{
+
     const formData = new FormData();
     formData.append( 'data', JSON.stringify( property ) );
     files.forEach( file => {
       formData.append( 'pic', file );
     });
-    return this.http.put(`${this.propertiesUrl}/update/`, formData, { withCredentials: true }).pipe( catchError( sessionErrorHandler( this.loginService ) ) );
+    return this.http.put(`${this.propertiesUrl}/update/`, formData, { withCredentials: true })
+    .pipe( catchError( sessionErrorHandler( this.loginService ) ) );
   }
 
   deleteProperty( propertyId ):Observable<any>{

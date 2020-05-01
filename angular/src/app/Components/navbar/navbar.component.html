@@ -13,10 +13,10 @@
           <a class="nav-link" href="#">Начало</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" routerLink="/home/buy">Купуване</a>
+          <a class="nav-link" (click)="onBuyClicked()">Купуване</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" routerLink="/home/rent">Наемане</a>
+          <a class="nav-link" (click)="onRentClicked()">Наемане</a>
         </li>
         <li class="nav-item">
           <a class="nav-link" routerLink="/publishForm">Публикуване</a>
@@ -25,7 +25,7 @@
           
             <button *ngIf="!this.logInService.isLoggedIn()" type="button" class=" btn btn-primary" (click)="onLogInButtonClicked()"> Вход </button>
             <div *ngIf="this.logInService.isLoggedIn()" class="float-right" >
-                <div [routerLink]="['/user', logInService.getUser()?._id]">
+                <div [routerLink]="['/user', logInService.getUser()?._id]" (click)="onUserClicked()">
                   {{this.logInService.getUser().username}}
                 </div>
                 <button type="button" class="btn btn-primary" (click)="onEditButtonClicked()"> Редактиране </button>

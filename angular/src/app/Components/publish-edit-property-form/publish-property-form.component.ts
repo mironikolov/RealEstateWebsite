@@ -24,6 +24,8 @@ export class PublishEditPropertyFormComponent implements OnInit {
 
   private tagList: string[] = ['Асансьор', 'Саниран', 'Гараж', 'Затворен комплекс', 'Паркомясто', 'Необзаведен', 'Обзаведен'];
 
+  private buttonClicked = false;
+
   constructor( private formBuilder:FormBuilder,
     private loginService:LogInService,
     private propertyService:ServicePropertyService,
@@ -60,6 +62,13 @@ export class PublishEditPropertyFormComponent implements OnInit {
     let addressFormControl = this.formBuilder.control(null,[
       Validators.required
     ]);
+
+    let districtFormControl = this.formBuilder.control(null, [
+    ]);
+
+    let cityFormControl = this.formBuilder.control(null,[
+      Validators.required
+    ]);
     
     let priceFormControl = this.formBuilder.control(null,[
       Validators.required
@@ -90,6 +99,8 @@ export class PublishEditPropertyFormComponent implements OnInit {
     return this.formBuilder.group({
       title:titleFormControl,
       address:addressFormControl,
+      district: districtFormControl,
+      city: cityFormControl,
       price:priceFormControl,
       rooms:roomsFormControl,
       area:areaFormControl,
@@ -101,6 +112,8 @@ export class PublishEditPropertyFormComponent implements OnInit {
   }
 
   onPublishButtonClicked(){
+    this.buttonClicked = true;
+
     if( !this.loginService.isLoggedIn() ){
       window.alert("Log in first");
       return;
@@ -121,7 +134,7 @@ export class PublishEditPropertyFormComponent implements OnInit {
     }, error => {
       window.alert("Грешка");
       console.log("Error:", error );
-    } );;
+    } );
 
   }
 
@@ -135,6 +148,8 @@ export class PublishEditPropertyFormComponent implements OnInit {
   fillEditFormValues( property:Property ){
     this.PropertyPublishForm.get('title').setValue( property.title );
     this.PropertyPublishForm.get('address').setValue( property.address );
+    this.PropertyPublishForm.get('district').setValue( property.district );
+    this.PropertyPublishForm.get('city').setValue( property.city );
     this.PropertyPublishForm.get('price').setValue( property.price );
     this.PropertyPublishForm.get('rooms').setValue( property.rooms );
     this.PropertyPublishForm.get('title').setValue( property.title );
@@ -147,9 +162,11 @@ export class PublishEditPropertyFormComponent implements OnInit {
   fillPropertyToPublish():boolean{
     this.propertyToPublish.title = this.PropertyPublishForm.get('title').value;
     this.propertyToPublish.address = this.PropertyPublishForm.get('address').value;
-    this.propertyToPublish.price = this.PropertyPublishForm.get('price').value;
-    this.propertyToPublish.rooms = this.PropertyPublishForm.get('rooms').value;
-    this.propertyToPublish.area = this.PropertyPublishForm.get('area').value;
+    this.propertyToPublish.district = this.PropertyPublishForm.get('district').value;
+    this.propertyToPublish.city = this.PropertyPublishForm.get('city').value;
+    this.propertyToPublish.price = +this.PropertyPublishForm.get('price').value;
+    this.propertyToPublish.rooms = +this.PropertyPublishForm.get('rooms').value;
+    this.propertyToPublish.area = +this.PropertyPublishForm.get('area').value;
     this.propertyToPublish.type = this.PropertyPublishForm.get('type').value;
     this.propertyToPublish.extraInfo = this.PropertyPublishForm.get('info').value;
     this.propertyToPublish.tags = this.PropertyPublishForm.get('tags').value;
@@ -161,10 +178,13 @@ export class PublishEditPropertyFormComponent implements OnInit {
     this.propertyToPublish.publisherId = this.loginService.getUser()['_id'];
 
     this.propertyToPublish.rentFlag = this.PropertyPublishForm.get('rent').value == 'Rent' ? true : false;
+
     return true;
   }
 
   onEditButtonClicked(){
+    this.buttonClicked = true;
+
     if( !this.loginService.isLoggedIn() ){
       window.alert("Log in first");
       return;
@@ -185,7 +205,7 @@ export class PublishEditPropertyFormComponent implements OnInit {
         window.alert("Грешка");
         return;
       };
-  
+      
       this.propertyService.editProperty( this.propertyToPublish, this.files ).subscribe( data => {
         this.router.navigate(['/property/',this.propertyToPublish._id]);
       }, err => {

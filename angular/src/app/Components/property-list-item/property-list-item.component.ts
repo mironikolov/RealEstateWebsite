@@ -9,6 +9,7 @@ import { User } from 'src/app/Models/userModel';
 import { GoogleMapsService } from '../../Services/googleMapsService/google-maps.service';
 import { LogInService } from '../../Services/logInService/log-in.service';
 import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { QueryService } from '../../Services/queryService/query.service';
 
 @Component({
   selector: 'app-property-list-item',
@@ -34,7 +35,8 @@ export class PropertyListItemComponent implements OnInit {
      private userService: UserService,
      private googleMapsService: GoogleMapsService,
      private logInService: LogInService,
-     private dialog: MatDialog ) { }
+     private dialog: MatDialog,
+     private queryService: QueryService ) { }
 
   ngOnInit() {
 
@@ -80,6 +82,10 @@ export class PropertyListItemComponent implements OnInit {
       width: '500px',
       data:{ propertyID: this.property._id }
     } );
+  }
+
+  onUserClick(){
+    this.queryService.query.next({ publisherId: this.publisher._id });
   }
 
 }

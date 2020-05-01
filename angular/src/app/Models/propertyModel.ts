@@ -5,7 +5,9 @@ export class Property implements Deserializable{
     _id:string; 
     title:string = null;
     address:string = null;
-    price:string = null;
+    city:string = null;
+    district: string = null;
+    price:Number = null;
     rooms:Number = null;
     area:Number = null;
     type:Number = null; 
