@@ -3,7 +3,7 @@ import dataAccess from '../../data-access';
 const UsersDb = dataAccess.usersDb;
 
 export default function makeUpdateUser( { usersDb = UsersDb } ) {
-    return async function updateUser( userInfo: any ) {
+    return async function updateUser( {...userInfo} ) {
         const user = makeUser( userInfo );
         
         return usersDb.update({
@@ -13,7 +13,9 @@ export default function makeUpdateUser( { usersDb = UsersDb } ) {
             email: user.getEmail(),
             phoneNumber: user.getPhoneNumber(),
             createdOn: user.getCreatedOn(),
-            adminFlag: user.getAdminFlag()
+            adminFlag: user.getAdminFlag(),
+            resetPasswordToken: user.getResetPasswordToken(),
+            resetPasswordExpires: user.getResetPasswordExpires()
         });
     }
 }

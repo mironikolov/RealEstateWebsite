@@ -5,6 +5,8 @@ export default function makeUsersDb( makeDb:() => Promise<mongodb.Db> ) {
     return Object.freeze({
         findAll,
         findById,
+        findByEmail,
+        findByToken,
         login,
         insert,
         update
@@ -21,6 +23,30 @@ export default function makeUsersDb( makeDb:() => Promise<mongodb.Db> ) {
         const result = await db.collection( 'users' ).findOne({ _id: new ObjectId(id) });
         
         return result;
+    }
+
+    async function findByEmail( email: string ){
+        try {
+            const db = await makeDb();
+            const result = await db.collection( 'users' ).findOne({ 'email': email });
+            
+            return result;
+        } catch (error) {
+            throw Error;
+        }
+        
+    }
+
+    async function findByToken( token: string ){
+        try {
+            const db = await makeDb();
+            const result = await db.collection( 'users' ).findOne({ 'resetPasswordToken': token });
+            
+            return result;
+        } catch (error) {
+            throw Error;
+        }
+        
     }
 
     //todo: Change to email

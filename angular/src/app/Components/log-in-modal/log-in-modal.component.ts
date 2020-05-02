@@ -5,6 +5,7 @@ import { LogInService } from '../../Services/logInService/log-in.service';
 import { MatDialog } from '@angular/material/dialog';
 import { SignInModalComponent } from '../sign-in-modal/sign-in-modal.component';
 import { User } from 'src/app/Models/userModel';
+import { UserService } from 'src/app/Services/userService/user.service';
 
 @Component({
   selector: 'app-log-in-modal',
@@ -13,11 +14,13 @@ import { User } from 'src/app/Models/userModel';
 })
 export class LogInModalComponent implements OnInit {
   LogInForm:FormGroup;
+  isForgotForgot: boolean = false;
 
   constructor( private logInDialogRef: MatDialogRef<LogInModalComponent >, 
     private formBuilder: FormBuilder,
     private loginService: LogInService,
-    private dialog: MatDialog ) { }
+    private dialog: MatDialog,
+    private userService: UserService ) { }
 
   ngOnInit( ) {
     this.LogInForm = this.generateLogInFrom();
@@ -32,9 +35,12 @@ export class LogInModalComponent implements OnInit {
       Validators.required
     ]);
 
+    let emailFormControl = this.formBuilder.control( null );
+
     return this.formBuilder.group({
       username:usernameFormControl,
-      password:passwordFormControl
+      password:passwordFormControl,
+      email: emailFormControl
     });
   }
 
@@ -58,6 +64,16 @@ export class LogInModalComponent implements OnInit {
     const dialogRef = this.dialog.open( SignInModalComponent, {
       width: '500px',
     });
+  }
+
+  onForgotPasswordButtonClicked(){
+    if (!this.isForgotForgot) {
+      this.isForgotForgot = true;
+      return;
+    }
+
+    this.userService.resetPasswordToken( this.LogInForm.get('email').value );
+    this.logInDialogRef.close();
   }
 
 }

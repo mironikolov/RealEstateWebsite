@@ -1,7 +1,7 @@
 
 <form [formGroup]="LogInForm">
     <h1>Login</h1>
-    <div class="form-group">
+    <div class="form-group" *ngIf="!isForgotForgot">
         <label for="username">Username</label>
         <input type="text" formControlName="username" id="username" class="form-control">
         <div class="alert alert-danger col-12" 
@@ -10,15 +10,21 @@
         </div>
     </div>
     
-    <div class="form-group">
+    <div class="form-group" *ngIf="!isForgotForgot">
         <label for="password">Password</label>
         <input type="password" formControlName="password" id="password" class="form-control">
         <div class="alert alert-danger col-12" 
             *ngIf="!LogInForm.controls.password.valid && LogInForm.controls.password.touched">
             Password is empty
         </div>
-    </div> 
+    </div>
+
+    <div class="form-group" *ngIf="isForgotForgot">
+        <label for="email">Email</label>
+        <input type="text" formControlName="email" id="email" class="form-control">
+    </div>
 
     <button type="submit" class="btn btn-primary" (click)="onLogInButtonClicked()">Log In</button>
+    <button type="submit" class="btn btn-primary" (click)="onForgotPasswordButtonClicked()">Забравена парола</button>
     <button class="btn btn-primary" (click)="onSignInButtonClicked()" style="float:right">Sign Up</button>
 </form>

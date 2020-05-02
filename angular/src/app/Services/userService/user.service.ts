@@ -36,7 +36,9 @@ export class UserService {
         
     const formData = new FormData();
     formData.append( 'data', JSON.stringify( user ) );
-    formData.append( 'pic', file[0]);
+    if (file) {
+      formData.append( 'pic', file[0]);
+    }
     return this.http.put(`${this.usersUrl}/update`, formData, { withCredentials: true } );
   }
 
@@ -60,5 +62,13 @@ export class UserService {
       const image = this.sanitizer.bypassSecurityTrustUrl( imageBlobUrl );
       return image;
     } ), catchError( createHandlePipeError() ) );
+  }
+
+  resetPassword( token: string, password: string ){
+    this.http.put( `${this.usersUrl}/resetPassword`, {'token': token, 'password': password}).subscribe();
+  }
+
+  resetPasswordToken( email: string ){
+    this.http.post( `${this.usersUrl}/resetPassword`, { 'email': email }).subscribe();
   }
 }

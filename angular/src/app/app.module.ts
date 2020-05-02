@@ -28,6 +28,7 @@ import { NgBootstrapModule } from './Modules/material/ng-bootstrap.module';
 import { TopRatedUsersCarouselComponent } from './Components/top-rated-users-carousel/top-rated-users-carousel.component';
 import { SearchPropertiesComponent } from './Components/search-properties/search-properties.component';
 import { Ng5SliderModule } from 'ng5-slider';
+import { ResetPasswordComponent } from './Components/reset-password/reset-password.component';
 
 @NgModule({
   declarations: [
@@ -49,7 +50,8 @@ import { Ng5SliderModule } from 'ng5-slider';
     UserRatingComponent,
     UserInfoComponent,
     TopRatedUsersCarouselComponent,
-    SearchPropertiesComponent
+    SearchPropertiesComponent,
+    ResetPasswordComponent
   ],
   imports: [
     BrowserModule,

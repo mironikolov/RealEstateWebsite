@@ -7,6 +7,7 @@ import { WelcomePageComponent } from './Components/welcome-page/welcome-page.com
 import { PublishEditPropertyFormComponent } from './Components/publish-edit-property-form/publish-property-form.component'
 import { LogInModalComponent } from './Components/log-in-modal/log-in-modal.component'
 import { UserInfoComponent } from './Components/user-info/user-info.component';
+import { ResetPasswordComponent } from './Components/reset-password/reset-password.component';
 
 const routes: Routes = [
   {
@@ -27,6 +28,9 @@ const routes: Routes = [
   },
   {
     path:'user/:id', component: UserInfoComponent
+  },
+  {
+    path:'reset/:token', component: ResetPasswordComponent
   },
   {
     path:'publishForm', component: PublishEditPropertyFormComponent, data: { edit: false }
