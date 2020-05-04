@@ -7,9 +7,9 @@ import { RatingService } from '../../Services/ratingService/rating.service'
   styleUrls: ['./user-rating.component.scss']
 })
 export class UserRatingComponent implements OnInit {
-  userId: string;
-  averageRating: number;
-  rangeValue: number;
+  private userId: string;
+  private averageRating: number;
+  private rangeValue: number;
 
   @Input() set setUserId( userId: string ){
     this.userId = userId;

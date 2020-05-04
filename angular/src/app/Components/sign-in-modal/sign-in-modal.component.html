@@ -1,7 +1,7 @@
 
 <form [formGroup]="SignInForm">
     <h1 *ngIf="data == null"> Регистрация </h1>
-    <h1 *ngIf="data.edit == true"> Редакция </h1>
+    <h1 *ngIf="data?.edit == true"> Редакция </h1>
     <div class="form-group">
         <label for="signInUsername">Username</label>
         <input type="text" formControlName="username" id="signInUsername" class="form-control">
@@ -11,7 +11,7 @@
         </div>
     </div>
     
-    <div class="form-group">
+    <div class="form-group" *ngIf="data === null">
         <label for="signInPassword">Password</label>
         <input type="password" formControlName="password" id="signInPassword" class="form-control">
         <div class="alert alert-danger col-12" 
@@ -20,7 +20,7 @@
         </div>
     </div>
 
-    <div class="form-group">
+    <div class="form-group" *ngIf="data === null">
         <label for="repeatPassword">Repeat password</label>
         <input type="password" formControlName="repeatPassword" id="repeatPassword" class="form-control">
         <div class="alert alert-danger col-12" 
@@ -59,5 +59,5 @@
 
 
     <button *ngIf="data == null" type="submit" class="btn btn-primary" (click)="onSignInButtonClick()">Регистрация</button>
-    <button *ngIf="data.edit == true" type="submit" class="btn btn-primary" (click)="onEditButtonClick()">Редакция</button>
+    <button *ngIf="data?.edit == true" type="submit" class="btn btn-primary" (click)="onEditButtonClick()">Редакция</button>
 </form>

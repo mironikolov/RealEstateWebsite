@@ -3,13 +3,13 @@ import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { Property } from 'src/app/Models/propertyModel';
 import { DomSanitizer, SafeUrl } from '@angular/platform-browser';
+import { environment } from '../../../environments/environment';
 
 @Injectable({
   providedIn: 'root'
 })
 export class PropertyImageService {
-  propertyImagesUrl:string = 'http://localhost:3000/pictures/';
-  serverUrl:string = 'http://localhost:3000/';
+  private propertyImagesUrl:string = `${environment.SERVER_URL}/pictures/`;
 
   constructor( private http:HttpClient,
     private sanitizer: DomSanitizer ) { }
@@ -43,14 +43,6 @@ export class PropertyImageService {
     })
     
     return pictures;
-  }
-
-  putImages( images: Array<File> ): Observable<any>{
-    let formData= new FormData();
-    images.forEach(image => {
-      formData.append( 'pic', image);
-    });
-    return this.http.post( `${this.serverUrl}pictures-upload/` , formData );
   }
 
 }

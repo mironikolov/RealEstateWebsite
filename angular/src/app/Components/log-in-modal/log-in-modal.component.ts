@@ -13,8 +13,8 @@ import { UserService } from 'src/app/Services/userService/user.service';
   styleUrls: ['./log-in-modal.component.scss']
 })
 export class LogInModalComponent implements OnInit {
-  LogInForm:FormGroup;
-  isForgotForgot: boolean = false;
+  private LogInForm:FormGroup;
+  private isForgotForgot: boolean = false;
 
   constructor( private logInDialogRef: MatDialogRef<LogInModalComponent >, 
     private formBuilder: FormBuilder,

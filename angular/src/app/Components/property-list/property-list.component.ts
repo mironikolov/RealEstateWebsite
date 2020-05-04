@@ -12,12 +12,12 @@ import { QueryService } from '../../Services/queryService/query.service';
   styleUrls: ['./property-list.component.scss']
 })
 export class PropertyListComponent implements OnInit {
-  propertiesArray:Property[];
-  propertiesArrayFiltered:Property[];
-  pageSize:number = 2;
-  page:number = 0;
+  private propertiesArray:Property[];
+  private propertiesArrayFiltered:Property[];
+  private pageSize:number = 8;
+  private page:number = 0;
 
-  query: Object;
+  private query: Object;
 
   constructor( private propertyService:ServicePropertyService,
    private propertyImageService:PropertyImageService,

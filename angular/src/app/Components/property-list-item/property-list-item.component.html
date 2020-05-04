@@ -11,7 +11,7 @@
                                 <h3 >{{ property?.title }}</h3>
                                 <button *ngIf="(currentUser?._id == publisher?._id || currentUser?.adminFlag == 'true')"
                                  class=" btn btn-primary" 
-                                 [routerLink]="['/property', property?._id, 'edit']"> Редактиране </button>
+                                 [routerLink]="['/property', property?._id, 'edit']" style="cursor: pointer;"> Редактиране </button>
 
                                  <button *ngIf="(currentUser?._id == publisher?._id || currentUser?.adminFlag == 'true')"
                                  class=" btn btn-danger" 
@@ -43,8 +43,8 @@
                             <hr class="clearfix w-100 d-md-none" *ngIf="property?.tags">
                             
                             <h5>Особености:</h5>
-                            <mat-grid-list cols='2' rowHeight='2rem' *ngFor="let tag of property?.tags">
-                                <mat-grid-tile>
+                            <mat-grid-list cols='2' rowHeight='2rem' >
+                                <mat-grid-tile *ngFor="let tag of property?.tags" [colspan]="1">
                                         <!-- <mat-icon  [svgIcon]='tag' ></mat-icon> &nbsp; -->
                                          {{ tag }}
                                 </mat-grid-tile>
@@ -73,7 +73,7 @@
                 <!-- Publisher info  -->
                 <hr class="clearfix w-100 d-md-none">
                 <div class="row">
-                    <div class="col" [routerLink]="['/user', publisher?._id]" (click)="onUserClick()" >
+                    <div class="col" [routerLink]="['/user', publisher?._id]" (click)="onUserClick()" style="cursor: pointer;">
                         <h5>Publisher: {{ publisher?.username}}</h5>
                         <h6>email: {{ publisher?.email }}</h6>
                         <h6>phone: {{ publisher?.phoneNumber }}</h6>

@@ -12,7 +12,7 @@ import { QueryService } from '../../Services/queryService/query.service';
   styleUrls: ['./navbar.component.scss']
 })
 export class NavbarComponent implements OnInit {
-  navbarOpen = false;
+  private navbarOpen = false;
 
   constructor( private logInService: LogInService,
     private router:Router,

@@ -19,13 +19,13 @@
           <a class="nav-link" (click)="onRentClicked()">Наемане</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" routerLink="/publishForm">Публикуване</a>
+          <a class="nav-link" routerLink="/publishForm" style="cursor: pointer;">Публикуване</a>
         </li>
         <li class="button">
           
             <button *ngIf="!this.logInService.isLoggedIn()" type="button" class=" btn btn-primary" (click)="onLogInButtonClicked()"> Вход </button>
             <div *ngIf="this.logInService.isLoggedIn()" class="float-right" >
-                <div [routerLink]="['/user', logInService.getUser()?._id]" (click)="onUserClicked()">
+                <div [routerLink]="['/user', logInService.getUser()?._id]" (click)="onUserClicked()" style="cursor: pointer;">
                   {{this.logInService.getUser().username}}
                 </div>
                 <button type="button" class="btn btn-primary" (click)="onEditButtonClicked()"> Редактиране </button>

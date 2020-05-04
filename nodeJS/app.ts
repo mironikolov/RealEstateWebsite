@@ -1,9 +1,10 @@
 import express from 'express';
-import userController, { getUser, postLoginUser, postUser, logoutUser, middlewares, putUser, postPasswordReset, putPasswordReset } from './controllers/user-controller'
+import userController, { getUser, postLoginUser, postUser, logoutUser, putUser, postPasswordReset, putPasswordReset } from './controllers/user-controller'
 import { getByPublisherId, putProperty, postFindProperty, getByIdProperty, putUpdateProperty, deleteProperty } from './controllers/property-controller';
 import makeCallback from './express-callback';
 import { getPicture } from './controllers/pictures-controller';
 import { postRating, putRating, getAverageRating, getUserRating, getTopRated } from './controllers/rating-controller';
+import middlewares from './controllers/middlewares';
 
 const port = 3000 || process.env.port;
 var app = express();

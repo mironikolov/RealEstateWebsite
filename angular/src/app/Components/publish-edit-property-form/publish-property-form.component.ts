@@ -14,13 +14,13 @@ import { PropertyImageService } from '../../Services/propertyImage/property-imag
   styleUrls: ['./publish-property-form.component.scss']
 })
 export class PublishEditPropertyFormComponent implements OnInit {
-  PropertyPublishForm:FormGroup;
-  propertyToPublish:Property = new Property();
-  edit: boolean;
-  files:Array<File> = new Array<File>();
+  private PropertyPublishForm:FormGroup;
+  private propertyToPublish:Property = new Property();
+  private edit: boolean;
+  private files:Array<File> = new Array<File>();
 
-  imagesUrlArr = new Array<SafeUrl>();
-  pictureRowItems:number = 4;
+  private imagesUrlArr = new Array<SafeUrl>();
+  private pictureRowItems:number = 4;
 
   private tagList: string[] = ['Асансьор', 'Саниран', 'Гараж', 'Затворен комплекс', 'Паркомясто', 'Необзаведен', 'Обзаведен'];
 
@@ -196,7 +196,7 @@ export class PublishEditPropertyFormComponent implements OnInit {
     }
 
     this.userService.getUser( this.propertyToPublish.publisherId ).subscribe( user => {
-      if( user.username != this.loginService.currentUser.username){
+      if( user.username != this.loginService.getUser().username){
         window.alert("Denied!");
         return;
       }

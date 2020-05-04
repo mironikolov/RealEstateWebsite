@@ -7,18 +7,18 @@ import { SafeUrl } from '@angular/platform-browser';
   styleUrls: ['./picture-gallery.component.scss']
 })
 export class PictureGalleryComponent implements OnInit {
-  fileToUpload: File = null;
-  math = Math;
-  index: number = 0;
+  private fileToUpload: File = null;
+  private math = Math;
+  private index: number = 0;
 
-  imagesUrlArr = new Array<SafeUrl>();
+  private imagesUrlArr = new Array<SafeUrl>();
   @Input() set setImagesUrlArr( imagesUrlArr: [SafeUrl] ){
     if ( imagesUrlArr != null  ) {
       this.imagesUrlArr = imagesUrlArr;
     }
   }
 
-  pictureRowItems:number = 4;
+  private pictureRowItems:number = 4;
   @Input() set setPictureRowItems( pictureRowItems ){
     this.pictureRowItems = pictureRowItems;
   };

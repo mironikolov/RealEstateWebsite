@@ -11,7 +11,7 @@ import { QueryService } from '../../Services/queryService/query.service';
 export class TopRatedUsersCarouselComponent implements OnInit {
   private topUsers: User[];
   private limit: number = 5;
-  math = Math;
+  private math = Math;
   private carouselItems: number = 4;
 
   constructor( private userService: UserService, private queryService: QueryService ) { }

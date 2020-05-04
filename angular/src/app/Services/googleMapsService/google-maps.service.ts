@@ -3,7 +3,6 @@ import { HttpClient } from '@angular/common/http';
 import { environment } from '../../../environments/environment';
 import { Observable } from 'rxjs';
 import { GoogleMapsModel } from '../../Models/googleMapsModel';
-import { Property } from 'src/app/Models/propertyModel';
 
 @Injectable({
   providedIn: 'root'

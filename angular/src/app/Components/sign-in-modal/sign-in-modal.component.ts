@@ -11,9 +11,9 @@ import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
   styleUrls: ['./sign-in-modal.component.scss']
 })
 export class SignInModalComponent implements OnInit {
-  SignInForm:FormGroup;
-  newUser:User = new User();
-  userPicture: File;
+  private SignInForm:FormGroup;
+  private newUser:User = new User();
+  private userPicture: File;
 
   constructor( private formBuilder: FormBuilder,
     private userService: UserService,
@@ -23,9 +23,11 @@ export class SignInModalComponent implements OnInit {
 
   ngOnInit() {
     this.SignInForm = this.generateSignInFrom();
-    if ( this.data.edit ) {
-      const user = this.logInService.getUser();
-      this.SignInForm.patchValue({ username: user.username, email: user.email, phone: user.phoneNumber });
+    if ( this.data != null ) {
+      if (this.data.edit) {
+        const user = this.logInService.getUser();
+        this.SignInForm.patchValue({ username: user.username, email: user.email, phone: user.phoneNumber });
+      }
     }
     
   }

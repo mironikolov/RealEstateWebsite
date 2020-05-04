@@ -6,12 +6,13 @@ import { catchError, map } from 'rxjs/operators';
 import sessionErrorHandler from '../session-errorHandler';
 import { LogInService } from '../logInService/log-in.service';
 import { GoogleMapsService } from '../googleMapsService/google-maps.service';
+import { environment } from '../../../environments/environment';
 
 @Injectable({
   providedIn: 'root'
 })
 export class ServicePropertyService {
-  propertiesUrl:string = 'http://localhost:3000/properties';
+  private propertiesUrl:string = `${environment.SERVER_URL}/properties`;
 
   constructor( private http:HttpClient, private loginService: LogInService, private googleMapsService: GoogleMapsService ) { }
 
@@ -47,7 +48,6 @@ export class ServicePropertyService {
 
   putProperty( property:Property, files: Array<File> ):Observable<any>
   {
-    property = new Property().deserialize( property );
     
     const formData = new FormData( );
     formData.append( 'data', JSON.stringify( property ) );
@@ -57,19 +57,6 @@ export class ServicePropertyService {
     });
 
     return this.http.put(`${this.propertiesUrl}`, formData, { withCredentials: true } ).pipe( catchError( sessionErrorHandler( this.loginService ) ) );
-  }
-
-  //todo: move to picture service maybe
-  putPicture( fileToUpload: File )
-  {
-    const formData: FormData = new FormData();
-    formData.append('fileKey', fileToUpload, fileToUpload.name);
-
-    this.http.post(`${this.propertiesUrl}picture/`, formData).subscribe( data => {
-      console.log("Post successful", data);
-    }, error => {
-      console.log("Error:", error );
-    } );
   }
 
    editProperty( property: Property, files: File[] ):Observable<any>{

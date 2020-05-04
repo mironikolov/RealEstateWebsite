@@ -3,12 +3,10 @@ import userService from '../../use-cases/user-use-cases';
 import makeGetUser from './get-user';
 import makePostLoginUser from './post-login-user';
 import makePostUser from './post-user';
-import middlewares from '../middlewares'
 import logoutUser from './logout-user';
 import makePutUser from './put-user';
 import makePostPasswordReset from './password-reset';
 import makePutPasswordReset from './put-password-reset';
-//todo: add not found, middlewares???
 
 const getUser = makeGetUser({ findByIdUser });
 const postLoginUser = makePostLoginUser({ loginUser });
@@ -28,4 +26,4 @@ const userController = Object.freeze({
 });
 
 export default userController;
-export { getUser, postUser, postLoginUser, logoutUser, putUser, postPasswordReset, putPasswordReset, middlewares };
+export { getUser, postUser, postLoginUser, logoutUser, putUser, postPasswordReset, putPasswordReset };

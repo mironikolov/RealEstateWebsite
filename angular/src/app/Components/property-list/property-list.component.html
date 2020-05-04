@@ -22,7 +22,7 @@
     <div class="row">
         <div class="col">
 
-            <mat-card id="propertyItem"  [routerLink] = "['/property', property._id]">
+            <mat-card id="propertyItem"  [routerLink] = "['/property', property._id]" style="cursor: pointer;">
                 <div class="containter">
                     <div class="row">
                         <div class="col">
@@ -41,6 +41,13 @@
                     <div class="row">
                             <div class="col-sm-4 col-md-2" >
                                 <img mat-card-image [src]="property.picturesURL[0]" id="picture"/>
+
+                                <mat-card-content>
+                                    <h6> Дата на качване:</h6>
+                                    <p> {{ property.date | date}} </p>
+                                </mat-card-content>
+
+                                <hr class="clearfix w-100 d-md-none">
                             </div>
 
                             <div class="col-sm-4 col-md-8">
@@ -57,15 +64,6 @@
                                         <h6> Тип: {{ property.type }} </h6>
                                     </mat-card-content>
                             </div>
-                    </div>
-                    <hr class="clearfix w-100 d-md-none">
-                    <div class="row">
-                        <div class="col">
-                            <mat-card-content>
-                                <h6> Дата на качване:</h6>
-                                <p> {{ property.date | date}} </p>
-                            </mat-card-content>
-                        </div>
                     </div>
                 </div>
             </mat-card>

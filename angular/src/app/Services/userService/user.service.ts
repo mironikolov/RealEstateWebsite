@@ -5,13 +5,14 @@ import { Observable } from 'rxjs';
 import { map, catchError } from 'rxjs/operators';
 import { SafeUrl, DomSanitizer } from '@angular/platform-browser';
 import createHandlePipeError from '../pipe-errorHandler'
+import { environment } from '../../../environments/environment';
 
 @Injectable({
   providedIn: 'root'
 })
 export class UserService {
-  //todo: move url to env, private functions
-  usersUrl:string = 'http://localhost:3000/users';
+
+  private usersUrl:string = `${environment.SERVER_URL}/users`;
 
   constructor( private http:HttpClient,
     private sanitizer: DomSanitizer ) { }

@@ -11,18 +11,29 @@ export default function makeUsersDb( makeDb:() => Promise<mongodb.Db> ) {
         insert,
         update
     });
-//todo: try/catch
+
     async function findAll() {
-        const db = await makeDb();
-        const result = await db.collection( 'users' ).find({}).toArray();
-        return result;
+        try {
+            const db = await makeDb();
+            const result = await db.collection( 'users' ).find({}).toArray();
+            return result;
+            
+        } catch (error) {
+            throw Error;
+            
+        }
     };
 
     async function findById(id: string) {
-        const db = await makeDb();
-        const result = await db.collection( 'users' ).findOne({ _id: new ObjectId(id) });
-        
-        return result;
+        try {
+            const db = await makeDb();
+            const result = await db.collection( 'users' ).findOne({ _id: new ObjectId(id) });
+            
+            return result;
+            
+        } catch (error) {
+            throw Error;
+        }
     }
 
     async function findByEmail( email: string ){
@@ -49,21 +60,33 @@ export default function makeUsersDb( makeDb:() => Promise<mongodb.Db> ) {
         
     }
 
-    //todo: Change to email
     async function login({ username }: { username: string }) {
-        const db = await makeDb();
-        const result = await db.collection( 'users' ).findOne({ 'username': username });
-
-        return result;
+        try {
+            const db = await makeDb();
+            if ( username.includes('@') ) {
+                return await db.collection( 'users' ).findOne({ 'email': username });    
+            }
+            else{
+                return await db.collection( 'users' ).findOne({ 'username': username });
+            }
+            
+        } catch (error) {
+            throw Error;
+        }
     }
 
     async function insert( { ...userInfo } ) {
-        const db = await makeDb();
-        const result = await db.collection( 'users' ).insertOne({ ...userInfo });
-        if ( result.insertedCount === 0 ) {
-            return null;
+        try {
+            const db = await makeDb();
+            const result = await db.collection( 'users' ).insertOne({ ...userInfo });
+            if ( result.insertedCount === 0 ) {
+                return null;
+            }
+            return result;
+            
+        } catch (error) {
+            throw Error;
         }
-        return result;
     }
 
     async function update( { ...userInfo }) {
@@ -77,7 +100,7 @@ export default function makeUsersDb( makeDb:() => Promise<mongodb.Db> ) {
             }
             return result;
         } catch (error) {
-            return error;
+            throw Error;
         }
     }
 }
