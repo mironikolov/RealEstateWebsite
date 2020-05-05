@@ -1,7 +1,15 @@
 <form [formGroup]="PropertySearchForm">
-    <div class="form-group ">
+    <div class="form-group" *ngIf="!citiesArr">
         <label for="cityInput"> Град </label>
         <input type="text" class="form-control" id="cityInput" formControlName="city">
+    </div>
+
+    <div class="form-group" *ngIf="citiesArr">
+        <label for="cityInput"> Град </label>
+        <select class="form-control" id="cityInput" formControlName="city">
+            <option [ngValue]="null" disabled selected>Няма избран</option>
+            <option *ngFor="let city of citiesArr"> {{ city?.name }}</option>
+        </select>
     </div>
 
     <div class="form-group">

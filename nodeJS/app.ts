@@ -5,6 +5,8 @@ import makeCallback from './express-callback';
 import { getPicture } from './controllers/pictures-controller';
 import { postRating, putRating, getAverageRating, getUserRating, getTopRated } from './controllers/rating-controller';
 import middlewares from './controllers/middlewares';
+import googleApiController from './controllers/googleApi';
+import getCities from './controllers/geoDbApi/get-cities';
 
 const port = 3000 || process.env.port;
 var app = express();
@@ -35,5 +37,10 @@ app.post( '/rating/insert', middlewares.authUser, ( req, res ) => postRating( re
 app.put( '/rating/update', middlewares.authUser, ( req, res ) => putRating( req, res ) );
 app.get( '/rating/averageRating/:userId', ( req, res ) => getAverageRating( req, res ) );
 app.get( '/rating/userRating/:ratedUserId', middlewares.authUser, ( req, res ) => getUserRating( req, res ) );
+
+app.get( '/googleApi/:address', ( req, res ) => googleApiController.getCoordinates( req, res ) );
+app.get( '/googleApi/:lat/:lng', ( req, res ) => googleApiController.getPlace( req, res ) );
+
+app.get( '/citiesApi', getCities );
 
 app.listen(port, () => console.log( `Listening on port: ${port}` ));

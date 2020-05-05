@@ -7,6 +7,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { UserService } from '../../Services/userService/user.service';
 import { SafeUrl, DomSanitizer } from '@angular/platform-browser';
 import { PropertyImageService } from '../../Services/propertyImage/property-image.service';
+import { GoogleMapsService } from 'src/app/Services/googleMapsService/google-maps.service';
 
 @Component({
   selector: 'app-publish-property-form',
@@ -26,6 +27,8 @@ export class PublishEditPropertyFormComponent implements OnInit {
 
   private buttonClicked = false;
 
+  private citiesArr: string[];
+
   constructor( private formBuilder:FormBuilder,
     private loginService:LogInService,
     private propertyService:ServicePropertyService,
@@ -33,7 +36,8 @@ export class PublishEditPropertyFormComponent implements OnInit {
     private router: Router,
     private userService: UserService,
     private sanitizer: DomSanitizer,
-    private imageService:PropertyImageService ) { }
+    private imageService:PropertyImageService,
+    private googleMapsService: GoogleMapsService ) { }
 
   ngOnInit() {
     this.PropertyPublishForm = this.generateFrom();
@@ -45,13 +49,18 @@ export class PublishEditPropertyFormComponent implements OnInit {
     if( this.route.snapshot.paramMap.get( 'id' ) != null ){
       this.propertyService.getProperty( this.route.snapshot.paramMap.get( 'id' )).subscribe( property => {
         this.propertyToPublish = property;
+        console.log(this.propertyToPublish);
+        
         this.fillEditFormValues( this.propertyToPublish );
         this.imagesUrlArr = this.imageService.getPropertyImagesUrl( property );
         this.files = this.imageService.getPropertyImages( property );
-        console.log(this.files);
         
       });
     }
+    
+    this.googleMapsService.getCities().subscribe( data => {
+      this.citiesArr = data;
+    });
   }
 
   private generateFrom(): FormGroup {
@@ -152,7 +161,7 @@ export class PublishEditPropertyFormComponent implements OnInit {
     this.PropertyPublishForm.get('city').setValue( property.city );
     this.PropertyPublishForm.get('price').setValue( property.price );
     this.PropertyPublishForm.get('rooms').setValue( property.rooms );
-    this.PropertyPublishForm.get('title').setValue( property.title );
+    this.PropertyPublishForm.get('tags').setValue( property.tags );
     this.PropertyPublishForm.get('area').setValue( property.area );
     this.PropertyPublishForm.get('type').setValue( property.type );
     this.PropertyPublishForm.get('info').setValue( property.extraInfo );

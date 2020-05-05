@@ -15,7 +15,7 @@ export default function makeGetPicture(){
                 
                 return;
               }
-              if ( filenames == null || filenames == undefined ) {
+              if ( filenames == null || filenames == undefined || filenames.length == 0 ) {
                 httpResponse.sendFile( env.ROOT_DIR + '/Images/defaultImages/1.jpg' );
                 return;
               }

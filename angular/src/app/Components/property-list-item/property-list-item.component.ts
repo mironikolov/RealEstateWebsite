@@ -22,8 +22,8 @@ export class PropertyListItemComponent implements OnInit {
   private publisher: User;
   private currentUser: User;
 
-  private latitude: number = 42;
-  private longitude: number = 25;
+  private latitude: number;
+  private longitude: number;
   private zoom: number = 14;
   private markerLatitude: number;
   private markerLongitude: number;
@@ -45,6 +45,7 @@ export class PropertyListItemComponent implements OnInit {
       this.property=property;
       
       this.property.picturesURL = this.propertyImageService.getPropertyImagesUrl( property );
+
       this.userService.getUser(property.publisherId).subscribe( ( user ) => {
         
         this.publisher=user;
@@ -52,6 +53,9 @@ export class PropertyListItemComponent implements OnInit {
 
       this.googleMapsService.getCoordinates( this.property.address )
       .subscribe( res => {
+        if ( res.status == 'ZERO_RESULTS') {
+          return;
+        }
         this.latitude = res.results[0].geometry.location.lat;
         this.longitude = res.results[0].geometry.location.lng;
         this.markerLatitude = res.results[0].geometry.location.lat;
@@ -65,8 +69,11 @@ export class PropertyListItemComponent implements OnInit {
   onChoseLocation( event ){
     this.googleMapsService.getCoordinates( this.property.address )
     .subscribe( res => {
-       this.markerLatitude = res.results[0].geometry.location.lat;
-       this.markerLongitude = res.results[0].geometry.location.lng;
+      if ( res.status == 'ZERO_RESULTS') {
+        return;
+      }
+      this.markerLatitude = res.results[0].geometry.location.lat;
+      this.markerLongitude = res.results[0].geometry.location.lng;
     });
   }
 

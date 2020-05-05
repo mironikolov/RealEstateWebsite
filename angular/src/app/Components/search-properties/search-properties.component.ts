@@ -12,7 +12,7 @@ import { QueryService } from '../../Services/queryService/query.service';
 })
 export class SearchPropertiesComponent implements OnInit {
   private PropertySearchForm = new FormGroup({
-    city: new FormControl(),
+    city: new FormControl( ),
     district: new FormControl(),
     type: new FormControl(),
     rooms: new FormControl(),
@@ -23,6 +23,8 @@ export class SearchPropertiesComponent implements OnInit {
   });
 
   private tagList: string[] = ['Асансьор', 'Саниран', 'Гараж', 'Затворен комплекс', 'Паркомясто', 'Необзаведен', 'Обзаведен'];
+
+  private citiesArr: string[];
 
   private rentRangeSliderOptions: Options = {
     floor: 50,
@@ -46,6 +48,9 @@ export class SearchPropertiesComponent implements OnInit {
   constructor( private googleMaprsService: GoogleMapsService, private router: Router, private queryService: QueryService ) { }
 
   ngOnInit() {
+    this.googleMaprsService.getCities().subscribe( data => {
+      this.citiesArr = data;
+    });
   }
 
   private submitClick(){

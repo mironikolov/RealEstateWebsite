@@ -44,6 +44,9 @@
                             
                             <h5>Особености:</h5>
                             <mat-grid-list cols='2' rowHeight='2rem' >
+                                <mat-grid-tile *ngIf="!property?.tags">
+                                    Няма
+                                </mat-grid-tile>
                                 <mat-grid-tile *ngFor="let tag of property?.tags" [colspan]="1">
                                         <!-- <mat-icon  [svgIcon]='tag' ></mat-icon> &nbsp; -->
                                          {{ tag }}
@@ -57,13 +60,13 @@
                 <hr class="clearfix w-100 d-md-none">
                 <div class="row">
                     
-                    <div class="col-sm">
+                    <div class="col-sm" *ngIf="property.picturesURL?.length > 0">
                         <app-picture-gallery [setImagesUrlArr]='property?.picturesURL'></app-picture-gallery>
                     </div>
 
                     <hr class="clearfix w-100 d-md-none">
 
-                    <div class="col-sm">
+                    <div class="col-sm" *ngIf="latitude && longitude">
                         <agm-map [latitude]='latitude' [longitude]='longitude' (mapClick)="onChoseLocation($event)" [zoom]='zoom'>
                             <agm-marker [latitude]='markerLatitude' [longitude]='markerLongitude' ></agm-marker>
                         </agm-map>
