@@ -20,6 +20,7 @@ export class ServicePropertyService {
   postFindProperties( toFind: Object, page: number, pageSize: number ):Observable<{ result: Property[], resultCount: number }>
   {
     const query = { 'toFind': toFind, 'page': page, 'pageSize': pageSize };
+    
     return this.http.post< { result: Property[], resultCount: number }>( `${this.propertiesUrl}/find`, query )
     .pipe( 
       map( propertyArr  => {
