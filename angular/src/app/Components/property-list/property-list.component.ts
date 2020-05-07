@@ -58,6 +58,10 @@ export class PropertyListComponent implements OnInit {
     this.propertyImageService.getImage( property._id, property.picturesNames[0] ).subscribe( ( imageBlob ) => {
       const imageBlobUrl = URL.createObjectURL( imageBlob );
       const image = this.sanitizer.bypassSecurityTrustUrl( imageBlobUrl );
+      if (!property) {
+        return;
+      }
+      
       property.picturesURL[0] = image ;
     });
   }

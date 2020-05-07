@@ -10,7 +10,7 @@
                             {{ topUsers[carouselItems*i+l].username }}
                         </mat-card-title>
                     </mat-card-header>
-                    <img mat-card-image [src]="topUsers[carouselItems*i+l].picture">
+                    <img *ngIf="topUsers[carouselItems*i+l]?.picture" mat-card-image [src]="topUsers[carouselItems*i+l]?.picture">
                     <mat-card-content class="text-overflow">
                         Rating: {{ topUsers[carouselItems*i+l].avg_rating }}
                     </mat-card-content>

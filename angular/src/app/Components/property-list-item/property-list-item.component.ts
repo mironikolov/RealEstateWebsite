@@ -41,7 +41,7 @@ export class PropertyListItemComponent implements OnInit {
   ngOnInit() {
 
     this.propertyService.getProperty(this.route.snapshot.paramMap.get( 'id' )).subscribe( ( property ) => {
-
+      
       this.property=property;
       
       this.property.picturesURL = this.propertyImageService.getPropertyImagesUrl( property );
