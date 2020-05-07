@@ -60,7 +60,8 @@ export class SearchPropertiesComponent implements OnInit {
     if ( +this.PropertySearchForm.controls['rooms'].value == NaN ) {
       this.PropertySearchForm.controls['rooms'].setErrors({ 'incorrect': true });
     }
-    
+    this.PropertySearchForm.controls['rooms'].setValue( +this.PropertySearchForm.controls['rooms'].value );
+
     if ( !this.PropertySearchForm.valid ) {
       alert("invalid input");
       return;

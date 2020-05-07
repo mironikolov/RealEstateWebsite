@@ -4,8 +4,10 @@ import { Request } from 'express';
 export default function makePostFindProperty({ findProperties }: { findProperties: any }){
     return async function postFindProperty( httpRequest: Request ) {
         try {
-            const toFind  = httpRequest.body;
-            const property = await findProperties( toFind );
+            const toFind  = httpRequest.body.toFind;
+            const page = httpRequest.body.page;
+            const pageSize = httpRequest.body.pageSize;
+            const property = await findProperties( toFind, page, pageSize );
             
             return {
                 headers: {

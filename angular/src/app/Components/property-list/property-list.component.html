@@ -18,7 +18,7 @@
 
 
 <div id="propertyList" class="container" 
-    *ngFor="let property of propertiesArrayFiltered | slice: (page) * pageSize : (page) * pageSize + pageSize" >
+    *ngFor="let property of propertiesArray" >
     <div class="row">
         <div class="col">
 
@@ -71,7 +71,8 @@
         </div>
     </div>
 </div>
-<mat-paginator [length]="propertiesArrayFiltered?.length"
+<mat-paginator [length]="allResults"
                [pageSize]="pageSize"
+               [pageIndex]="page - 1"
                (page)="pageEvent($event)">
 </mat-paginator>

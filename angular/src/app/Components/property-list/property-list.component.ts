@@ -13,9 +13,9 @@ import { QueryService } from '../../Services/queryService/query.service';
 })
 export class PropertyListComponent implements OnInit {
   private propertiesArray:Property[];
-  private propertiesArrayFiltered:Property[];
   private pageSize:number = 8;
-  private page:number = 0;
+  private page:number = 1;
+  private allResults: number = 0;
 
   private query: Object;
 
@@ -23,10 +23,11 @@ export class PropertyListComponent implements OnInit {
    private propertyImageService:PropertyImageService,
    private sanitizer: DomSanitizer,
    private queryService: QueryService ) {
-     this.queryService.query.subscribe( query => {
+     this.queryService.query.subscribe( query => {   
        console.log(query);
        
        this.query = query;
+       this.page = 1;
        this.refreshPropertiesArr();
      });
     }
@@ -36,14 +37,14 @@ export class PropertyListComponent implements OnInit {
 
   refreshPropertiesArr():void{
     if ( this.query != null) {
-      this.propertyService.postFindProperties( { ...this.query } ).subscribe( 
-        properties => {
-          this.propertiesArray = properties;;
+      this.propertyService.postFindProperties( this.query, this.page, this.pageSize ).subscribe( 
+        properties => { 
+          this.propertiesArray = properties.result;
+          this.allResults = properties.resultCount;
         },
          error => console.log(error),
          ()=>{
            this.setPropertyPictures();
-           this.propertiesArrayFiltered = this.propertiesArray;
           }
       );
     }
@@ -68,22 +69,8 @@ export class PropertyListComponent implements OnInit {
   }
 
   pageEvent(e){
-    this.page = e.pageIndex;
-  }
 
-  filterFormSubmit(e){
-
-    this.propertiesArrayFiltered = this.propertiesArray.filter( property => {
-      if( property.type != e.srcElement.elements[0].value ){
-        return false;
-      }
-
-      if( property.rooms != e.srcElement.elements[1].value ){
-        return false;
-      }
-
-      return true;
-    });
-
+    this.page = e.pageIndex++;
+    this.refreshPropertiesArr();
   }
 }

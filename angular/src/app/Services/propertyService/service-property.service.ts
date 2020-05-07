@@ -17,15 +17,20 @@ export class ServicePropertyService {
   constructor( private http:HttpClient, private loginService: LogInService, private googleMapsService: GoogleMapsService ) { }
 
   //GetProperties
-  postFindProperties( toFind: Object ):Observable<Property[]>
+  postFindProperties( toFind: Object, page: number, pageSize: number ):Observable<{ result: Property[], resultCount: number }>
   {
-    return this.http.post<Property[]>( `${this.propertiesUrl}/find`, toFind )
+    const query = { 'toFind': toFind, 'page': page, 'pageSize': pageSize };
+    return this.http.post< { result: Property[], resultCount: number }>( `${this.propertiesUrl}/find`, query )
     .pipe( 
-      map( propertyArr => {
-      return propertyArr.map( property => {
-        return new Property().deserialize( property ); 
-      });
-    }), catchError( sessionErrorHandler( this.loginService ) ));
+      map( propertyArr  => {
+      return {
+        'resultCount': propertyArr.resultCount,
+        'result': propertyArr.result.map( property => {
+          return new Property().deserialize( property ); 
+        })
+      }
+    }),
+    catchError( sessionErrorHandler( this.loginService ) ));
   }
 
   getPropertiesByPublisherId( publisherId: string ): Observable<Property[]>

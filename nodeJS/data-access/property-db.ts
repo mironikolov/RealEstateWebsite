@@ -11,7 +11,7 @@ export default function makePropertiesDb( makeDb: () => Promise<mongodb.Db> ){
         deleteProperty
     });
 
-    async function findProperties( {...toFind} ){
+    async function findProperties( { ...toFind }, page: number, pageSize: number ){
         const db = await makeDb();
 
         if( toFind._id ){
@@ -22,9 +22,11 @@ export default function makePropertiesDb( makeDb: () => Promise<mongodb.Db> ){
             toFind.tags = { $all: toFind.tags };
         }
         
-        const result = await db.collection( 'properties' ).find({ ...toFind }).toArray();
+        const skips = pageSize * ( page - 1 );
+        const result = await db.collection( 'properties' ).find({ ...toFind }).sort({ _id: -1 }).skip( skips ).limit( pageSize ).toArray();
+        const resultCount = await db.collection( 'properties' ).find({ ...toFind }).count();
         
-        return result;
+        return { 'result': result, 'resultCount': resultCount};
     }
 
     async function findAllByPublisherId( publisherID: string ){
