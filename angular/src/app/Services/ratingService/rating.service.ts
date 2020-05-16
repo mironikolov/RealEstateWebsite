@@ -1,8 +1,11 @@
-import { Injectable } from '@angular/core';
+import { Injectable, ErrorHandler } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import Rating from 'src/app/Models/rating';
 import { environment } from '../../../environments/environment';
+import { catchError } from 'rxjs/operators';
+import sessionErrorHandler from '../session-errorHandler';
+import { LogInService } from '../logInService/log-in.service';
 
 @Injectable({
   providedIn: 'root'
@@ -10,7 +13,7 @@ import { environment } from '../../../environments/environment';
 export class RatingService {
   private ratingUrl:string = `${environment.SERVER_URL}/rating`;
 
-  constructor( private http:HttpClient ) { }
+  constructor( private http:HttpClient, private logInService: LogInService ) { }
 
   getAverageRating( userId: string ):Observable<Rating>{
     return this.http.get<Rating>( `${this.ratingUrl}/averageRating/${userId}`);
@@ -21,6 +24,7 @@ export class RatingService {
   }
 
   insertRating( userToRate: string, Rating: number ): Observable<any>{
-    return this.http.post( `${this.ratingUrl}/insert`, { userToRateId: userToRate, rating: Rating }, { withCredentials: true });
+    return this.http.post( `${this.ratingUrl}/insert`, { userToRateId: userToRate, rating: Rating }, { withCredentials: true })
+    .pipe( catchError( sessionErrorHandler( this.logInService )) );
   }
 }

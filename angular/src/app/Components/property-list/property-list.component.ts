@@ -24,7 +24,6 @@ export class PropertyListComponent implements OnInit {
    private sanitizer: DomSanitizer,
    private queryService: QueryService ) {
      this.queryService.query.subscribe( query => {   
-       console.log(query);
        
        this.query = query;
        this.page = 1;

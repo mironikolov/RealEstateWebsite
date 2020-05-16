@@ -51,7 +51,7 @@ export class PropertyListItemComponent implements OnInit {
         this.publisher=user;
       });
 
-      this.googleMapsService.getCoordinates( this.property.address )
+      this.googleMapsService.getCoordinates( `${this.property.address} ${this.property.city}` )
       .subscribe( res => {
         if ( res.status == 'ZERO_RESULTS') {
           return;
@@ -67,7 +67,7 @@ export class PropertyListItemComponent implements OnInit {
   }
 
   onChoseLocation( event ){
-    this.googleMapsService.getCoordinates( this.property.address )
+    this.googleMapsService.getCoordinates( `${this.property.address}` )
     .subscribe( res => {
       if ( res.status == 'ZERO_RESULTS') {
         return;

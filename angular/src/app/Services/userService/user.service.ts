@@ -30,6 +30,7 @@ export class UserService {
     const formData = new FormData();
     formData.append( 'data', JSON.stringify( newUser ) );
     formData.append( 'pic', file);
+    
     return this.http.post(`${this.usersUrl}`, formData );
   }
 

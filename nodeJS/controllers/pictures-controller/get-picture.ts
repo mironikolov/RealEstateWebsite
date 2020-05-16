@@ -11,8 +11,7 @@ export default function makeGetPicture(){
             
             fs.readdir( `${env.ROOT_DIR}/Images/${folderId}`, ( err, filenames ) => {
               if( err ){
-                httpResponse.sendFile( env.ROOT_DIR + '/Images/defaultImages/1.jpg' );
-                
+                httpResponse.sendFile( env.ROOT_DIR + '/Images/defaultImages/1.jpg' );                
                 return;
               }
               if ( filenames == null || filenames == undefined || filenames.length == 0 ) {

@@ -60,13 +60,13 @@
                 <hr class="clearfix w-100 d-md-none">
                 <div class="row">
                     
-                    <div class="col-sm" *ngIf="property?.picturesURL.length > 0">
+                    <div class="col-md-6" *ngIf="property?.picturesURL.length > 0">
                         <app-picture-gallery *ngIf="property?.picturesURL" [setImagesUrlArr]='property?.picturesURL'></app-picture-gallery>
                     </div>
 
                     <hr class="clearfix w-100 d-md-none">
 
-                    <div class="col-sm" *ngIf="latitude && longitude">
+                    <div class="col-md-6" *ngIf="latitude && longitude">
                         <agm-map [latitude]='latitude' [longitude]='longitude' (mapClick)="onChoseLocation($event)" [zoom]='zoom'>
                             <agm-marker [latitude]='markerLatitude' [longitude]='markerLongitude' ></agm-marker>
                         </agm-map>
@@ -74,6 +74,7 @@
                 </div>
 
                 <!-- Publisher info  -->
+                <br>
                 <hr class="clearfix w-100 d-md-none">
                 <div class="row">
                     <div class="col" [routerLink]="['/user', publisher?._id]" (click)="onUserClick()" style="cursor: pointer;">

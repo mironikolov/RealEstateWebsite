@@ -92,24 +92,20 @@ export class SignInModalComponent implements OnInit {
   }
 
   onEditButtonClick(){
+    this.SignInForm.get('password').setValidators(null);
+    this.SignInForm.get('repeatPassword').setValidators(null);
+    this.SignInForm.get('password').updateValueAndValidity();
+    this.SignInForm.get('repeatPassword').updateValueAndValidity();
+
     this.newUser.username = this.SignInForm.get('username').value;
-    this.newUser.password = this.SignInForm.get('password').value;
     this.newUser.email = this.SignInForm.get('email').value;
     this.newUser.phoneNumber = this.SignInForm.get('phone').value;
-
-    if(this.SignInForm.get('password').value != this.SignInForm.get('repeatPassword').value)
-    {
-      window.alert("Passwords doesnt match");
-      return;
-    }
-
+    
     if(this.SignInForm.invalid)
     {
       window.alert("Form invalid");
       return;
     }
-
-    console.log(this.userPicture);
     
     //check response
     this.userService.updateUser( this.newUser, this.userPicture ).subscribe( () => {

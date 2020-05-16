@@ -15,7 +15,6 @@ export class UserRatingComponent implements OnInit {
     this.userId = userId;
     this.refreshAverageRating();
     this.ratingService.getUserRating( userId ).subscribe( data => {
-
       if ( data.rating == undefined ) {
         this.rangeValue = 0;
       } else {
@@ -32,6 +31,9 @@ export class UserRatingComponent implements OnInit {
 
   refreshAverageRating(){
     this.ratingService.getAverageRating( this.userId ).subscribe( data => {
+      if (data == null ) {
+        return;
+      }
       
       if ( data.rating != undefined ) {
         this.averageRating = +data.rating.toFixed(2);

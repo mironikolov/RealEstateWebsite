@@ -10,6 +10,11 @@ export default function createHandleSessionError ( loginService:LogInService ){
             console.log( error.error.message );
             return throwError( "The request to server failed" );
         }
+
+        if ( error.status == 403 ) {
+            alert( "Please log in" );
+            return throwError( "Not logged-in" );
+        }
     
         if ( error.status == 403 && loginService.isLoggedIn()) {
             alert( "Session expired" );
@@ -17,6 +22,6 @@ export default function createHandleSessionError ( loginService:LogInService ){
             return throwError( "Session expired" );
         }
     
-        return throwError( `Not logged-in or ${error}` );
+        return throwError( ` ${error.message}` );
     }
 }

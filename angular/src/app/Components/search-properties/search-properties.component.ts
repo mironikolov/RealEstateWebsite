@@ -60,7 +60,9 @@ export class SearchPropertiesComponent implements OnInit {
     if ( +this.PropertySearchForm.controls['rooms'].value == NaN ) {
       this.PropertySearchForm.controls['rooms'].setErrors({ 'incorrect': true });
     }
-    this.PropertySearchForm.controls['rooms'].setValue( +this.PropertySearchForm.controls['rooms'].value );
+    if (+this.PropertySearchForm.controls['rooms'].value > 0 ) {
+      this.PropertySearchForm.controls['rooms'].setValue( +this.PropertySearchForm.controls['rooms'].value );
+    }
 
     if ( !this.PropertySearchForm.valid ) {
       alert("invalid input");
@@ -90,6 +92,8 @@ export class SearchPropertiesComponent implements OnInit {
     });
 
     this.queryService.query.next( query );
+    console.log(query);
+    
     this.router.navigate(['/properties']);
   }
 

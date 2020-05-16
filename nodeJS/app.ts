@@ -15,7 +15,7 @@ middlewares.bodyParser( app );
 middlewares.session( app );
 (global as any).__basedir = __dirname;
 
-app.post( '/users', makeCallback( postUser ) );
+app.post( '/users', middlewares.userMulter.any(), makeCallback( postUser ) );
 app.post( '/users/login', makeCallback( postLoginUser ) );
 app.post( '/users/logout', middlewares.authUser, logoutUser() );
 app.get( '/users/:_id', makeCallback( getUser ) );
@@ -36,7 +36,7 @@ app.get( '/pictures/:folderId/:pictureName', ( req, res ) => getPicture( req, re
 app.post( '/rating/insert', middlewares.authUser, ( req, res ) => postRating( req, res ) );
 app.put( '/rating/update', middlewares.authUser, ( req, res ) => putRating( req, res ) );
 app.get( '/rating/averageRating/:userId', ( req, res ) => getAverageRating( req, res ) );
-app.get( '/rating/userRating/:ratedUserId', middlewares.authUser, ( req, res ) => getUserRating( req, res ) );
+app.get( '/rating/userRating/:ratedUserId', ( req, res ) => getUserRating( req, res ) );
 
 app.get( '/googleApi/:address', ( req, res ) => googleApiController.getCoordinates( req, res ) );
 app.get( '/googleApi/:lat/:lng', ( req, res ) => googleApiController.getPlace( req, res ) );

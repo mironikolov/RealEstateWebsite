@@ -5,15 +5,17 @@
         <div class="row">
             <div class="col-sm-3 col-6" *ngFor="let user of topUsers | slice: i*carouselItems: i*carouselItems+carouselItems; index as l">
                 <mat-card class="mat-card" [routerLink] = "['/user', user._id]" (click)="onUserClick( user._id )" style="cursor: pointer;">
-                    <mat-card-header>
-                        <mat-card-title class="text-overflow">
-                            {{ topUsers[carouselItems*i+l].username }}
-                        </mat-card-title>
-                    </mat-card-header>
+
+                    <mat-card-title class="text-overflow">
+                        {{ topUsers[carouselItems*i+l].username }}
+                    </mat-card-title>
+
                     <img *ngIf="topUsers[carouselItems*i+l]?.picture" mat-card-image [src]="topUsers[carouselItems*i+l]?.picture">
+
                     <mat-card-content class="text-overflow">
                         Rating: {{ topUsers[carouselItems*i+l].avg_rating }}
                     </mat-card-content>
+                    
                 </mat-card>
             </div>
             

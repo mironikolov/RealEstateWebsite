@@ -6,6 +6,7 @@ import fileSystem from '../../file-system';
 export default function makePostUser({ addUser }: { addUser: any }){
     return async function postUser( httpRequest: Request ) {
       try {
+
           const userInfo = JSON.parse( httpRequest.body.data );
           const hashedPassword = await bcrypt.hash( userInfo.password, 10 );
           userInfo.password = hashedPassword;

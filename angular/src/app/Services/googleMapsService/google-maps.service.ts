@@ -13,6 +13,8 @@ export class GoogleMapsService {
   constructor( private http:HttpClient ) { }
 
   getCoordinates( place:String ):Observable<GoogleMapsModel>{
+    console.log(place);
+    
     return this.http.get<GoogleMapsModel>( `${ environment.SERVER_URL }/googleApi/${ place }` );
   }
 
