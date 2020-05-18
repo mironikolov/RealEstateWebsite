@@ -1,0 +1,64 @@
+<mat-dialog-content>
+<form [formGroup]="SignInForm">
+    <h1 *ngIf="data == null"> Регистрация </h1>
+    <h1 *ngIf="data?.edit == true"> Редакция </h1>
+    <div class="form-group">
+        <label for="signInUsername">Потребителско име</label>
+        <input type="text" formControlName="username" id="signInUsername" class="form-control">
+        <div class="alert alert-danger col-12" 
+        *ngIf="!SignInForm.controls.username.valid && isSubmitClicked">
+        Липсва потребителско име
+        </div>
+    </div>
+    
+    <div class="form-group" *ngIf="data === null">
+        <label for="signInPassword">Парола</label>
+        <input type="password" formControlName="password" id="signInPassword" class="form-control">
+        <div class="alert alert-danger col-12" 
+        *ngIf="!SignInForm.controls.password.valid && isSubmitClicked">
+        Липсва парола
+        </div>
+    </div>
+
+    <div class="form-group" *ngIf="data === null">
+        <label for="repeatPassword">Повторете паролата</label>
+        <input type="password" formControlName="repeatPassword" id="repeatPassword" class="form-control">
+        <div class="alert alert-danger col-12" 
+        *ngIf="!SignInForm.controls.repeatPassword.valid && isSubmitClicked">
+        Липсва парола
+        </div>
+    </div> 
+
+    <div class="form-group">
+        <label for="email">Email</label>
+        <input type="email" formControlName="email" id="email" class="form-control">
+        <div class="alert alert-danger col-12" 
+        *ngIf="!SignInForm.controls.email.valid && isSubmitClicked">
+        Липсва Email
+        </div>
+    </div> 
+
+    <div class="form-group">
+        <label for="phone">Телефонен номер</label>
+        <input type="tel" formControlName="phone" id="phone" class="form-control">
+        <div class="alert alert-danger col-12" 
+        *ngIf="!SignInForm.controls.phone.valid && isSubmitClicked">
+        Липсва телефонен номер
+        </div>
+    </div>
+    <div class="form-group">
+
+        <input type="file"
+            id="file"
+            class="col-6 btn btn-primary"
+            name="pic"
+            (change)="handleFileInput($event.target.files)">
+        
+        <button class = "col-6 btn btn-danger" (click)="onDeletePicturesClicked()"> Премахване на снимка </button>
+    </div>
+
+
+    <button *ngIf="data == null" type="submit" class="btn btn-primary" (click)="onSignInButtonClick()">Регистрация</button>
+    <button *ngIf="data?.edit == true" type="submit" class="btn btn-primary" (click)="onEditButtonClick()">Редакция</button>
+</form>
+</mat-dialog-content>

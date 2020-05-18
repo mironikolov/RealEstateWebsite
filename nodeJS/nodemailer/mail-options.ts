@@ -1,8 +1,10 @@
+import env from '../env/environment';
+
 export default ( sendTo: string, token: string ) => {
     return{
-        from: 'sender@email.com', // sender address
+        from: env.MAIL_USER, // sender address
         to: sendTo, // list of receivers
         subject: 'Password reset', // Subject line
-        html: `<p>Reset your password at: http://localhost:4200/reset/${token}</p>`// plain text body
+        html: `<p>Reset your password at: <a href="http://localhost:4200/reset/${token}"> /reset/${token} </a> </p>`// plain text body
     }
   };

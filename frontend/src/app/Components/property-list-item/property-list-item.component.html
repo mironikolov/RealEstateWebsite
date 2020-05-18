@@ -1,0 +1,109 @@
+<app-navbar></app-navbar>
+
+<div class="container">
+    <div class="row">
+        <div class="col">
+            <mat-card id="propertyItem">
+                <div class="row">
+                    <div class="col">
+                        <mat-card-header >
+                            <mat-card-title>
+                                <h3 >{{ property?.title }}</h3>
+                                <button *ngIf="(currentUser?._id == publisher?._id || currentUser?.adminFlag == 'true')"
+                                 class=" btn btn-primary" 
+                                 [routerLink]="['/property', property?._id, 'edit']" style="cursor: pointer;"> Редактиране </button>
+
+                                 <button *ngIf="(currentUser?._id == publisher?._id || currentUser?.adminFlag == 'true')"
+                                 class=" btn btn-danger" 
+                                 (click)="openConfirmDialog()"
+                                 id="deleteBtn"> Изтриване </button>
+                            </mat-card-title>
+                            <mat-card-subtitle>
+                                <h5>{{ property?.address }}</h5>
+                            </mat-card-subtitle>
+                        </mat-card-header>
+                    </div>
+                </div>
+
+                <!-- Property information  -->
+                <hr class="clearfix w-100 d-md-none">
+                <div class="row">
+                    <div class="col-sm-2">
+                       <mat-card-content>
+                           <h6> Цена: {{ property?.price }} &euro;</h6>
+                           <h6> Стаи: {{ property?.rooms }} </h6>
+                           <h6> Площ: {{ property?.area }} </h6>
+                           <h6> Тип: {{ property?.type }} </h6>
+                       </mat-card-content>
+                   </div>
+                     <div class="col-sm-10">
+                        <mat-card-content>
+                            <p> {{ property?.extraInfo }} </p>
+    
+                            <hr class="clearfix w-100 d-md-none" *ngIf="property?.tags">
+                            
+                            <h5>Особености:</h5>
+                            <mat-grid-list cols='2' rowHeight='2rem' >
+                                <mat-grid-tile *ngIf="!property?.tags">
+                                    Няма
+                                </mat-grid-tile>
+                                <mat-grid-tile *ngFor="let tag of property?.tags" [colspan]="1">
+                                        <!-- <mat-icon  [svgIcon]='tag' ></mat-icon> &nbsp; -->
+                                         {{ tag }}
+                                </mat-grid-tile>
+                            </mat-grid-list>
+                        </mat-card-content>
+                    </div>
+                </div>
+                    
+                <!-- Gallery and Google maps  -->
+                <hr class="clearfix w-100 d-md-none">
+                <div class="row">
+                    
+                    <div class="col-md-6" *ngIf="property?.picturesURL.length > 0">
+                        <app-picture-gallery *ngIf="property?.picturesURL" [setImagesUrlArr]='property?.picturesURL'></app-picture-gallery>
+                    </div>
+
+                    <hr class="clearfix w-100 d-md-none">
+
+                    <div class="col-md-6" *ngIf="latitude && longitude">
+                        <agm-map [latitude]='latitude' [longitude]='longitude' (mapClick)="onChoseLocation($event)" [zoom]='zoom'>
+                            <agm-marker [latitude]='markerLatitude' [longitude]='markerLongitude' ></agm-marker>
+                        </agm-map>
+                    </div>
+                </div>
+
+                <!-- Publisher info  -->
+                <br>
+                <hr class="clearfix w-100 d-md-none">
+                <div class="row">
+                    <div class="col" [routerLink]="['/user', publisher?._id]" (click)="onUserClick()" style="cursor: pointer;">
+                        <h5>Потребител: {{ publisher?.username}}</h5>
+                        <h6>email: {{ publisher?.email }}</h6>
+                        <h6>Телефон: {{ publisher?.phoneNumber }}</h6>
+                    </div>
+
+                    <div class="col">
+                        <app-user-rating [setUserId]='publisher?._id'></app-user-rating>
+                    </div>
+
+                </div>
+                
+                <!-- Upload info  -->
+                <hr class="clearfix w-100 d-md-none">
+                <div class="row"> 
+                    <div class="col">
+                        <mat-card-content>
+                            <h6> Дата на качване:</h6>
+                            <p> {{ property?.date | date}} </p>
+                        </mat-card-content>
+                    </div>
+                </div>
+
+            </mat-card>
+
+        </div>
+
+    </div>
+</div>
+<app-footer></app-footer>

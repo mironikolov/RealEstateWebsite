@@ -12,6 +12,7 @@ export default function passwordReset( userService = UserService ) {
             }
     
             const user = await userService.findByEmailUser( req.body.email );
+
             if (!user) {
                 return res.status(500).send('no such user');
             }
@@ -23,7 +24,7 @@ export default function passwordReset( userService = UserService ) {
             return res.status(201).send({});
 
         } catch (error) {
-            throw Error;
+            console.log(error);
         }
     }
 }

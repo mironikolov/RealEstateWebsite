@@ -15,17 +15,19 @@ var storage = multer.diskStorage(
                     path( null, `Images/temp`);
                 }
                 else {
-                    const files = fs.readdirSync( `${env.ROOT_DIR}/Images/${id}`) ;
-                    if ( files != null ) {
-                        for (const file of files) {
-                            fs.unlink(path2.join(`${env.ROOT_DIR}/Images/${id}`, file), err => {
-                                if (err) throw err;
-                            });
+                    if (fs.existsSync(`${env.ROOT_DIR}\\Images\\${id}`)) {
+                        const files = fs.readdirSync( `${env.ROOT_DIR}\\Images\\${id}`) ;
+                        if ( files != null ) {
+                            for (const file of files) {
+                                fs.unlink(path2.join(`${env.ROOT_DIR}\\Images\\${id}`, file), err => {
+                                    if (err) throw err;
+                                });
+                            }
                         }
                     }
 
-                    fs.mkdirSync( `${env.ROOT_DIR}/Images/${id}`, { recursive: true });
-                    path( null, `Images/${id}` );
+                    fs.mkdirSync( `${env.ROOT_DIR}\\Images\\${id}`, { recursive: true });
+                    path( null, `${env.ROOT_DIR}\\Images\\${id}` );
                 }
                 
             }

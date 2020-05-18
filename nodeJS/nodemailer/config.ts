@@ -2,10 +2,11 @@ import nodemailer from 'nodemailer';
 import env from '../env/environment';
 
 export default nodemailer.createTransport({
-    host: "smtp.mailtrap.io",
-  port: 2525,
+  host: "smtp.mail.bg",
+  port: 465,
+  secure: true,
   auth: {
-    user: env.MAILTRAP_USER,
-    pass: env.MAILTRAP_PASS
+    user: env.MAIL_USER,
+    pass: env.MAIL_PASS
   }
 });
