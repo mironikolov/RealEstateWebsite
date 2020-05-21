@@ -8,20 +8,20 @@ export default function passwordReset( userService = UserService ) {
         try {
             
             if ( !req.body.email ) {
-                return res.status(400).send('request body is missing');
+                return res.status(400).send('request body is missing').end();
             }
     
             const user = await userService.findByEmailUser( req.body.email );
 
             if (!user) {
-                return res.status(500).send('no such user');
+                return res.status(500).send('no such user').end();
             }
             const token = crypto.randomBytes(20).toString('hex');
             const result = 
             await userService.updateUser( {...user, resetPasswordToken: token, resetPasswordExpires: Date.now() + 3600000} ) //expires after 1 hour
             const emailResult = await mailTransporter( user.email, token );
             
-            return res.status(201).send({});
+            return res.status(201).send({}).end();
 
         } catch (error) {
             console.log(error);

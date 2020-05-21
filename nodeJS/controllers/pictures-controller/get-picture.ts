@@ -23,7 +23,6 @@ export default function makeGetPicture(){
       
       if ( pictureName === 'undefined' ) {
         cloudinary.v2.search.expression( `${env.CLOUDINARY_FOLDER}/${folderId}` ).execute().then( result => {
-
           if ( !result.resources ) {
             throw Error();
           }
@@ -37,18 +36,19 @@ export default function makeGetPicture(){
             
             res.on('end', () => {
               let buffer = Buffer.concat(data);
-              httpResponse.status(200).send( buffer );
+              httpResponse.status(200).send( buffer ).end();
             });
           }).end();
         });
+        return;
       }
-
+      
       cloudinary.v2.search.expression( `${env.CLOUDINARY_FOLDER}/DefaultImage` ).execute().then( result => {
-          
+        
         if ( !result.resources ) {
           throw Error();
         }
-
+        
         http.request( result.resources[0].url, res => {
           let data = Array<any>();
           
@@ -58,14 +58,15 @@ export default function makeGetPicture(){
           
           res.on('end', () => {
             let buffer = Buffer.concat(data);
-            httpResponse.status(200).send( buffer );
+            httpResponse.status(200).send( buffer ).end();
           });
         }).end();
       });
-      
-    } catch (error) {            
+      return;
 
-      httpResponse.status(404).send({ Error: error});
+    } catch (error) {            
+      
+      return httpResponse.status(404).send({ Error: error}).end();
     }
   }
 }

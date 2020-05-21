@@ -14,7 +14,7 @@ export default function makePostUser({ addUser }: { addUser: any }){
         
         multer( httpRequest, httpResponse, async (err: any) => {
             if (err) {
-                httpResponse.status(500).send({ 'Multer error': err });
+                return httpResponse.status(500).send({ 'Multer error': err }).end();
             }
             try {
                 const userInfo = JSON.parse( httpRequest.body.data );
@@ -30,7 +30,7 @@ export default function makePostUser({ addUser }: { addUser: any }){
                     const parser = new datauriParser();
                     const content = parser.format( httpRequest.file.mimetype, httpRequest.file.buffer ).content || '';
                     if ( content == '' ) {
-                        httpResponse.status(500).send({ error:'Picture error' });
+                        return httpResponse.status(500).send({ error:'Picture error' }).end();
                     }
                     
                     cloudinary.v2.uploader.upload( content,
@@ -38,15 +38,15 @@ export default function makePostUser({ addUser }: { addUser: any }){
                         ( error: any, result: any ) => {
                         if (error) {
                             console.log(error);
-                            httpResponse.status(500).send({'Picture upload error': error});                  
+                            throw Error;                  
                         }
                         console.log(result);
                     });
                 }
                 
-                httpResponse.status(201).send( posted );
+                return httpResponse.status(201).send( posted ).end();
             } catch (error) {
-                httpResponse.status(500).send({ Error: error });
+                return httpResponse.status(500).send({ Error: error }).end();
             }
         });
     }

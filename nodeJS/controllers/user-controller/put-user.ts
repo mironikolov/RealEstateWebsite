@@ -13,7 +13,7 @@ export default function makePutUser({ updateUser }: { updateUser: any }){
     return async function putUser( httpRequest: Request, httpResponse: Response ) { 
         multer( httpRequest, httpResponse, async (err: any) => {
             if (err) {
-                httpResponse.status(500).send({ 'Multer error': err });
+                return httpResponse.status(500).send({ 'Multer error': err }).end();
             }
             try {
                 const userInfo = JSON.parse( httpRequest.body.data );
@@ -22,26 +22,26 @@ export default function makePutUser({ updateUser }: { updateUser: any }){
                 password: httpRequest.session?.user.password,
                 ...userInfo });
 
-                if (httpRequest.file) {
+                if ( httpRequest.file ) {
                     cloudinaryConfig();
                     const parser = new datauriParser();
                     const content = parser.format( httpRequest.file.mimetype, httpRequest.file.buffer ).content || '';
                     if ( content == '' ) {
-                        httpResponse.status(500).send({ error:'Picture error' });
+                        return httpResponse.status(500).send({ error:'Picture error' }).end();
                     }
                     cloudinary.v2.uploader.upload( content,
                     { folder: `imotikarq/${httpRequest.session?.user._id}/`, public_id: httpRequest.session?.user._id},
                     ( error: any, result: any ) => {
                         if (error) {
-                            httpResponse.status(500).send({'Picture upload error': error});                 
+                            throw Error;             
                         }
                         //console.log(result);
                     });    
                 }
 
-                httpResponse.status(200).send( posted );
+                return httpResponse.status(200).send( posted ).end();
             } catch (error) {
-                httpResponse.status(500).send({ Error: error });
+                return httpResponse.status(500).send({ Error: error }).end();
             }
         });
     }

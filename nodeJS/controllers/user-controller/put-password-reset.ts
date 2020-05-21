@@ -6,16 +6,16 @@ export default function putPasswordReset( userService = UserService ) {
     return async ( req: Request, res: Response ) => {
         try {
             if ( !req.body ) {
-                return res.status(400).send('request body is missing');
+                return res.status(400).send('request body is missing').end();
             }
     
             const user = await userService.findByTokenUser( req.body.token );
             if (!user) {
-                return res.status(500).send('no such user');
+                return res.status(500).send('no such user').end();
             }
 
             if ( user.resetPasswordExpires < Date.now() ) {
-                return res.status(500).send('token expired');
+                return res.status(500).send('token expired').end();
             }
     
             const hashedPassword = await bcrypt.hash( req.body.password, 10 );
@@ -26,10 +26,10 @@ export default function putPasswordReset( userService = UserService ) {
             const result = 
             await userService.updateUser( { ...user } );
             
-            return res.status(201).send({});
+            return res.status(201).send({}).end();
             
         } catch (error) {
-            throw Error;
+            return res.status(500).send({ Error: error }).end();
         }
         
     }

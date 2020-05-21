@@ -11,13 +11,13 @@ export default function makePostLoginUser({ loginUser }: { loginUser: any }) {
                 httpRequest.session.user = result;
                 
             } else {
-                httpResponse.status(500).send({ Error: "Invalid login" });
+                return httpResponse.status(500).send({ Error: "Invalid login" }).end();
             }
 
-            httpResponse.status(200).send( result );
+            return httpResponse.status(200).send( result ).end();
             
         } catch (error) {
-            httpResponse.status(500).send({ Error: error });
+            return httpResponse.status(500).send({ Error: error }).end();
         }
     }
 }
