@@ -1,28 +1,23 @@
 import errorResponse from '../error-response';
-import { Request } from 'express';
+import { Request, Response } from 'express';
 import bcrypt from 'bcrypt';
 
 export default function makePostLoginUser({ loginUser }: { loginUser: any }) {
-    return async function postLoginUser( httpRequest: Request ) {
+    return async function postLoginUser( httpRequest: Request, httpResponse: Response ) {
         try {
             const userInfo = httpRequest.body;
             const result = await loginUser({ ...userInfo });
             if( await bcrypt.compare( userInfo.password, result.password ) && httpRequest.session ){
-                httpRequest.session.user = result
-                return{
-                    headers: {
-                        'Content-Type': 'application/json',
-                        'Last-Modified': new Date( result?.modifiedOn ).toUTCString()
-                    },
-                    statusCode: 201,
-                    body: result
-                }
+                httpRequest.session.user = result;
+                
             } else {
-                throw Error("Invalid login");
+                httpResponse.status(500).send({ Error: "Invalid login" });
             }
+
+            httpResponse.status(200).send( result );
             
         } catch (error) {
-            return errorResponse( error );
+            httpResponse.status(500).send({ Error: error });
         }
     }
 }
