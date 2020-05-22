@@ -1,4 +1,3 @@
-import errorResponse from '../error-response';
 import { Request, Response } from 'express';
 
 export default function makeGetUser({ findByIdUser }: { findByIdUser: any }){

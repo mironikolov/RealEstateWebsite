@@ -1,21 +1,15 @@
 import errorResponse from '../error-response';
-import { Request } from 'express';
+import { Request, Response } from 'express';
 
 export default function makeGetByPublisherId({ findAllByPublisherIdProperty }: { findAllByPublisherIdProperty: any }){
-    return async function getByPublisherId( httpRequest: Request ) {
+    return async function getByPublisherId( httpRequest: Request, httpResponse: Response ) {
         try {
             const publisherId  = httpRequest.params.publisherId;
             const property = await findAllByPublisherIdProperty( publisherId );
             
-            return {
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                statusCode: 201,
-                body:  property 
-            }
+            return httpResponse.status(200).send( property ).end();
         } catch (error) {            
-            return errorResponse( error );
+            return httpResponse.status(500).send({ Error: error }).end();
         }
     }
 }

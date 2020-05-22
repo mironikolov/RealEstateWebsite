@@ -1,7 +1,5 @@
-import errorResponse from '../error-response';
 import { Request, Response } from 'express';
 import bcrypt from 'bcrypt';
-import fileSystem from '../../file-system';
 import Multer from '../middlewares/userMulter';
 import cloudinaryConfig from '../../cloudinary-config';
 import cloudinary from 'cloudinary';

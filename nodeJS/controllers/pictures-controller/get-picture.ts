@@ -1,11 +1,9 @@
 import errorResponse from '../error-response';
 import { Request, Response } from 'express';
-import fs from 'fs';
 import env from '../../env/environment';
 import cloudinaryConfig from '../../cloudinary-config';
 import cloudinary from 'cloudinary';
 import http from 'http';
-import { Readable } from 'stream';
 
 export default function makeGetPicture(){
   return async function getPicture( httpRequest: Request, httpResponse: Response ) {
@@ -15,11 +13,34 @@ export default function makeGetPicture(){
       cloudinaryConfig();
       
       
-      // if ( folderId != 'undefined' && pictureName != 'undefined' ) {
-      //   cloudinaryConfig();
-      //   const image = cloudinary.v2.image( `${env.CLOUDINARY_FOLDER}/${folderId}/${pictureName}`);
-      //   console.log(image, pictureName);
-      // }
+      if ( folderId != 'undefined' && pictureName != 'undefined' ) {
+        cloudinary.v2.search.expression( `${env.CLOUDINARY_FOLDER}/${folderId}/${pictureName}` ).execute().then( result => {
+          if ( !result.resources ) {
+            throw Error();
+          }
+          
+          let pic = (result.resources as [any]).find( res => {
+            return res.filename == pictureName
+          } );
+
+          if (pic === undefined) {
+            throw Error();
+          }
+          http.request( pic.url, res => {
+            let data = Array<any>();
+            
+            res.on('data', chunk => {
+              data.push( chunk );
+            });
+            
+            res.on('end', () => {
+              let buffer = Buffer.concat(data);
+              httpResponse.status(200).send( buffer ).end();
+            });
+          }).end();
+        });
+        return;
+      }
       
       if ( pictureName === 'undefined' ) {
         cloudinary.v2.search.expression( `${env.CLOUDINARY_FOLDER}/${folderId}` ).execute().then( result => {

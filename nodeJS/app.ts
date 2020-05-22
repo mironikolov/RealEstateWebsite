@@ -26,12 +26,12 @@ app.put( '/api/users/update', middlewares.authUser, putUser);
 app.post( '/api/users/resetPassword', ( req, res ) => postPasswordReset( req, res ) );
 app.put( '/api/users/resetPassword', ( req, res ) => putPasswordReset( req, res ) );
 
-app.get( '/api/properties/publisherId/:publisherId', ( getByPublisherId ) );
-app.get( '/api/properties/Id/:propertyId', ( getByIdProperty ) );
-app.put( '/api/properties', middlewares.authUser, middlewares.propertyMulter.any(), ( putProperty ) );
-app.put( '/api/properties/update', middlewares.authUser, middlewares.propertyMulter.any(), ( putUpdateProperty ) );
+app.get( '/api/properties/publisherId/:publisherId', getByPublisherId );
+app.get( '/api/properties/Id/:propertyId', getByIdProperty );
+app.put( '/api/properties', middlewares.authUser, putProperty );
+app.put( '/api/properties/update', middlewares.authUser, putUpdateProperty );
 app.post( '/api/properties/delete', middlewares.authUser, ( deleteProperty ) );
-app.post( '/api/properties/find', ( postFindProperty ) );
+app.post( '/api/properties/find', postFindProperty );
 
 app.get( '/api/pictures/:folderId/:pictureName', ( req, res ) => getPicture( req, res ) );
 
