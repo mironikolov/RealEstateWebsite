@@ -31,7 +31,7 @@ export default function makePutProperty({ insertProperty }: { insertProperty: an
                         }
 
                         cloudinary.v2.uploader.upload( content,
-                            { folder: `${env.CLOUDINARY_FOLDER}/${ property.ops[0]._id }/`, public_id: file.originalname },
+                            { folder: `${env.CLOUDINARY_FOLDER}/${ property.ops[0]._id }/`, public_id: file.originalname, transformation: { quality: "60", fetch_format: "auto" } },
                             ( error: any, result: any ) => {
                             if (error) {
                                 console.log(error);

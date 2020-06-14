@@ -7,9 +7,19 @@ import middlewares from './controllers/middlewares';
 import googleApiController from './controllers/googleApi';
 import getCities from './controllers/geoDbApi/get-cities';
 import path from 'path';
+import https from 'https';
+import helmet from 'helmet';
+import csp from 'helmet-csp';
 
 const port = process.env.PORT || 3000;
 var app = express();
+app.use(helmet.frameguard());
+app.use(csp({
+    directives: {
+        imgSrc: [`'self'`, `cloudinary.com`]
+    }
+}));
+
 middlewares.accessControl( app );
 middlewares.bodyParser( app );
 middlewares.session( app );
@@ -48,3 +58,4 @@ app.get( '/api/citiesApi', getCities );
 app.get( '*', ( req, res ) => { return res.sendFile( path.join( __dirname, './static/index.html' ) )})
 
 app.listen(port, () => console.log( `Listening on port: ${port}` ));
+//https.createServer(app).listen(3000);

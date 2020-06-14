@@ -30,21 +30,9 @@
                             type="text" 
                             formControlName="address"
                             id="address">
+                        <small class="form-text text-muted"> Адреса се използва и за визуализиране на картата.</small>
                         <div class="alert alert-danger col-12" 
                             *ngIf="!PropertyPublishForm.controls.address.valid && buttonClicked">
-                                Address is invalid 
-                        </div>
-                    </div>
-
-                    <div class="form-group row">
-                        <label class="col" for="district">Квартал</label>
-                        <input 
-                            class="form-control col-12" 
-                            type="text" 
-                            formControlName="district"
-                            id="district">
-                        <div class="alert alert-danger col-12" 
-                            *ngIf="!PropertyPublishForm.controls.district.valid && buttonClicked">
                                 Address is invalid 
                         </div>
                     </div>
@@ -88,6 +76,7 @@
                         type="text" 
                         formControlName="price"
                         id="price">
+                        <small class="form-text text-muted"> Цената ще се визуализира в евро.</small>
                     <div class="alert alert-danger col-12" 
                         *ngIf="!PropertyPublishForm.controls.price.valid && buttonClicked">
                         Price is invalid 
@@ -176,10 +165,10 @@
                     
                     <input type="file"
                             id="file"
-                            class="col-6 btn btn-primary"
+                            class="col-5 btn btn-primary"
                             name="pic"
                             (change)="handleFileInput($event.target.files)">
-                    <button class = "col-6 btn btn-danger" (click)="onDeletePicturesClicked()"> Премахване на снимки </button>
+                    <button class = "col-5 btn btn-danger" (click)="onDeletePicturesClicked()"> Премахване на снимки </button>
                 </div>
 
             </div>

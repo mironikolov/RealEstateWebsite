@@ -13,7 +13,6 @@ import { QueryService } from '../../Services/queryService/query.service';
 export class SearchPropertiesComponent implements OnInit {
   public PropertySearchForm = new FormGroup({
     city: new FormControl( ),
-    district: new FormControl(),
     type: new FormControl(),
     rooms: new FormControl(),
     rentFlag: new FormControl(),
@@ -27,19 +26,19 @@ export class SearchPropertiesComponent implements OnInit {
   public citiesArr: string[];
 
   public rentRangeSliderOptions: Options = {
-    floor: 50,
+    floor: 20,
     ceil: 1000,
     step: 10
   }
 
   public buyRangeSliderOptions: Options = {
-    floor: 50000,
+    floor: 10000,
     ceil: 400000,
     step: 100
   }
 
   public areaRangeSliderOptions: Options = {
-    floor: 50,
+    floor: 10,
     ceil: 500,
     step: 10
   }

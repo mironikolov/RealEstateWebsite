@@ -71,9 +71,6 @@ export class PublishEditPropertyFormComponent implements OnInit {
       Validators.required
     ]);
 
-    let districtFormControl = this.formBuilder.control(null, [
-    ]);
-
     let cityFormControl = this.formBuilder.control(null,[
       Validators.required
     ]);
@@ -107,7 +104,6 @@ export class PublishEditPropertyFormComponent implements OnInit {
     return this.formBuilder.group({
       title:titleFormControl,
       address:addressFormControl,
-      district: districtFormControl,
       city: cityFormControl,
       price:priceFormControl,
       rooms:roomsFormControl,
@@ -156,7 +152,6 @@ export class PublishEditPropertyFormComponent implements OnInit {
   fillEditFormValues( property:Property ){
     this.PropertyPublishForm.get('title').setValue( property.title );
     this.PropertyPublishForm.get('address').setValue( property.address );
-    this.PropertyPublishForm.get('district').setValue( property.district );
     this.PropertyPublishForm.get('city').setValue( property.city );
     this.PropertyPublishForm.get('price').setValue( property.price );
     this.PropertyPublishForm.get('rooms').setValue( property.rooms );
@@ -170,7 +165,6 @@ export class PublishEditPropertyFormComponent implements OnInit {
   fillPropertyToPublish():boolean{
     this.propertyToPublish.title = this.PropertyPublishForm.get('title').value;
     this.propertyToPublish.address = this.PropertyPublishForm.get('address').value;
-    this.propertyToPublish.district = this.PropertyPublishForm.get('district').value;
     this.propertyToPublish.city = this.PropertyPublishForm.get('city').value;
     this.propertyToPublish.price = +this.PropertyPublishForm.get('price').value;
     this.propertyToPublish.rooms = +this.PropertyPublishForm.get('rooms').value;

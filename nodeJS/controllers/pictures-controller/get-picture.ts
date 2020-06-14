@@ -43,7 +43,7 @@ export default function makeGetPicture(){
       }
       
       if ( pictureName === 'undefined' ) {
-        cloudinary.v2.search.expression( `${env.CLOUDINARY_FOLDER}/${folderId}` ).execute().then( result => {
+        cloudinary.v2.search.expression( `${env.CLOUDINARY_FOLDER}/${folderId}` ).execute().then( result => {          
           if ( !result.resources ) {
             throw Error();
           }

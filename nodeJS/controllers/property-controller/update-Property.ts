@@ -20,10 +20,10 @@ export default function makeUpdateProperty({ updateProperty }: { updateProperty:
                 const property = await updateProperty( propertyInfo );
                 
                 if (httpRequest.files) {
-                    cloudinaryConfig();
-                    const parser = new datauriParser();
                     const picArr = httpRequest.files as Express.Multer.File[];
                     picArr.forEach(file => {
+                        cloudinaryConfig();
+                        const parser = new datauriParser();
                         
                         const content = parser.format( file.mimetype, file.buffer ).content || '';
                         if ( content == '' ) {
@@ -34,7 +34,7 @@ export default function makeUpdateProperty({ updateProperty }: { updateProperty:
                         } );
 
                         cloudinary.v2.uploader.upload( content,
-                            { folder: `${env.CLOUDINARY_FOLDER}/${ propertyInfo._id }/`, public_id: file.originalname },
+                            { folder: `${env.CLOUDINARY_FOLDER}/${ propertyInfo._id }/`, public_id: file.originalname, transformation: { quality: "60", fetch_format: "auto"} },
                             ( error: any, result: any ) => {
                             if (error) {
                                 console.log(error);

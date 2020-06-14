@@ -27,8 +27,9 @@ export default function makePutUser({ updateUser }: { updateUser: any }){
                     if ( content == '' ) {
                         return httpResponse.status(500).send({ error:'Picture error' }).end();
                     }
+
                     cloudinary.v2.uploader.upload( content,
-                    { folder: `imotikarq/${httpRequest.session?.user._id}/`, public_id: httpRequest.session?.user._id},
+                    { folder: `imotikarq/${httpRequest.session?.user._id}/`, public_id: httpRequest.session?.user._id, eager: { quality: "70", fetch_format: "auto", flags: "progressive:semi"} },
                     ( error: any, result: any ) => {
                         if (error) {
                             throw Error;             

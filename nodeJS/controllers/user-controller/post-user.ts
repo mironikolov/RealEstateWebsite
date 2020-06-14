@@ -32,7 +32,7 @@ export default function makePostUser({ addUser }: { addUser: any }){
                     }
                     
                     cloudinary.v2.uploader.upload( content,
-                        { folder: `imotikarq/${ posted.insertedId }/`, public_id: posted.insertedId },
+                        { folder: `imotikarq/${ posted.insertedId }/`, public_id: posted.insertedId, eager: { quality: "70", fetch_format: "auto", flags: "progressive:semi" } },
                         ( error: any, result: any ) => {
                         if (error) {
                             console.log(error);

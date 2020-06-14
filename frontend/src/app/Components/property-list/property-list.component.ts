@@ -13,7 +13,7 @@ import { QueryService } from '../../Services/queryService/query.service';
 })
 export class PropertyListComponent implements OnInit {
   public propertiesArray:Property[];
-  public pageSize:number = 2;
+  public pageSize:number = 10;
   public page:number = 1;
   public allResults: number = 0;
 
