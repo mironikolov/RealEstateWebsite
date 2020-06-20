@@ -1,7 +1,4 @@
-import dataAccess from '../../data-access';
-const RatingsDb = dataAccess.ratingsDb;
-
-export default function makeAddRating( ratingsDb = RatingsDb ){
+export default function makeAddRating( ratingsDb: any ){
     return async function addRating( { ...ratingInfo }: { userToRateId: string, userId: string, rating: number } ){
         return ratingsDb.insert({
             userToRateId: ratingInfo.userToRateId,

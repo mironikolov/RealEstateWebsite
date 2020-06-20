@@ -16,13 +16,14 @@ export default function makePostUser({ addUser }: { addUser: any }){
             }
             try {
                 const userInfo = JSON.parse( httpRequest.body.data );
+                //Хеширане на паролата
                 const hashedPassword = await bcrypt.hash( userInfo.password, 10 );
                 userInfo.password = hashedPassword;
                 
+                //Добавяна на потребител
                 const posted = await addUser({ ...userInfo });
-        
-                console.log(httpRequest.file);
-    
+                
+                //Ако има файл се качва на сървъра на Cloudinary
                 if (httpRequest.file) {
                     cloudinaryConfig();
                     const parser = new datauriParser();
@@ -32,10 +33,9 @@ export default function makePostUser({ addUser }: { addUser: any }){
                     }
                     
                     cloudinary.v2.uploader.upload( content,
-                        { folder: `imotikarq/${ posted.insertedId }/`, public_id: posted.insertedId, eager: { quality: "70", fetch_format: "auto", flags: "progressive:semi" } },
+                        { folder: `imotikarq/${ posted.insertedId }/`, public_id: posted.insertedId, transformation: { quality: "70", fetch_format: "auto" } },
                         ( error: any, result: any ) => {
                         if (error) {
-                            console.log(error);
                             throw Error;                  
                         }
                         console.log(result);

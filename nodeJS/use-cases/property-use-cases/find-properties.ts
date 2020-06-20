@@ -1,8 +1,4 @@
-//import makeProperty from '../../models/property-model/property';
-import dataAccess from '../../data-access';
-const PropertiesDb = dataAccess.propertiesDb;
-
-export default function makeFindProperties({ propertiesDb = PropertiesDb }){
+export default function makeFindProperties( propertiesDb: any ){
     return async function findProperties( {...toFind}, page: number, pageSize: number ){
         return propertiesDb.findProperties( toFind, page, pageSize );
     }

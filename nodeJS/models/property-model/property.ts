@@ -1,6 +1,7 @@
 import { ObjectID } from "mongodb";
 
 export default function buildMakeProperty(){
+    //Функция, която задава сойност по подразбиране
     return function makeProperty({
         _id = new ObjectID(),
         title = '',

@@ -7,18 +7,22 @@ import middlewares from './controllers/middlewares';
 import googleApiController from './controllers/googleApi';
 import getCities from './controllers/geoDbApi/get-cities';
 import path from 'path';
-import https from 'https';
 import helmet from 'helmet';
 import csp from 'helmet-csp';
+import compression from 'compression';
 
 const port = process.env.PORT || 3000;
 var app = express();
+app.use( helmet.hsts({
+    maxAge: 5184000 //60 days
+}) );
 app.use(helmet.frameguard());
 app.use(csp({
     directives: {
-        imgSrc: [`'self'`, `cloudinary.com`]
+        imgSrc: [`'self' blob: data:`, `maps.gstatic.com`, `maps.googleapis.com`]
     }
 }));
+app.use(compression());
 
 middlewares.accessControl( app );
 middlewares.bodyParser( app );

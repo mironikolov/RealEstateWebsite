@@ -7,13 +7,15 @@ import makeFindByEmailUser from './find-by-email';
 import makeFindByTokenUser from './find-by-token';
 const usersDb = dataAccess.usersDb;
 
-const addUser = makeAddUser({ usersDb });
-const findByIdUser = makeFindByIdUser({ usersDb });
-const loginUser = makeLoginUser({ usersDb });
-const updateUser = makeUpdateUser({ usersDb });
-const findByEmailUser = makeFindByEmailUser({ usersDb });
-const findByTokenUser = makeFindByTokenUser({ usersDb });
+//Използване на factory функциите
+const addUser = makeAddUser( usersDb );
+const findByIdUser = makeFindByIdUser( usersDb );
+const loginUser = makeLoginUser( usersDb );
+const updateUser = makeUpdateUser( usersDb );
+const findByEmailUser = makeFindByEmailUser( usersDb );
+const findByTokenUser = makeFindByTokenUser( usersDb );
 
+//Създаване на обект, който съдържа функциите на потребителя
 const userService = Object.freeze({
     addUser,
     findByIdUser,

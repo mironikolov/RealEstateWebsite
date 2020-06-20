@@ -4,7 +4,7 @@ html, body { height: 100%; }
 body { 
     margin: 0;
     font-family: Roboto, "Helvetica Neue", sans-serif; 
-    background-image: url("./assets/images/white-black-lined-wall-1024613.jpg");
+    background-color: #6A6C6E; 
     background-size: cover;
     background-attachment: fixed;
 }
@@ -12,17 +12,17 @@ body {
 #propertyItem{
     margin-top: 5px;
     margin-bottom: 5px;
-    background-color: #c2cad0;
+    background-color: #D3D3D3;
 }
 
 .formContainer{
     margin-top: 5px;
     margin-bottom: 5px;
-    background-color: #c2cad0;
+    background-color: #D3D3D3;
 }
 
 .mat-card{
-    background-color: #c2cad0;
+    background-color: #D3D3D3;
 }
 
 .mat-grid-tile .mat-figure {

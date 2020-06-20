@@ -14,11 +14,14 @@ export default function putPasswordReset( userService = UserService ) {
                 return res.status(500).send('no such user').end();
             }
 
+            //Паролата се променя, ако token-а е валиден
             if ( user.resetPasswordExpires < Date.now() ) {
                 return res.status(500).send('token expired').end();
             }
-    
+            
+            //Хеширане на паролата
             const hashedPassword = await bcrypt.hash( req.body.password, 10 );
+            //Запис на паролата и нулиране на token-a
             user.password = hashedPassword;
             user.resetPasswordExpires = undefined;
             user.resetPasswordToken = undefined;
@@ -31,6 +34,5 @@ export default function putPasswordReset( userService = UserService ) {
         } catch (error) {
             return res.status(500).send({ Error: error }).end();
         }
-        
     }
 }

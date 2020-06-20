@@ -1,7 +1,4 @@
-import dataAccess from '../../data-access';
-const RatingsDb = dataAccess.ratingsDb;
-
-export default function makeAverageRating( ratingsDb = RatingsDb ){
+export default function makeAverageRating( ratingsDb: any ){
     return async function avarageRating( userId: string ){
         return ratingsDb.averageRating( userId );
     }

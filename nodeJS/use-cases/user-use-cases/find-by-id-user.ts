@@ -1,8 +1,4 @@
-import makeUser from '../../models/user-model';
-import dataAccess from '../../data-access';
-const UsersDb = dataAccess.usersDb;
-
-export default function makeFindByIdUser( { usersDb = UsersDb } ) {
+export default function makeFindByIdUser( usersDb: any ) {
     return async function findByIdUser( userId: string ) {
         
         return usersDb.findById( userId );

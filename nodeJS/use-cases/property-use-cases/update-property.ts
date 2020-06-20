@@ -1,11 +1,11 @@
 import makeProperty from '../../models/property-model';
-import dataAccess from '../../data-access';
-const PropertiesDb = dataAccess.propertiesDb;
 
-export default function makeUpdateProperty({ propertiesDb = PropertiesDb }){
+export default function makeUpdateProperty( propertiesDb: any ){
     return async function updateProperty( propertyInfo: any ){
+        //Задаване на стойности по подразбиране
         const property = makeProperty( propertyInfo );
 
+        //Обновяване на обявата
         return propertiesDb.update({
             _id: property.getId(),
             title: property.getTitle(),

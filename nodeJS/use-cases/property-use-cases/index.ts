@@ -6,14 +6,16 @@ import makeUpdateProperty from './update-property';
 import makeDeleteProperty from './delete-property';
 import dataAccess from '../../data-access';
 
+//Използване на factory функциите
 const propertiesDb = dataAccess.propertiesDb;
-const findAllByPublisherIdProperty = makeFindAllByPublisherIdProperty({ propertiesDb });
-const findProperties = makeFindProperties({ propertiesDb });
-const findOneByIdProperty = makeFindOneByIdProperty({ propertiesDb });
-const insertProperty = makeInsertProperty({ propertiesDb });
-const updateProperty = makeUpdateProperty({ propertiesDb });
-const deletePropertyCase = makeDeleteProperty({ propertiesDb });
+const findAllByPublisherIdProperty = makeFindAllByPublisherIdProperty( propertiesDb );
+const findProperties = makeFindProperties( propertiesDb );
+const findOneByIdProperty = makeFindOneByIdProperty( propertiesDb );
+const insertProperty = makeInsertProperty( propertiesDb );
+const updateProperty = makeUpdateProperty( propertiesDb );
+const deletePropertyCase = makeDeleteProperty( propertiesDb );
 
+//Създаване на обект, който съдържа функциите на обявите
 const propertyService = Object.freeze({
     findAllByPublisherIdProperty,
     findProperties,

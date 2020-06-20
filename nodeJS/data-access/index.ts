@@ -8,17 +8,18 @@ const MongoClient = mongodb.MongoClient;
 const url = environment.DB_URL;
 const client = new MongoClient( url, { useNewUrlParser: true, useUnifiedTopology: true } );
 
+//Свързване с база данни
 async function makeDb(){
-    
     if ( !client.isConnected() ) {
 
         await client.connect();
-    }
-    
+    }  
     return client.db( environment.DB_NAME );
 }
 
+//Използване на factory функции
 const usersDb = makeUsersDb( makeDb );
 const propertiesDb = makePropertiesDb( makeDb );
 const ratingsDb = makeRatingsDb( makeDb );
+
 export default { usersDb, propertiesDb, ratingsDb };

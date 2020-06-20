@@ -1,11 +1,11 @@
 import makeProperty from '../../models/property-model';
-import dataAccess from '../../data-access';
-const PropertiesDb = dataAccess.propertiesDb;
 
-export default function makeInsertProperty({ propertiesDb = PropertiesDb }){
+export default function makeInsertProperty( propertiesDb: any ){
     return async function insertProperty( propertyInfo: any ){
+        //Задаване на стойности по подразбиране
         const property = makeProperty( propertyInfo );
         
+        //Запазване на обявата в базата данни
         return propertiesDb.insert({
             _id: property.getId(),
             title: property.getTitle(),

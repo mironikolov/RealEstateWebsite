@@ -1,4 +1,3 @@
-import errorResponse from '../error-response';
 import { Request, Response } from 'express';
 import cloudinaryConfig from '../../cloudinary-config';
 import cloudinary from 'cloudinary';
@@ -16,10 +15,12 @@ export default function makePutUser({ updateUser }: { updateUser: any }){
             try {
                 const userInfo = JSON.parse( httpRequest.body.data );
 
+                //Обновяване на данните за потребител
                 const posted = await updateUser({ _id: httpRequest.session?.user._id,
                 password: httpRequest.session?.user.password,
                 ...userInfo });
 
+                //Ако ими файл се качва на сървърите на Cloudinary 
                 if ( httpRequest.file ) {
                     cloudinaryConfig();
                     const parser = new datauriParser();
@@ -29,12 +30,11 @@ export default function makePutUser({ updateUser }: { updateUser: any }){
                     }
 
                     cloudinary.v2.uploader.upload( content,
-                    { folder: `imotikarq/${httpRequest.session?.user._id}/`, public_id: httpRequest.session?.user._id, eager: { quality: "70", fetch_format: "auto", flags: "progressive:semi"} },
+                    { folder: `imotikarq/${httpRequest.session?.user._id}/`, public_id: httpRequest.session?.user._id, transformation: { quality: "70", fetch_format: "auto" } },
                     ( error: any, result: any ) => {
                         if (error) {
                             throw Error;             
                         }
-                        //console.log(result);
                     });    
                 }
 

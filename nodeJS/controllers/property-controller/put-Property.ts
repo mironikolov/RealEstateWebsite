@@ -1,4 +1,3 @@
-import errorResponse from '../error-response';
 import { Request, Response } from 'express';
 import Multer from '../middlewares/userMulter';
 import cloudinaryConfig from '../../cloudinary-config';
@@ -34,10 +33,8 @@ export default function makePutProperty({ insertProperty }: { insertProperty: an
                             { folder: `${env.CLOUDINARY_FOLDER}/${ property.ops[0]._id }/`, public_id: file.originalname, transformation: { quality: "60", fetch_format: "auto" } },
                             ( error: any, result: any ) => {
                             if (error) {
-                                console.log(error);
                                 throw Error;                  
                             }
-                            //console.log(result);
                         });
                     });
                     

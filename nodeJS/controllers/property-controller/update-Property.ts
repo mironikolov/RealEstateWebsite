@@ -1,4 +1,3 @@
-import errorResponse from '../error-response';
 import { Request, Response } from 'express';
 import Multer from '../middlewares/userMulter';
 import cloudinaryConfig from '../../cloudinary-config';
@@ -30,7 +29,7 @@ export default function makeUpdateProperty({ updateProperty }: { updateProperty:
                             return httpResponse.status(500).send({ error:'Picture error' }).end();
                         }
                         cloudinary.v2.api.delete_resources_by_prefix( `${ env.CLOUDINARY_FOLDER }/${ propertyInfo._id }`, res => {
-                            //console.log(res);
+                            console.log(res);
                         } );
 
                         cloudinary.v2.uploader.upload( content,
@@ -40,7 +39,6 @@ export default function makeUpdateProperty({ updateProperty }: { updateProperty:
                                 console.log(error);
                                 throw Error;                  
                             }
-                            //console.log(result);
                         });
                     });
                     

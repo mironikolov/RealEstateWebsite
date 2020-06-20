@@ -1,4 +1,3 @@
-import errorResponse from '../error-response';
 import { Request, Response } from 'express';
 import bcrypt from 'bcrypt';
 
@@ -7,6 +6,7 @@ export default function makePostLoginUser({ loginUser }: { loginUser: any }) {
         try {
             const userInfo = httpRequest.body;
             const result = await loginUser({ ...userInfo });
+            //Създаване на сесия, ако паролата съвпада
             if( await bcrypt.compare( userInfo.password, result.password ) && httpRequest.session ){
                 httpRequest.session.user = result;
                 
