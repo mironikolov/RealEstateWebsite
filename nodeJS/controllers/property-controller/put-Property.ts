@@ -15,7 +15,7 @@ export default function makePutProperty({ insertProperty }: { insertProperty: an
             }
             try {
                 const {...propertyInfo }  = JSON.parse( httpRequest.body.data );
-            
+                propertyInfo.createdOn = Date.now();
                 const property = await insertProperty( propertyInfo );
     
                 if (httpRequest.files) {

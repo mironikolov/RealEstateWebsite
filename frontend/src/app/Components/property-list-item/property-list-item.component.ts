@@ -64,6 +64,7 @@ export class PropertyListItemComponent implements OnInit {
     });
 
      this.currentUser = this.logInService.getUser();
+     
   }
 
   onChoseLocation( event ){

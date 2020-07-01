@@ -9,11 +9,11 @@
                         <mat-card-header >
                             <mat-card-title>
                                 <h3 >{{ property?.title }}</h3>
-                                <button *ngIf="(currentUser?._id == publisher?._id || currentUser?.adminFlag == 'true')"
+                                <button *ngIf="(currentUser?._id == publisher?._id || currentUser?.adminFlag == true)"
                                  class=" btn btn-primary" 
                                  [routerLink]="['/property', property?._id, 'edit']" style="cursor: pointer;"> Редактиране </button>
 
-                                 <button *ngIf="(currentUser?._id == publisher?._id || currentUser?.adminFlag == 'true')"
+                                 <button *ngIf="(currentUser?._id == publisher?._id || currentUser?.adminFlag == true)"
                                  class=" btn btn-danger" 
                                  (click)="openConfirmDialog()"
                                  id="deleteBtn"> Изтриване </button>

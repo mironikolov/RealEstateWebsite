@@ -21,8 +21,8 @@ export default function buildMakeUser({ emailValidator = EmailValidator }){
     }
         
     //Валидация на парола
-    if ( !password && password.length < 6 ) {
-      throw new Error( 'User must have username.' );
+    if ( password != '' && password.length < 6 ) {
+      throw new Error( 'User must have password.' );
     }
           
     //Валидация на email

@@ -62,4 +62,3 @@ app.get( '/api/citiesApi', getCities );
 app.get( '*', ( req, res ) => { return res.sendFile( path.join( __dirname, './static/index.html' ) )})
 
 app.listen(port, () => console.log( `Listening on port: ${port}` ));
-//https.createServer(app).listen(3000);
