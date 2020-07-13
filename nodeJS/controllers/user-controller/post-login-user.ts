@@ -11,7 +11,7 @@ export default function makePostLoginUser({ loginUser }: { loginUser: any }) {
                 httpRequest.session.user = result;
                 
             } else {
-                return httpResponse.status(500).send({ Error: "Invalid login" }).end();
+                return httpResponse.status(401).send({ Error: "Invalid login" }).end();
             }
 
             return httpResponse.status(200).send( result ).end();

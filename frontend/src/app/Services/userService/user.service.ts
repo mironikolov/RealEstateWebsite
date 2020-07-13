@@ -30,7 +30,9 @@ export class UserService {
   createUser( newUser:User, file: File ):Observable<any>{
     const formData = new FormData();
     formData.append( 'data', JSON.stringify( newUser ) );
-    formData.append( 'pic', file);
+    if (file) {
+      formData.append( 'pic', file[0]);
+    }
     
     return this.http.post(`${this.usersUrl}`, formData );
   }

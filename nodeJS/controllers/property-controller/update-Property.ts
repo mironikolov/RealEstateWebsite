@@ -4,6 +4,7 @@ import cloudinaryConfig from '../../cloudinary-config';
 import cloudinary from 'cloudinary';
 import datauriParser from 'datauri/parser';
 import env from '../../env/environment';
+import cuid from 'cuid';
 
 export default function makeUpdateProperty({ updateProperty }: { updateProperty: any }){
     const multer = Multer.array('pic');
@@ -15,14 +16,16 @@ export default function makeUpdateProperty({ updateProperty }: { updateProperty:
             }
             try {
                 const {...propertyInfo }  = JSON.parse( httpRequest.body.data );
-            
-                const property = await updateProperty( propertyInfo );
-                
+                propertyInfo.picturesNames = Array<string>();
+
                 if (httpRequest.files) {
                     const picArr = httpRequest.files as Express.Multer.File[];
                     picArr.forEach(file => {
                         cloudinaryConfig();
                         const parser = new datauriParser();
+                        
+                        file.originalname = cuid();
+                        (propertyInfo.picturesNames as string[]).push(file.originalname);
                         
                         const content = parser.format( file.mimetype, file.buffer ).content || '';
                         if ( content == '' ) {
@@ -31,11 +34,11 @@ export default function makeUpdateProperty({ updateProperty }: { updateProperty:
                         cloudinary.v2.api.delete_resources_by_prefix( `${ env.CLOUDINARY_FOLDER }/${ propertyInfo._id }`, res => {
                             console.log(res);
                         } );
-
+                        
                         cloudinary.v2.uploader.upload( content,
                             { folder: `${env.CLOUDINARY_FOLDER}/${ propertyInfo._id }/`, public_id: file.originalname, transformation: { quality: "60", fetch_format: "auto"} },
                             ( error: any, result: any ) => {
-                            if (error) {
+                                if (error) {
                                 console.log(error);
                                 throw Error;                  
                             }
@@ -43,6 +46,8 @@ export default function makeUpdateProperty({ updateProperty }: { updateProperty:
                     });
                     
                 }
+
+                const property = await updateProperty( propertyInfo );
                 
                 return httpResponse.status(200).send( property ).end();
             } catch (error) {

@@ -38,7 +38,6 @@ export default function makePostUser({ addUser }: { addUser: any }){
                         if (error) {
                             throw Error;                  
                         }
-                        console.log(result);
                     });
                 }
                 
