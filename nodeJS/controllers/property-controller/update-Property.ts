@@ -31,18 +31,14 @@ export default function makeUpdateProperty({ updateProperty }: { updateProperty:
                         if ( content == '' ) {
                             return httpResponse.status(500).send({ error:'Picture error' }).end();
                         }
-                        cloudinary.v2.api.delete_resources_by_prefix( `${ env.CLOUDINARY_FOLDER }/${ propertyInfo._id }`, res => {
-                            console.log(res);
-                        } );
+                        cloudinary.v2.api.delete_resources_by_prefix( `${ env.CLOUDINARY_FOLDER }/${ propertyInfo._id }`)
+                        .catch( error => httpResponse.status(500).send({ Error: error.message }).end() );
                         
                         cloudinary.v2.uploader.upload( content,
-                            { folder: `${env.CLOUDINARY_FOLDER}/${ propertyInfo._id }/`, public_id: file.originalname, transformation: { quality: "60", fetch_format: "auto"} },
-                            ( error: any, result: any ) => {
-                                if (error) {
-                                console.log(error);
-                                throw Error;                  
-                            }
-                        });
+                            { folder: `${env.CLOUDINARY_FOLDER}/${ propertyInfo._id }/`, public_id: file.originalname, transformation: { quality: "60", fetch_format: "auto"} }).
+                            catch( error => {
+                                return httpResponse.status(500).send({ Error: error.message }).end();
+                            });
                     });
                     
                 }
@@ -51,7 +47,7 @@ export default function makeUpdateProperty({ updateProperty }: { updateProperty:
                 
                 return httpResponse.status(200).send( property ).end();
             } catch (error) {
-                return httpResponse.status(500).send({ Error: error }).end();
+                return httpResponse.status(500).send({ Error: error.message }).end();
             }
         });
     }

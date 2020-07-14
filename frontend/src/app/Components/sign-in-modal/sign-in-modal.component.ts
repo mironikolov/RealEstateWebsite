@@ -48,7 +48,7 @@ export class SignInModalComponent implements OnInit {
     ]);
 
     let emailFormControl = this.formBuilder.control(null,[
-      Validators.required
+      Validators.compose( [Validators.required, Validators.email ])
     ]);
 
     let phoneFormControl = this.formBuilder.control(null,[
@@ -121,6 +121,11 @@ export class SignInModalComponent implements OnInit {
   }
   
   handleFileInput( file: File ){
+    if (file[0].size >= 10000000) {
+      alert("File is too large");
+      return;
+    }
+
     this.userPicture = file;
   }
 

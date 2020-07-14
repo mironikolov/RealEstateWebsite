@@ -17,6 +17,7 @@ export class LogInModalComponent implements OnInit {
   public isForgotPassword: boolean = false;
 
   public isSubmitClicked = false;
+  public isSentEmailClicked = false;
 
   constructor( private logInDialogRef: MatDialogRef<LogInModalComponent >, 
     private formBuilder: FormBuilder,
@@ -37,7 +38,10 @@ export class LogInModalComponent implements OnInit {
       Validators.required
     ]);
 
-    let emailFormControl = this.formBuilder.control( null );
+    let emailFormControl = this.formBuilder.control( null, [
+      Validators.required,
+      Validators.email
+    ] );
 
     return this.formBuilder.group({
       username:usernameFormControl,
@@ -54,7 +58,7 @@ export class LogInModalComponent implements OnInit {
     user.username = this.LogInForm.get('username').value;
     user.password = this.LogInForm.get('password').value;
 
-    if(this.LogInForm.invalid)
+    if(this.LogInForm.controls.username.invalid || this.LogInForm.controls.password.invalid)
     {
       return;
     }
@@ -82,6 +86,13 @@ export class LogInModalComponent implements OnInit {
   }
 
   onSendEmailButtonClicked(){
+    this.isSentEmailClicked = true;
+    if(this.LogInForm.controls.email.invalid)
+    {
+      console.log('tuak');
+      return;
+    }
+    
     this.userService.resetPasswordToken( this.LogInForm.get('email').value );
     this.logInDialogRef.close();
     alert("Изпратен email");

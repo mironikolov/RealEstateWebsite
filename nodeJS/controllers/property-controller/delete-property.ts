@@ -13,6 +13,7 @@ export default function makeDeleteProperty({ deletePropertyCase }: { deletePrope
             cloudinaryConfig();
             cloudinary.v2.api.delete_resources_by_prefix( `${ env.CLOUDINARY_FOLDER }/${ propertyId }`, res => {
             } );
+            //todo delete folder
 
             return httpResponse.status(200).send( result ).end();
         } catch (error) {            

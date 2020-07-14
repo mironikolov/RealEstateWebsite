@@ -23,6 +23,10 @@
     <div class="form-group" *ngIf="isForgotPassword">
         <label for="email">Email</label>
         <input type="text" formControlName="email" id="email" class="form-control">
+        <div class="alert alert-danger col-12" 
+            *ngIf="!LogInForm.controls.email.valid && isSentEmailClicked">
+            Липсва email или е навалиден
+        </div>
     </div>
 
     <button type="submit" class="btn btn-primary" (click)="onLogInButtonClicked()" *ngIf="!isForgotPassword">Вход</button>

@@ -33,17 +33,13 @@ export default function makePostUser({ addUser }: { addUser: any }){
                     }
                     
                     cloudinary.v2.uploader.upload( content,
-                        { folder: `imotikarq/${ posted.insertedId }/`, public_id: posted.insertedId, transformation: { quality: "70", fetch_format: "auto" } },
-                        ( error: any, result: any ) => {
-                        if (error) {
-                            throw Error;                  
-                        }
-                    });
+                        { folder: `imotikarq/${ posted.insertedId }/`, public_id: posted.insertedId, transformation: { quality: "70", fetch_format: "auto" } })
+                        .catch( error => httpResponse.status(500).send({ Error: error.message }).end() );
                 }
                 
                 return httpResponse.status(201).send( posted ).end();
             } catch (error) {
-                return httpResponse.status(500).send({ Error: error }).end();
+                return httpResponse.status(500).send({ Error: error.message }).end();
             }
         });
     }

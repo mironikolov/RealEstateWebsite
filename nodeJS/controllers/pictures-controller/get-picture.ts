@@ -87,7 +87,7 @@ export default function makeGetPicture(){
 
     } catch (error) {            
       
-      return httpResponse.status(404).send({ Error: error}).end();
+      return httpResponse.status(404).send({ Error: error.message }).end();
     }
   }
 }

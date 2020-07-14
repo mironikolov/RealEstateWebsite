@@ -143,6 +143,11 @@ export class PublishEditPropertyFormComponent implements OnInit {
   }
 
   handleFileInput(file: File) {
+    
+    if (file[0].size >= 10000000) {
+      alert("File is too large");
+      return;
+    }
     let fileUrl = this.sanitizer.bypassSecurityTrustResourceUrl( URL.createObjectURL(file[0]) );
     this.imagesUrlArr = [...this.imagesUrlArr, fileUrl];
     this.files.push( file[0] );

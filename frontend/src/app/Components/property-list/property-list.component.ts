@@ -15,6 +15,7 @@ export class PropertyListComponent implements OnInit {
   public propertiesArray:Property[];
   public pageSize:number = 10;
   public page:number = 1;
+  pageSizeOptions: number[] = [2, 5, 10, 15];
   public allResults: number = 0;
 
   public query: Object;
@@ -72,7 +73,7 @@ export class PropertyListComponent implements OnInit {
   }
 
   pageEvent(e){
-
+    this.pageSize = e.pageSize;
     this.page = ++e.pageIndex;
     this.refreshPropertiesArr();
   }

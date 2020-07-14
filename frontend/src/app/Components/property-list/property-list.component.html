@@ -74,5 +74,6 @@
 <mat-paginator [length]="allResults"
                [pageSize]="pageSize"
                [pageIndex]="page - 1"
+               [pageSizeOptions]="pageSizeOptions"
                (page)="pageEvent($event)">
 </mat-paginator>

@@ -30,17 +30,13 @@ export default function makePutUser({ updateUser }: { updateUser: any }){
                     }
 
                     cloudinary.v2.uploader.upload( content,
-                    { folder: `imotikarq/${httpRequest.session?.user._id}/`, public_id: httpRequest.session?.user._id, transformation: { quality: "70", fetch_format: "auto" } },
-                    ( error: any, result: any ) => {
-                        if (error) {
-                            throw Error;             
-                        }
-                    });    
+                    { folder: `imotikarq/${httpRequest.session?.user._id}/`, public_id: httpRequest.session?.user._id, transformation: { quality: "70", fetch_format: "auto" } } )
+                    .catch( error => httpResponse.status(500).send({ Error: error.message }).end() );    
                 }
 
                 return httpResponse.status(200).send( posted ).end();
             } catch (error) {
-                return httpResponse.status(500).send({ Error: error }).end();
+                return httpResponse.status(500).send({ Error: error.message }).end();
             }
         });
     }
