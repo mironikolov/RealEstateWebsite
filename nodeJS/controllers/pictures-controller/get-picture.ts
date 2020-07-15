@@ -8,15 +8,15 @@ import http from 'http';
 export default function makeGetPicture(){
   return async function getPicture( httpRequest: Request, httpResponse: Response ) {
     try {
+      
       const folderId  = httpRequest.params.folderId;
       const pictureName = httpRequest.params.pictureName;
-      cloudinaryConfig();
-      
+      cloudinaryConfig(); 
       
       if ( folderId != 'undefined' && pictureName != 'undefined' ) {
         cloudinary.v2.search.expression( `${env.CLOUDINARY_FOLDER}/${folderId}/${pictureName}` ).execute().then( result => {
           if ( !result.resources ) {
-            throw Error();
+            return httpResponse.status(404).send({ Error: 'No picture' }).end();
           }
           
           let pic = (result.resources as [any]).find( res => {
@@ -24,7 +24,7 @@ export default function makeGetPicture(){
           } );
 
           if (pic === undefined) {
-            throw Error();
+            return httpResponse.status(404).send({ Error: 'Undefined' }).end();
           }
           http.request( pic.url, res => {
             let data = Array<any>();
@@ -45,9 +45,9 @@ export default function makeGetPicture(){
       if ( pictureName === 'undefined' ) {
         cloudinary.v2.search.expression( `${env.CLOUDINARY_FOLDER}/${folderId}` ).execute().then( result => {          
           if ( !result.resources ) {
-            throw Error();
+            return httpResponse.status(404).send({ Error: 'No folder' }).end();
           }
-
+          
           http.request( result.resources[0].url, res => {
             let data = Array<any>();
             
@@ -67,7 +67,7 @@ export default function makeGetPicture(){
       cloudinary.v2.search.expression( `${env.CLOUDINARY_FOLDER}/DefaultImage` ).execute().then( result => {
         
         if ( !result.resources ) {
-          throw Error();
+          return httpResponse.status(404).send({ Error: 'No default image' }).end();
         }
         
         http.request( result.resources[0].url, res => {

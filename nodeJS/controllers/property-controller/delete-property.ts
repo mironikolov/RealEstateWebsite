@@ -3,11 +3,16 @@ import env from '../../env/environment';
 import cloudinaryConfig from '../../cloudinary-config';
 import cloudinary from 'cloudinary';
 
-export default function makeDeleteProperty({ deletePropertyCase }: { deletePropertyCase: any }){
+export default function makeDeleteProperty( deletePropertyCase:any, findPropertyById:any ){
     return async function deleteProperty( httpRequest: Request, httpResponse: Response ) {
         try {
             const propertyId  = httpRequest.body.propertyID;
             
+            const property = await findPropertyById(propertyId);
+            if (httpRequest.session?.user._id != property.publisherId && !httpRequest.session?.user.adminFlag ) {
+                return httpResponse.status(403).send({ error:'You don\'t have permission to do that' }).end();
+            }
+
             const result = await deletePropertyCase( propertyId );
 
             cloudinaryConfig();

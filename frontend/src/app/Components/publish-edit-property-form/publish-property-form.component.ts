@@ -182,7 +182,9 @@ export class PublishEditPropertyFormComponent implements OnInit {
       return false;
     }
     
-    this.propertyToPublish.publisherId = this.loginService.getUser()['_id'];
+    if (this.propertyToPublish.publisherId == undefined || this.propertyToPublish.publisherId == null || this.propertyToPublish.publisherId == '') {
+      this.propertyToPublish.publisherId = this.loginService.getUser()['_id'];
+    }
 
     this.propertyToPublish.rentFlag = this.PropertyPublishForm.get('rent').value == 'Rent' ? true : false;
 
@@ -203,7 +205,7 @@ export class PublishEditPropertyFormComponent implements OnInit {
     }
 
     this.userService.getUser( this.propertyToPublish.publisherId ).subscribe( user => {
-      if( user.username != this.loginService.getUser().username){
+      if( user._id != this.loginService.getUser()._id && !this.loginService.getUser().adminFlag){
         window.alert("Denied!");
         return;
       }

@@ -12,7 +12,7 @@ const putProperty = makePutProperty({ insertProperty });
 const postFindProperty = makePostFindProperty({ findProperties });
 const getByIdProperty = makeGetByIdProperty({ findOneByIdProperty });
 const putUpdateProperty = makeUpdateProperty({ updateProperty });
-const deleteProperty = makeDeleteProperty({ deletePropertyCase });
+const deleteProperty = makeDeleteProperty( deletePropertyCase, findOneByIdProperty );
 
 const propertyController = Object.freeze({
     getByPublisherId,

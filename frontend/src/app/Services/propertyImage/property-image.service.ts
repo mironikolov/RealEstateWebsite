@@ -25,6 +25,7 @@ export class PropertyImageService {
   getPropertyImagesUrl( property:Property ): SafeUrl[]{
     var pictures = new Array<SafeUrl>();
     property.picturesNames.forEach( pictureName => {
+      
       this.getImage( property._id, pictureName ).subscribe( blob => {
         const imageBlobUrl = URL.createObjectURL( blob );
         const image = this.sanitizer.bypassSecurityTrustUrl( imageBlobUrl );

@@ -18,6 +18,10 @@ export default function makeUpdateProperty({ updateProperty }: { updateProperty:
                 const {...propertyInfo }  = JSON.parse( httpRequest.body.data );
                 propertyInfo.picturesNames = Array<string>();
 
+                if (httpRequest.session?.user._id != propertyInfo.publisherId && !httpRequest.session?.user.adminFlag ) {
+                    return httpResponse.status(403).send({ error:'You don\'t have permission to do that' }).end();
+                }
+
                 if (httpRequest.files) {
                     const picArr = httpRequest.files as Express.Multer.File[];
                     picArr.forEach(file => {

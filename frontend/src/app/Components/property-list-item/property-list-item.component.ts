@@ -44,13 +44,11 @@ export class PropertyListItemComponent implements OnInit {
       
       this.property=property;
       
-      this.property.picturesURL = this.propertyImageService.getPropertyImagesUrl( property );
-
       this.userService.getUser(property.publisherId).subscribe( ( user ) => {
         
         this.publisher=user;
       });
-
+      
       this.googleMapsService.getCoordinates( `${this.property.address} ${this.property.city}` )
       .subscribe( res => {
         if ( res.status == 'ZERO_RESULTS') {
@@ -61,9 +59,11 @@ export class PropertyListItemComponent implements OnInit {
         this.markerLatitude = res.results[0].geometry.location.lat;
         this.markerLongitude = res.results[0].geometry.location.lng;
       });
+      
+      this.currentUser = this.logInService.getUser();
+      
+      this.property.picturesURL = this.propertyImageService.getPropertyImagesUrl( property );
     });
-
-     this.currentUser = this.logInService.getUser();
      
   }
 
@@ -80,9 +80,14 @@ export class PropertyListItemComponent implements OnInit {
 
   //Delete porperty
   onDeleteClick(){
-  this.propertyService.deleteProperty( this.property._id ).subscribe( (data) => {
-    
-  });
+    if( this.property.publisherId != this.currentUser._id && !this.currentUser.adminFlag){
+      window.alert("Denied!");
+      return;
+    }
+
+    this.propertyService.deleteProperty( this.property._id ).subscribe( (data) => {
+      
+    });
   }
 
   openConfirmDialog(){
